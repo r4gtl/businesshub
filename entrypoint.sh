@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export DJANGO_SETTINGS_MODULE=businesshub.settings
+
 # Aspetta che il DB sia pronto
 echo "⏳ Attendo il database su $DB_HOST..."
 while ! nc -z $DB_HOST 5432; do

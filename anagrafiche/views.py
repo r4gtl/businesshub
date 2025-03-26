@@ -2,15 +2,17 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Fornitore
-
+from .forms import FornitoreForm
 class FornitoreListView(LoginRequiredMixin, ListView):
     model = Fornitore
     template_name = "anagrafiche/fornitore_list.html"
     context_object_name = "fornitori"
 
+from .forms import FornitoreForm
+
 class FornitoreCreateView(LoginRequiredMixin, CreateView):
     model = Fornitore
-    fields = ['ragione_sociale', 'partita_iva', 'codice_fiscale', 'indirizzo', 'telefono', 'email', 'attivo']
+    form_class = FornitoreForm
     template_name = "anagrafiche/fornitore_form.html"
     success_url = reverse_lazy("anagrafiche:fornitore_list")
 
@@ -20,7 +22,7 @@ class FornitoreCreateView(LoginRequiredMixin, CreateView):
 
 class FornitoreUpdateView(LoginRequiredMixin, UpdateView):
     model = Fornitore
-    fields = ['ragione_sociale', 'partita_iva', 'codice_fiscale', 'indirizzo', 'telefono', 'email', 'attivo']
+    form_class = FornitoreForm
     template_name = "anagrafiche/fornitore_form.html"
     success_url = reverse_lazy("anagrafiche:fornitore_list")
 
