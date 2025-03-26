@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Fornitori{% endblock %}
+
+{% block content %}
+<h2>Elenco Fornitori</h2>
+<a href="{% url 'anagrafiche:fornitore_create' %}" class="btn btn-success mb-3">+ Nuovo Fornitore</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Ragione Sociale</th>
+      <th>P.IVA</th>
+      <th>Email</th>
+      <th>Azioni</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fornitore in fornitori %}
+    <tr>
+      <td>{{ fornitore.ragione_sociale }}</td>
+      <td>{{ fornitore.partita_iva }}</td>
+      <td>{{ fornitore.email }}</td>
+      <td>
+        <a href="{% url 'anagrafiche:fornitore_update' fornitore.pk %}" class="btn btn-sm btn-primary">Modifica</a>
+        <a href="{% url 'anagrafiche:fornitore_delete' fornitore.pk %}" class="btn btn-sm btn-danger">Elimina</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

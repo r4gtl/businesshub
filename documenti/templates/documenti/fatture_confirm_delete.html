@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Elimina Fattura{% endblock %}
+
+{% block content %}
+<h2>Elimina Fattura</h2>
+<p>Vuoi eliminare la fattura <strong>{{ object.numero_fattura }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Conferma</button>
+  <a href="{% url 'documenti:fattura_list' %}" class="btn btn-secondary">Annulla</a>
+</form>
+{% endblock %}

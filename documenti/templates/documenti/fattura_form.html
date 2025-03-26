@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Fattura{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Modifica{% else %}Nuova{% endif %} Fattura</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Salva</button>
+  <a href="{% url 'documenti:fattura_list' %}" class="btn btn-secondary">Annulla</a>
+</form>
+{% endblock %}

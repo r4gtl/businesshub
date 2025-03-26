@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Elimina Fornitore{% endblock %}
+
+{% block content %}
+<h2>Elimina Fornitore</h2>
+<p>Vuoi eliminare <strong>{{ object.ragione_sociale }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Conferma</button>
+  <a href="{% url 'anagrafiche:fornitore_list' %}" class="btn btn-secondary">Annulla</a>
+</form>
+{% endblock %}

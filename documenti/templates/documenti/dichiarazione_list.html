@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Dichiarazioni{% endblock %}
+
+{% block content %}
+<h2>Dichiarazioni di Intento</h2>
+<a href="{% url 'documenti:dichiarazione_create' %}" class="btn btn-success mb-3">+ Nuova</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Fornitore</th>
+      <th>Numero Interno</th>
+      <th>Numero Dichiarazione</th>
+      <th>Data</th>
+      <th>Plafond</th>
+      <th>Azioni</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in dichiarazioni %}
+    <tr>
+      <td>{{ d.fornitore }}</td>
+      <td>{{ d.numero_interno }}</td>
+      <td>{{ d.numero_dichiarazione }}</td>
+      <td>{{ d.data_dichiarazione }}</td>
+      <td>{{ d.plafond }}</td>
+      <td>
+        <a href="{% url 'documenti:dichiarazione_update' d.pk %}" class="btn btn-sm btn-primary">Modifica</a>
+        <a href="{% url 'documenti:dichiarazione_delete' d.pk %}" class="btn btn-sm btn-danger">Elimina</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

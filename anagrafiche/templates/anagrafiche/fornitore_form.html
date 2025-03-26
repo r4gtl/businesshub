@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ view.object|default:'Nuovo Fornitore' }}{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Modifica{% else %}Nuovo{% endif %} Fornitore</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Salva</button>
+  <a href="{% url 'anagrafiche:fornitore_list' %}" class="btn btn-secondary">Annulla</a>
+</form>
+{% endblock %}
