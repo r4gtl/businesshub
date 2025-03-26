@@ -5,10 +5,13 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-# Installa netcat per wait-for-db
-RUN apt-get update && apt-get install -y netcat-openbsd
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd && \
+    pip install --upgrade pip
 
-COPY requirements.txt /code/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY . /code/
+COPY . .
+
+RUN chmod +x /code/entrypoint.sh

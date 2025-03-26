@@ -7,10 +7,23 @@ while ! nc -z $DB_HOST 5432; do
 done
 echo "✅ Database disponibile!"
 
-# Applica le migrazioni
-echo "📦 Eseguo le migrazioni..."
+set -e
+
+echo "🔄 Applying database migrations..."
 python manage.py migrate
 
-# Avvia il server Django
-echo "🚀 Avvio Django..."
-python manage.py runserver 0.0.0.0:8000
+DEBUG_MODE=$(python -c "from django.conf import settings; print(settings.DEBUG)")
+
+if [ "$DEBUG_MODE" = "False" ]; then
+  echo "📦 Collecting static files (production only)..."
+  python manage.py collectstatic --noinput
+
+  echo "🚀 Starting Gunicorn server..."
+  exec gunicorn businesshub.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers 3 \
+    --timeout 120
+else
+  echo "⚙️  DEBUG mode: starting Django development server..."
+  exec python manage.py runserver 0.0.0.0:8000
+fi

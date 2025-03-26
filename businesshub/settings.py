@@ -14,7 +14,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
+
 
 
 # Application definition
@@ -116,6 +117,7 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "core" / "static"]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
