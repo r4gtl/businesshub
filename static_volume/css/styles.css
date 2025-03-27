@@ -1,0 +1,18 @@
+body {
+  font-size: 0.9rem;
+  background-color: #f8f9fa;
+}
+
+.navbar-custom {
+  background-color: #198754; /* verde rilassante */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .navbar-toggler-icon {
+  color: #fff;
+}
+
+.navbar-custom .nav-link:hover {
+  color: #d4f4df;
+}
