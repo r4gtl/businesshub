@@ -38,4 +38,25 @@ class HomeView(LoginRequiredMixin, TemplateView):
                         "rimanente": dichiarazione.plafond - totale_fatture,
                     }
                 )
+        grafico_data = []
+
+        dichiarazioni = DichiarazioneIntento.objects.select_related("fornitore")
+
+        for dichiarazione in dichiarazioni:
+            totale = (
+                dichiarazione.fornitore.fatturefornitore_set.filter(
+                    data_fattura__year=dichiarazione.anno_riferimento
+                ).aggregate(Sum("importo"))["importo__sum"]
+                or 0
+            )
+
+            grafico_data.append(
+                {
+                    "fornitore": dichiarazione.fornitore.ragione_sociale,
+                    "plafond": float(dichiarazione.plafond),
+                    "usato": float(totale),
+                }
+            )
+
+        context["grafico_plafond"] = grafico_data
         return context

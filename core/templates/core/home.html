@@ -72,6 +72,46 @@
 {% endif %}
 
 
-
+<div class="mt-5">
+    <h4>Utilizzo Plafond per Fornitore</h4>
+    <canvas id="graficoPlafond" height="120"></canvas>
+  </div>
 </div>
+
+<script>
+    const dataPlafond = {{ grafico_plafond|safe }};
+  
+    const labels = dataPlafond.map(item => item.fornitore);
+    const usatoData = dataPlafond.map(item => item.usato);
+    const plafondData = dataPlafond.map(item => item.plafond);
+  
+    const ctx = document.getElementById('graficoPlafond').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Plafond Usato (€)',
+            data: usatoData,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          },
+          {
+            label: 'Plafond Totale (€)',
+            data: plafondData,
+            backgroundColor: 'rgba(54, 162, 235, 0.4)',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  
 {% endblock %}
