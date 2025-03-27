@@ -25,3 +25,13 @@ class Fornitore(models.Model):
 
     def __str__(self):
         return self.ragione_sociale
+
+
+class Dogana(models.Model):
+    descrizione = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.descrizione
+
+    class Meta:
+        ordering = ["descrizione"]

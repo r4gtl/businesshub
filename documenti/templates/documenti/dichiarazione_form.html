@@ -1,12 +1,63 @@
-{% extends "base.html" %}
-{% block title %}Dichiarazione{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+{% load form_tags %}
 
 {% block content %}
-<h2>{% if object %}Modifica{% else %}Nuova{% endif %} Dichiarazione</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Salva</button>
-  <a href="{% url 'documenti:dichiarazione_list' %}" class="btn btn-secondary">Annulla</a>
-</form>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <h3 class="card-title mb-4 text-center">
+            <i class="bi bi-file-earmark-plus me-2"></i> Nuova Dichiarazione d'Intento
+          </h3>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              {% if field.field.widget.input_type == "checkbox" %}
+                <div class="form-check mb-3">
+                  {{ field }}
+                  <label class="form-check-label ms-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% for error in field.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% elif field.field.widget|slugify == "textarea" %}
+                <div class="mb-3">
+                  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                  {{ field }}
+                  {% for error in field.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="form-floating mb-3">
+                  {% if forloop.first %}
+                    {{ field|add_attr:"autofocus" }}
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% for error in field.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                  {% endfor %}
+                  {% if field.help_text %}
+                    <div class="form-text small">{{ field.help_text }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <div class="d-flex justify-content-between mt-4">
+              <a href="{% url 'documenti:dichiarazione_list' %}" class="btn btn-outline-secondary">Annulla</a>
+              <button type="submit" class="btn btn-primary px-4">Salva</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
