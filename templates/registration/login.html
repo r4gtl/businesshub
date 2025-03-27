@@ -1,14 +1,7 @@
-{% extends "base.html" %}
-{% load static %}
-{% load form_extras %}
-
-{% block title %}Login{% endblock %}
-
+{% extends "base.html" %} {% load static %} {% block title %}Login{% endblock %}
 {% block content %}
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Benvenuto in BusinessHub</h2>
   <div class="row justify-content-center">
-    
     <div class="col-md-6">
       <div class="card shadow rounded-4 p-4">
         <h3 class="text-center mb-4">
@@ -16,9 +9,9 @@
         </h3>
 
         {% if form.errors %}
-          <div class="alert alert-danger" role="alert">
-            Credenziali non valide. Riprova.
-          </div>
+        <div class="alert alert-danger" role="alert">
+          Credenziali non valide. Riprova.
+        </div>
         {% endif %}
 
         <form method="post" novalidate>
@@ -30,28 +23,13 @@
 
           <div class="mb-3">
             <label for="id_password" class="form-label">Password</label>
-            <div class="input-group">
-              {{ form.password|add_class:"form-control" }}
-              <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">👁</button>
-            </div>
+            {{ form.password|add_class:"form-control" }}
           </div>
 
           <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-        <div class="text-center mt-3">
-          <a href="{% url 'password_reset' %}">Password dimenticata?</a>
-        </div>
-        
       </div>
     </div>
   </div>
 </div>
-<script>
-  function togglePassword() {
-    const input = document.getElementById("id_password");
-    input.type = input.type === "password" ? "text" : "password";
-  }
-</script>
 {% endblock %}
-
-

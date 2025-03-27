@@ -21,18 +21,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'anagrafiche:fornitore_list' %}">Fornitori</a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                          Fornitori
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'anagrafiche:fornitore_list' %}">Anagrafiche</a></li>
+                          <li><a class="dropdown-item" href="{% url 'documenti:dichiarazione_list' %}">Dichiarazioni di Intento</a></li>
+                          <li><a class="dropdown-item" href="{% url 'documenti:fattura_list' %}">Fatture</a></li>
+                        </ul>
+                      </li>
+                      
                     <!-- Aggiungerai altri link qui -->
                 </ul>
                 {% if user.is_authenticated %}
                 <span class="navbar-text me-2">
                     Ciao, {{ user.username }}!
                 </span>
-                <a class="btn btn-outline-light btn-sm" href="{% url 'admin:logout' %}">Logout</a>
+                <form id="logout-form" method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                  </form>
+                  
                 {% else %}
-                <a class="btn btn-outline-light btn-sm" href="{% url 'admin:login' %}">Login</a>
+                <a class="btn btn-outline-light btn-sm" href="{% url 'login' %}">Login</a>
+
                 {% endif %}
             </div>
         </div>
