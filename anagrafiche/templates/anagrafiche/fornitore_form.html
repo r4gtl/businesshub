@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load form_tags %}
 {% block content %}
 <div class="container py-4">
   <div class="row justify-content-center">
@@ -14,7 +15,11 @@
             {% csrf_token %}
             {% for field in form %}
               <div class="form-floating mb-3">
+                {% if forloop.first %}
+                {{ field|add_attr:"autofocus" }}
+              {% else %}
                 {{ field }}
+              {% endif %}
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
 
                 {% for error in field.errors %}

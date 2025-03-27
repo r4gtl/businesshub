@@ -1,13 +1,22 @@
 #!/bin/bash
 
-# CONFIGURA QUESTE VARIABILI IN BASE AL TUO PROGETTO
+# CONFIG
 REPO_URL="git@github.com:r4gtl/businesshub.git"
-PROJECT_DIR="/home/stefano/businesshub"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PGDATA_DIR="$PROJECT_DIR/pgdata"
 
-echo "🛠 Setup ambiente di PRODUZIONE"
+# Ambiente: se non specificato, usa dev
+if [ "$1" == "prod" ]; then
+    ENV_MODE="prod"
+    ENV_FILE=".env.prod"
+else
+    ENV_MODE="dev"
+    ENV_FILE=".env"
+fi
 
-# 1. Clona o aggiorna il repository
+echo "🛠 Setup ambiente di ${ENV_MODE^^}"
+
+# 1. Clona o aggiorna repo
 if [ -d "$PROJECT_DIR/.git" ]; then
     echo "📦 Repository già presente, aggiorno..."
     cd "$PROJECT_DIR" && git pull
@@ -18,30 +27,32 @@ fi
 
 cd "$PROJECT_DIR" || exit 1
 
-# 2. Controllo/installazione Docker
+# 2. Docker install
 if ! command -v docker &> /dev/null; then
-    echo "🐳 Docker non installato, installo..."
+    echo "🐳 Docker non trovato, installo..."
     sudo apt update
     sudo apt install -y docker.io
-    sudo systemctl start docker
-    sudo systemctl enable docker
+    sudo systemctl enable --now docker
 fi
 
-# 3. Controllo/installazione Docker Compose
-if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
-    echo "🔧 Installo Docker Compose..."
-    sudo apt install -y docker-compose
+# 3. Docker Compose plugin install
+if ! docker compose version &> /dev/null; then
+    echo "🧩 Installo Docker Compose V2 (plugin)..."
+    sudo apt install -y docker-compose-plugin
 fi
 
-# 4. Crea pgdata se non esiste
-if [ ! -d "$PGDATA_DIR" ]; then
-    echo "📂 Creo la cartella per i dati del database: $PGDATA_DIR"
-    mkdir "$PGDATA_DIR"
-    sudo chown -R 999:999 "$PGDATA_DIR"
+# 4. pgdata in produzione
+if [ "$ENV_MODE" == "prod" ]; then
+    if [ ! -d "$PGDATA_DIR" ]; then
+        echo "📂 Creo pgdata: $PGDATA_DIR"
+        mkdir "$PGDATA_DIR"
+        sudo chown -R 999:999 "$PGDATA_DIR"
+    fi
 fi
 
-# 5. Rendo eseguibili gli script .sh
+# 5. Script eseguibili
 chmod +x up.sh down.sh status.sh
 
-# 6. Avvio il sistema in modalità produzione
-./up.sh prod
+# 6. Avvia in base all'ambiente
+echo "🚀 Avvio docker con ./up.sh $ENV_MODE"
+./up.sh "$ENV_MODE"
