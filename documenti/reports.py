@@ -11,6 +11,21 @@ from django.http import HttpResponse
 from documenti.models import DichiarazioneIntento
 
 
+# Definizione degli stili per titolo e sottotitoli (allineati al centro) ed etichette
+style_title = ParagraphStyle(
+    "Title", fontName="Helvetica", fontSize=0.5 * cm, alignment=TA_CENTER
+)  # 0.5 cm ≈ 14 pt
+style_subtitle = ParagraphStyle(
+    "Subtitle", fontName="Helvetica", fontSize=0.2 * cm, alignment=TA_CENTER
+)  # 0.2 cm ≈ 5.7 pt
+style_label = ParagraphStyle(
+    "Label", fontName="Helvetica", fontSize=8, alignment=TA_CENTER
+)  # Etichette campo (circa 8 pt)
+style_left_label = ParagraphStyle(
+    "LeftLabel", fontName="Helvetica", fontSize=8, alignment=TA_LEFT
+)  # Label colonna sinistra
+
+
 def dichiarazione_intento_pdf(request, pk):
     dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
 
@@ -21,7 +36,7 @@ def dichiarazione_intento_pdf(request, pk):
     # Creazione di un buffer in memoria per il PDF
     buffer = io.BytesIO()
 
-    # Configurazione del documento PDF con margini (3.5 cm dall'alto, 0.5 cm laterali)
+    # Configurazione del documento PDF
     doc = SimpleDocTemplate(
         buffer,
         pagesize=A4,
@@ -31,36 +46,32 @@ def dichiarazione_intento_pdf(request, pk):
         bottomMargin=1 * cm,
     )
 
-    # Registrazione del font Helvetica (invece di Arial)
-    # pdfmetrics.registerFont(TTFont('Helvetica', '/usr/share/fonts/truetype/#dejavu/DejaVuSans-Bold.ttf'))
+    # Creazione delle tabelle per le due sezioni
+    dati1 = dati_dichiarante(dichiarazione)
+    dati2 = dati_rappresentante()
 
-    # Definizione degli stili per titolo e sottotitoli (allineati al centro) ed etichette
-    style_title = ParagraphStyle(
-        "Title", fontName="Helvetica", fontSize=0.5 * cm, alignment=TA_CENTER
-    )  # 0.5 cm ≈ 14 pt
-    style_subtitle = ParagraphStyle(
-        "Subtitle", fontName="Helvetica", fontSize=0.2 * cm, alignment=TA_CENTER
-    )  # 0.2 cm ≈ 5.7 pt
-    style_label = ParagraphStyle(
-        "Label", fontName="Helvetica", fontSize=8, alignment=TA_CENTER
-    )  # Etichette campo (circa 8 pt)
-    style_left_label = ParagraphStyle(
-        "LeftLabel", fontName="Helvetica", fontSize=8, alignment=TA_LEFT
-    )  # Label colonna sinistra
+    # Creazione delle tabelle senza ridefinire TableStyle (questo è già definito nelle funzioni minori)
+    table1 = Table(dati1, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm])
+    table2 = Table(dati2, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm])
 
-    # Testi per titolo e sottotitoli
-    title = Paragraph("DICHIARAZIONE D'INTENTO", style_title)
-    subtitle1 = Paragraph(
-        "DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA", style_subtitle
-    )
-    subtitle2 = Paragraph(
-        "APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO", style_subtitle
-    )
+    # Aggiunta delle tabelle alla storia del documento
+    story = [table1, table2]
 
-    # Testo colonna sinistra (con eventuale a capo per lunghe stringhe)
+    # Costruzione del PDF
+    doc.build(story)
+
+    # Scrittura del PDF nel buffer e ritorno della risposta
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+
+
+def dati_dichiarante(dichiarazione):
+    # Etichette e valori per la prima sezione (DATI DEL DICHIARANTE)
     left_col_text = Paragraph("DATI DEL<br/>DICHIARANTE", style_left_label)
 
-    # Etichette per i campi (colonna destra)
+    # Etichette per i campi
     label_cf = Paragraph("Codice Fiscale", style_label)
     label_piva = Paragraph("Partita IVA", style_label)
     label_ragione = Paragraph("Ragione Sociale", style_label)
@@ -80,116 +91,44 @@ def dichiarazione_intento_pdf(request, pk):
     comune_value = ""  # Comune vuoto
     prov_value = ""  # Provincia vuota
 
-    # Costruzione della tabella con 4 colonne:
-    # [Colonna sinistra, Colonna destra 1, Colonna destra 2, Colonna destra 3]
+    # Costruzione della tabella per i dati del dichiarante
     data = [
-        [title, None, None, None],  # Riga 0: Titolo (span su 4 colonne)
-        [subtitle1, None, None, None],  # Riga 1: Sottotitolo 1 (span)
-        [subtitle2, None, None, None],  # Riga 2: Sottotitolo 2 (span)
-        [
-            left_col_text,
-            label_cf,
-            label_piva,
-            None,
-        ],  # Riga 3: Etichette campi riga 1 (col3 vuota)
-        [
-            None,
-            cf_value,
-            piva_value,
-            None,
-        ],  # Riga 4: Campi Codice Fiscale e Partita IVA
-        [
-            None,
-            label_ragione,
-            label_nome,
-            label_sesso,
-        ],  # Riga 5: Etichette campi riga 2
-        [
-            None,
-            ragione_value,
-            nome_value,
-            sesso_value,
-        ],  # Riga 6: Campi Ragione Sociale, Nome, Sesso
-        [None, label_data, label_comune, label_prov],  # Riga 7: Etichette campi riga 3
-        [
-            None,
-            data_value,
-            comune_value,
-            prov_value,
-        ],  # Riga 8: Campi Data di Nascita, Comune/Stato, Provincia
+        [left_col_text, label_cf, label_piva, None],
+        [None, cf_value, piva_value, None],
+        [None, label_ragione, label_nome, label_sesso],
+        [None, ragione_value, nome_value, sesso_value],
+        [None, label_data, label_comune, label_prov],
+        [None, data_value, comune_value, prov_value],
     ]
 
-    # Definizione della larghezza delle colonne:
-    #  - Colonna sinistra: 2.6 cm
-    #  - Colonne destra 1,2,3: larghezze ripartite per i campi
+    # Modifica la larghezza delle colonne e controlla il numero di righe
     col_widths = [2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm]
 
-    # Creazione tabella
+    # Creazione della tabella con modifiche
     table = Table(data, colWidths=col_widths)
 
-    # Stile tabella
+    # Definizione del TableStyle
     table_style = TableStyle(
         [
-            # Unione celle (SPAN) per titolo e sottotitoli su 4 colonne
             ("SPAN", (0, 0), (3, 0)),  # Titolo
             ("SPAN", (0, 1), (3, 1)),  # Sottotitolo 1
             ("SPAN", (0, 2), (3, 2)),  # Sottotitolo 2
-            # Unione celle colonna sinistra dalla riga 3 alla riga 8 (sezione DATI DEL DICHIARANTE)
-            ("SPAN", (0, 3), (0, 8)),
-            # Allineamento verticale al centro per il testo nella colonna sinistra unita
-            ("VALIGN", (0, 3), (0, 8), "MIDDLE"),
-            # Bordi superiore e inferiore dell'intera sezione (da margine a margine)
-            (
-                "LINEABOVE",
-                (0, 3),
-                (3, 3),
-                1,
-                colors.black,
-            ),  # linea superiore (sopra la riga 3)
-            (
-                "LINEBELOW",
-                (0, 8),
-                (3, 8),
-                1,
-                colors.black,
-            ),  # linea inferiore (sotto la riga 8)
-            # Impostazione sfondi: bianco per colonna sinistra, grigio chiaro per colonna destra
-            ("BACKGROUND", (0, 3), (0, 8), colors.white),
-            ("BACKGROUND", (1, 3), (3, 8), colors.whitesmoke),
-            # Nessun bordo verticale interno (implicitamente, non definendo linee verticali tra col0 e col1)
-            # Disegno dei rettangoli vuoti per i campi (bordo di 0.5 pt intorno alle celle vuote corrispondenti ai campi)
+            ("SPAN", (0, 3), (0, 5)),  # Unione solo per 3 righe in questa sezione
+            ("VALIGN", (0, 3), (0, 5), "MIDDLE"),
+            ("LINEABOVE", (0, 3), (3, 3), 1, colors.black),
+            ("LINEBELOW", (0, 5), (3, 5), 1, colors.black),
+            ("BACKGROUND", (0, 3), (0, 5), colors.white),
+            ("BACKGROUND", (1, 3), (3, 5), colors.whitesmoke),
         ]
     )
-    # Aggiunta bordi (rettangoli) attorno a ciascun campo:
-    # Riga 4 (Codice Fiscale, Partita IVA)
-    table_style.add(
-        "BOX", (1, 4), (1, 4), 0.5, colors.black
-    )  # rettangolo Codice Fiscale
-    table_style.add("BOX", (2, 4), (2, 4), 0.5, colors.black)  # rettangolo Partita IVA
-    # Riga 6 (Ragione Sociale, Nome, Sesso)
-    table_style.add(
-        "BOX", (1, 6), (1, 6), 0.5, colors.black
-    )  # rettangolo Ragione Sociale
-    table_style.add("BOX", (2, 6), (2, 6), 0.5, colors.black)  # rettangolo Nome
-    # Sesso (M/F) come quadrato vuoto (checkbox)
-    table_style.add("BOX", (3, 6), (3, 6), 0.5, colors.black)  # rettangolo Sesso (M/F)
-    # Riga 8 (Data di Nascita, Comune/Stato, Provincia)
-    table_style.add(
-        "BOX", (1, 8), (1, 8), 0.5, colors.black
-    )  # rettangolo Data di Nascita
-    table_style.add(
-        "BOX", (2, 8), (2, 8), 0.5, colors.black
-    )  # rettangolo Comune/Stato estero
-    table_style.add(
-        "BOX", (3, 8), (3, 8), 0.5, colors.black
-    )  # rettangolo Provincia (sigla)
 
     table.setStyle(table_style)
 
-    # Linea separatrice tra le sezioni
-    table_style.add("LINEABOVE", (0, 9), (3, 9), 1, colors.black)
+    return data
 
-    # Seconda sezione (Rappresentante Firmatario)
+
+def dati_rappresentante():
+    # Etichette e valori per la seconda sezione (DATI RELATIVI AL RAPPRESENTANTE FIRMATARIO DELLA DICHIARAZIONE)
     left_col_text_2 = Paragraph(
         "DATI RELATIVI AL RAPPRESENTANTE FIRMATARIO DELLA DICHIARAZIONE",
         style_left_label,
@@ -205,31 +144,64 @@ def dichiarazione_intento_pdf(request, pk):
     label_comune2 = Paragraph("Comune/Stato estero di nascita", style_label)
     label_prov2 = Paragraph("Provincia (sigla)", style_label)
 
-    # Creazione della tabella con le nuove righe
+    # Aggiunta dei valori ai campi
+    cf_value = " "
+    piva_value = " "
+    ragione_value = " "
+    nome_value = " "  # Nome vuoto
+    sesso_value = ""  # Campo sesso vuoto (checkbox)
+    data_value = " "  # Data di nascita vuota
+    comune_value = ""  # Comune vuoto
+    prov_value = ""  # Provincia vuota
+
+    # Creazione della tabella per il rappresentante firmatario
     data2 = [
-        [left_col_text_2, label_cf2, label_carica, label_cf_societa],  # Riga 10
-        [None, "", "", ""],  # Riga 11: Rettangoli vuoti per i campi
-        [None, label_cognome, label_nome2, label_sesso2],  # Riga 12
-        [None, "", "", ""],  # Riga 13: Rettangoli vuoti per i campi
-        [None, label_data2, label_comune2, label_prov2],  # Riga 14
-        [None, "", "", ""],  # Riga 15: Rettangoli vuoti per i campi
+        [left_col_text_2, label_cf2, label_carica, label_cf_societa],
+        [None, cf_value, piva_value, None],
+        [None, label_ragione, label_nome, label_sesso],
+        [None, ragione_value, nome_value, sesso_value],
+        [None, label_data, label_comune, label_prov],
+        [None, data_value, comune_value, prov_value],
     ]
 
+    col_widths = [2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm]
+
+    # Creazione della tabella con modifiche
     table2 = Table(data2, colWidths=col_widths)
 
+    # Stampa per il debug
+    print(f"Dati per la tabella: {data2}")  # Questa riga stamperà i dati nel terminale
+
+    # Verifica che ogni riga abbia 4 celle
+    for i, row in enumerate(data2):
+        if len(row) != 4:
+            raise ValueError(
+                f"Riga {i+1} non ha il numero corretto di colonne. Colonne trovate: {len(row)}"
+            )
+
+    # Definizione del TableStyle per questa tabella
+    table_style = TableStyle(
+        [
+            ("SPAN", (0, 0), (3, 0)),  # Titolo
+            ("SPAN", (0, 1), (3, 1)),  # Sottotitolo 1
+            ("SPAN", (0, 2), (3, 2)),  # Sottotitolo 2
+            ("SPAN", (0, 3), (0, 5)),  # Unione solo per 3 righe in questa sezione
+            ("VALIGN", (0, 3), (0, 5), "MIDDLE"),
+            ("LINEABOVE", (0, 3), (3, 3), 1, colors.black),
+            ("LINEBELOW", (0, 5), (3, 5), 1, colors.black),
+            ("BACKGROUND", (0, 3), (0, 5), colors.white),
+            ("BACKGROUND", (1, 3), (3, 5), colors.whitesmoke),
+        ]
+    )
+
+    # Creazione della tabella
+    # Assicurati che i colWidths siano impostati correttamente e che non ci siano larghezze non definite
+    """table2 = Table(
+        data2, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm]
+    )"""  # Imposta larghezze precise per le colonne
     table2.setStyle(table_style)
 
-    # Aggiunta della tabella alla storia
-    story = [table, table2]
-
-    # Costruzione del PDF
-    doc.build(story)
-
-    # Scrittura del PDF nel buffer e ritorno della risposta
-    pdf = buffer.getvalue()
-    buffer.close()
-    response.write(pdf)
-    return response
+    return table2
 
 
 """import io
