@@ -12,10 +12,6 @@ from django.db.models.functions import ExtractMonth
 from .models import DichiarazioneIntento, FatturaFornitore
 from .forms import DichiarazioneIntentoForm
 
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from django.http import HttpResponse
-
 
 class DichiarazioneListView(LoginRequiredMixin, ListView):
     model = DichiarazioneIntento
@@ -143,93 +139,3 @@ class ReportPlafondView(TemplateView):
         context["anno_selezionato"] = selected_anno
 
         return context
-
-
-def dichiarazione_pdf(request, pk):
-    dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
-
-    # Crea una risposta HTTP con tipo MIME PDF
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f'inline; filename="dichiarazione_{pk}.pdf"'
-
-    # Creazione PDF
-    p = canvas.Canvas(response, pagesize=letter)
-
-    # Impostazioni font e dimensioni
-    p.setFont("Helvetica", 10)
-
-    # Titolo
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(200, 750, "Dichiarazione di Intento")
-
-    # Linea separatrice
-    p.line(50, 740, 550, 740)
-
-    # Sezione Emittente
-    p.setFont("Helvetica", 10)
-    p.drawString(50, 720, "Emittente:")
-    p.drawString(50, 705, f"Ragione Sociale: ")
-    p.drawString(50, 690, f"P. IVA: ")
-    p.drawString(50, 675, f"Codice Fiscale: ")
-    p.drawString(50, 660, f"Indirizzo: ")
-    p.drawString(50, 645, f"CAP:  Comune: ")
-    p.drawString(50, 630, f"Provincia:  Paese: ")
-
-    # Linea separatrice
-    p.line(50, 625, 550, 625)
-
-    # Sezione Dichiarante
-    p.drawString(50, 610, "Dichiarante:")
-    p.drawString(50, 595, f"Ragione Sociale: {dichiarazione.fornitore.ragione_sociale}")
-    p.drawString(50, 580, f"P. IVA: {dichiarazione.fornitore.partita_iva}")
-    p.drawString(50, 565, f"Codice Fiscale: {dichiarazione.fornitore.codice_fiscale}")
-    p.drawString(50, 550, f"Indirizzo: {dichiarazione.fornitore.indirizzo}")
-    p.drawString(
-        50,
-        535,
-        f"CAP: {dichiarazione.fornitore.cap} Comune: {dichiarazione.fornitore.citta}",
-    )
-    p.drawString(
-        50,
-        520,
-        f"Provincia: {dichiarazione.fornitore.provincia} Paese: {dichiarazione.fornitore.paese}",
-    )
-
-    # Linea separatrice
-    p.line(50, 505, 550, 505)
-
-    # Sezione Dichiarazione
-    p.drawString(50, 490, f"Numero Dichiarazione: {dichiarazione.numero_dichiarazione}")
-    p.drawString(
-        50, 475, f"Data: {dichiarazione.data_dichiarazione.strftime('%d/%m/%Y')}"
-    )
-    p.drawString(50, 460, f"Anno di riferimento: {dichiarazione.anno_riferimento}")
-    p.drawString(50, 445, f"Plafond: € {dichiarazione.plafond:.2f}")
-    p.drawString(50, 430, f"Tipo Operazione: {dichiarazione.tipo_operazione}")
-    p.drawString(
-        50,
-        415,
-        f"Importo Singola Operazione: {'Sì' if dichiarazione.importosingolo else 'No'}",
-    )
-    p.drawString(50, 400, f"Dogana: {dichiarazione.fk_dogana}")
-
-    # Linea separatrice
-    p.line(50, 385, 550, 385)
-
-    # Sezione Note
-    p.drawString(
-        50, 370, f"Note: {dichiarazione.note if dichiarazione.note else 'Nessuna'}"
-    )
-
-    # Linea separatrice finale
-    p.line(50, 355, 550, 355)
-
-    # Firma e Luogo
-    p.drawString(50, 340, "Luogo e Data: ______________________________")
-    p.drawString(50, 325, "Firma del Dichiarante: ________________________")
-
-    # Salva il PDF
-    p.showPage()
-    p.save()
-
-    return response

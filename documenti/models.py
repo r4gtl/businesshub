@@ -33,7 +33,9 @@ class DichiarazioneIntento(models.Model):
 
 
 class FatturaFornitore(models.Model):
-    fornitore = models.ForeignKey(Fornitore, on_delete=models.CASCADE)
+    fornitore = models.ForeignKey(
+        Fornitore, on_delete=models.CASCADE, related_name="fatture"
+    )
     numero_fattura = models.CharField(max_length=100)
     data_fattura = models.DateField()
     importo = models.DecimalField(max_digits=12, decimal_places=2)

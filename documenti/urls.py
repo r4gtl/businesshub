@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from .reports import dichiarazione_pdf
+
 
 app_name = "documenti"
 
@@ -39,7 +41,7 @@ urlpatterns = [
     path("report/plafond/", views.ReportPlafondView.as_view(), name="report_plafond"),
     path(
         "dichiarazione/<int:pk>/stampa/",
-        views.dichiarazione_pdf,
+        dichiarazione_pdf,
         name="dichiarazione_pdf",
     ),
 ]

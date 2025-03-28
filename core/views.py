@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from documenti.models import FatturaFornitore, DichiarazioneIntento
+from django.db.models import Sum
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -19,7 +20,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
         for dichiarazione in dichiarazioni:
             totale_fatture = (
-                dichiarazione.fornitore.fatturefornitore_set.filter(
+                dichiarazione.fornitore.fatture.filter(
                     data_fattura__year=dichiarazione.anno_riferimento
                 ).aggregate(Sum("importo"))["importo__sum"]
                 or 0
@@ -44,7 +45,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
         for dichiarazione in dichiarazioni:
             totale = (
-                dichiarazione.fornitore.fatturefornitore_set.filter(
+                dichiarazione.fornitore.fatture.filter(
                     data_fattura__year=dichiarazione.anno_riferimento
                 ).aggregate(Sum("importo"))["importo__sum"]
                 or 0

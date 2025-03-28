@@ -38,7 +38,12 @@
                   
                 {% if user.is_authenticated %}
                 <span class="navbar-text me-2">
-                    Ciao, {{ user.username }}!
+                    Ciao, {{ user.username }}! 
+                    {% if azienda %}
+                    - {{ azienda.ragionesociale }}  <!-- Mostra la ragione sociale dell'azienda -->
+                    {% else %}
+                        - Azienda non assegnata
+                    {% endif %}
                 </span>
                 <form id="logout-form" method="post" action="{% url 'logout' %}" class="d-inline">
                     {% csrf_token %}

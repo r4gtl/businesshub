@@ -50,9 +50,17 @@ if [ "$ENV_MODE" == "prod" ]; then
     fi
 fi
 
-# 5. Script eseguibili
+# 5. Cambia permessi della cartella accounts
+echo "🔑 Cambia permessi della cartella accounts"
+if [ -d "$ACCOUNTS_DIR" ]; then
+    sudo chown -R 1000:1000 "$ACCOUNTS_DIR"
+else
+    echo "🚨 La cartella 'accounts' non esiste!"
+fi
+
+# 6. Script eseguibili
 chmod +x up.sh down.sh status.sh
 
-# 6. Avvia in base all'ambiente
+# 7. Avvia in base all'ambiente
 echo "🚀 Avvio docker con ./up.sh $ENV_MODE"
 ./up.sh "$ENV_MODE"
