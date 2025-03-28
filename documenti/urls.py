@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .reports import dichiarazione_pdf
+from .reports import dichiarazione_intento_pdf
 
 
 app_name = "documenti"
@@ -41,7 +41,7 @@ urlpatterns = [
     path("report/plafond/", views.ReportPlafondView.as_view(), name="report_plafond"),
     path(
         "dichiarazione/<int:pk>/stampa/",
-        dichiarazione_pdf,
+        dichiarazione_intento_pdf,
         name="dichiarazione_pdf",
     ),
 ]
