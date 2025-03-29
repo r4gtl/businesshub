@@ -25,6 +25,10 @@ style_left_label = ParagraphStyle(
     "LeftLabel", fontName="Helvetica", fontSize=8, alignment=TA_LEFT
 )  # Label colonna sinistra
 
+style_value = ParagraphStyle(
+    name="ValueStyle", fontName="Helvetica", fontSize=9, leading=12
+)
+
 
 def dichiarazione_intento_pdf(request, pk):
     dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
@@ -48,11 +52,12 @@ def dichiarazione_intento_pdf(request, pk):
 
     # Creazione delle tabelle per le due sezioni
     dati1 = dati_dichiarante(dichiarazione)
-    dati2 = dati_rappresentante()
+    # dati2 = dati_rappresentante(dichiarazione)
 
     # Creazione delle tabelle senza ridefinire TableStyle (questo è già definito nelle funzioni minori)
     table1 = Table(dati1, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm])
-    table2 = Table(dati2, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm])
+    # table2 = Table(dati2, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm])
+    table2 = dati_rappresentante(dichiarazione)
 
     # Aggiunta delle tabelle alla storia del documento
     story = [table1, table2]
@@ -127,13 +132,14 @@ def dati_dichiarante(dichiarazione):
     return data
 
 
-def dati_rappresentante():
-    # Etichette e valori per la seconda sezione (DATI RELATIVI AL RAPPRESENTANTE FIRMATARIO DELLA DICHIARAZIONE)
+def dati_rappresentante(dichiarazione):
+    # Etichette per i campi (DATI RELATIVI AL RAPPRESENTANTE FIRMATARIO DELLA DICHIARAZIONE)
     left_col_text_2 = Paragraph(
         "DATI RELATIVI AL RAPPRESENTANTE FIRMATARIO DELLA DICHIARAZIONE",
         style_left_label,
     )
 
+    # Etichette per i campi
     label_cf2 = Paragraph("Codice Fiscale", style_label)
     label_carica = Paragraph("Codice Carica", style_label)
     label_cf_societa = Paragraph("Codice Fiscale Società", style_label)
@@ -144,61 +150,78 @@ def dati_rappresentante():
     label_comune2 = Paragraph("Comune/Stato estero di nascita", style_label)
     label_prov2 = Paragraph("Provincia (sigla)", style_label)
 
-    # Aggiunta dei valori ai campi
-    cf_value = " "
-    piva_value = " "
-    ragione_value = " "
-    nome_value = " "  # Nome vuoto
-    sesso_value = ""  # Campo sesso vuoto (checkbox)
-    data_value = " "  # Data di nascita vuota
-    comune_value = ""  # Comune vuoto
-    prov_value = ""  # Provincia vuota
+    # Aggiunta dei valori ai campi (valori vuoti se non esistono dati)
+    cf2_value = " "  # Stringa vuota per i campi vuoti
+    carica_value = " "
+    cf_societa_value = " "
+    cognome_value = " "
+    nome2_value = " "
+    sesso2_value = " "
+    data2_value = " "
+    comune2_value = " "
+    prov2_value = " "
 
-    # Creazione della tabella per il rappresentante firmatario
+    # Costruzione della tabella per i dati del rappresentante firmatario
     data2 = [
+        # Prima riga: titolo
         [left_col_text_2, label_cf2, label_carica, label_cf_societa],
-        [None, cf_value, piva_value, None],
-        [None, label_ragione, label_nome, label_sesso],
-        [None, ragione_value, nome_value, sesso_value],
-        [None, label_data, label_comune, label_prov],
-        [None, data_value, comune_value, prov_value],
+        # Seconda riga: valori
+        [None, cf2_value, carica_value, cf_societa_value],
+        # Terza riga: etichette
+        [None, label_cognome, label_nome2, label_sesso2],
+        # Quarta riga: valori
+        [None, cognome_value, nome2_value, sesso2_value],
+        # Quinta riga: etichette
+        [None, label_data2, label_comune2, label_prov2],
+        # Sesta riga: valori
+        [None, data2_value, comune2_value, prov2_value],
     ]
 
+    # Modifica la larghezza delle colonne
     col_widths = [2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm]
 
     # Creazione della tabella con modifiche
     table2 = Table(data2, colWidths=col_widths)
 
-    # Stampa per il debug
-    print(f"Dati per la tabella: {data2}")  # Questa riga stamperà i dati nel terminale
-
-    # Verifica che ogni riga abbia 4 celle
-    for i, row in enumerate(data2):
-        if len(row) != 4:
-            raise ValueError(
-                f"Riga {i+1} non ha il numero corretto di colonne. Colonne trovate: {len(row)}"
-            )
-
-    # Definizione del TableStyle per questa tabella
+    # Definizione del TableStyle
     table_style = TableStyle(
         [
-            ("SPAN", (0, 0), (3, 0)),  # Titolo
-            ("SPAN", (0, 1), (3, 1)),  # Sottotitolo 1
-            ("SPAN", (0, 2), (3, 2)),  # Sottotitolo 2
-            ("SPAN", (0, 3), (0, 5)),  # Unione solo per 3 righe in questa sezione
-            ("VALIGN", (0, 3), (0, 5), "MIDDLE"),
-            ("LINEABOVE", (0, 3), (3, 3), 1, colors.black),
-            ("LINEBELOW", (0, 5), (3, 5), 1, colors.black),
-            ("BACKGROUND", (0, 3), (0, 5), colors.white),
-            ("BACKGROUND", (1, 3), (3, 5), colors.whitesmoke),
+            ("SPAN", (0, 0), (3, 0)),  # Unione della prima riga
+            ("SPAN", (0, 1), (3, 1)),  # Unione della seconda riga
+            ("SPAN", (0, 2), (3, 2)),  # Unione della terza riga
+            ("SPAN", (0, 3), (3, 3)),  # Unione della quarta riga
+            ("SPAN", (0, 4), (3, 4)),  # Unione della quinta riga
+            ("SPAN", (0, 5), (3, 5)),  # Unione della sesta riga
+            (
+                "VALIGN",
+                (0, 1),
+                (0, 5),
+                "MIDDLE",
+            ),  # Allineamento verticale della colonna 0
+            (
+                "LINEABOVE",
+                (0, 3),
+                (3, 3),
+                1,
+                colors.black,
+            ),  # Linea sopra la quarta riga
+            ("LINEBELOW", (0, 5), (3, 5), 1, colors.black),  # Linea sotto la sesta riga
+            (
+                "BACKGROUND",
+                (0, 3),
+                (0, 5),
+                colors.white,
+            ),  # Colore di sfondo per la colonna 0 nelle righe 3-5
+            (
+                "BACKGROUND",
+                (1, 3),
+                (3, 5),
+                colors.whitesmoke,
+            ),  # Colore di sfondo per le colonne 1-3 nelle righe 3-5
         ]
     )
 
-    # Creazione della tabella
-    # Assicurati che i colWidths siano impostati correttamente e che non ci siano larghezze non definite
-    """table2 = Table(
-        data2, colWidths=[2.6 * cm, 8 * cm, 6 * cm, 3.4 * cm]
-    )"""  # Imposta larghezze precise per le colonne
+    # Applicazione dello stile alla tabella
     table2.setStyle(table_style)
 
     return table2
