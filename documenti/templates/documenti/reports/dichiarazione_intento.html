@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dichiarazione di Intento</title>
+    <style>
+        /* Impostazioni per il formato A4 */
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            font-size: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        /* Classi per la gestione delle tabelle */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table td, .table th {
+            padding: 8px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+
+        .table th {
+            text-align: center;
+        }
+
+        .table td input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .table .left-column {
+            width: 2.6cm;
+            background-color: #f0f0f0;
+        }
+
+        .table .right-column {
+            background-color: #f8f8f8;
+        }
+
+        .box {
+            width: 100%;
+            height: 20px;
+            border: 1px solid #000;
+            margin-top: 5px;
+        }
+        .box1 {
+            width: 100%;
+            height: 20px;
+            border: 1px solid #000;
+            margin-top: 2px;
+            margin-left:5px;
+        }
+        .box2 {
+            width: 100%;
+            height: 20px;
+            border: 1px solid #000;
+            margin-top: 5px;
+        }
+
+        .label {
+            font-size: 6px;
+            font-weight: light;
+            text-align: left;
+            padding-bottom: 2px;
+            margin-left:5px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .col {
+            width: 30%;
+        }
+
+        .col input[type="checkbox"] {
+            margin-top: 5px;
+        }
+
+        /* Colonna a sinistra per il testo "DATI DEL DICHIARANTE" */
+        .left-column {
+            width: 2.6cm;
+        }
+
+        /* Colonna a destra per la tabella */
+        .right-column {
+            width: 100%;
+            margin-left: 10px;
+            background-color: #f0f0f0; 
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">DICHIARAZIONE D’INTENTO </h1>
+        <h3>DI ACQUISTARE O IMPORTARE BENI E SERVIZI</h3>
+        <h3>SENZA APPLICAZIONE DELL’IMPOSTA SUL VALORE AGGIUNTO</h3>
+
+    <!-- Sezione 1: Dati del Dichiarante -->
+    <div class="container">
+        <!-- Prima riga con due colonne: una per il titolo e l'altra per i campi -->
+        <div class="row">
+            <!-- Colonna sinistra con il titolo -->
+            <div class="col left-column">
+                <p><strong>DATI DEL DICHIARANTE</strong></p>
+            </div>
+            
+            <!-- Colonna destra con i dati -->
+            <div class="col right-column">
+                <!-- Prima riga: Codice Fiscale e Partita IVA -->
+                <div class="row">
+                    <div class="col">
+                        <div class="label">Codice Fiscale</div>
+                        <div class="box1"></div>
+                    </div>
+                    <div class="col">
+                        <div class="label">Partita IVA</div>
+                        <div class="box1"></div>
+                    </div>
+                </div>
+
+                <!-- Seconda riga: Ragione Sociale, Nome, Sesso -->
+                <div class="row">
+                    <div class="col">
+                        <div class="label">Ragione Sociale</div>
+                        <div class="box1"></div>
+                    </div>
+                    <div class="col">
+                        <div class="label">Nome</div>
+                        <div class="box1"></div>
+                    </div>
+                    <div class="col">
+                        <div class="label">Sesso</div>
+                        <input type="checkbox">
+                    </div>
+                </div>
+
+                <!-- Terza riga: Data di Nascita, Comune, Provincia -->
+                <div class="row">
+                    <div class="col">
+                        <div class="label">Data di Nascita</div>
+                        <div class="box2"></div>
+                    </div>
+                    <div class="col">
+                        <div class="label">Comune</div>
+                        <div class="box1"></div>
+                    </div>
+                    <div class="col">
+                        <div class="label">Provincia</div>
+                        <div class="box2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
