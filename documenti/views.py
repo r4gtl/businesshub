@@ -118,7 +118,7 @@ class ReportPlafondView(TemplateView):
                     "mesi": [mesi[i] for i in range(1, 13)],
                     "totale": tot,
                     "rimanenza": dichiarazione.plafond - tot,
-                    "rim_perc": str((dichiarazione.plafond - tot)/100 + "%")
+                    
                 }
             )
         context["mesi_nomi"] = [
