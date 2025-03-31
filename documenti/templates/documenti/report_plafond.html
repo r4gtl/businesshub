@@ -36,7 +36,7 @@
         {% endfor %}
       <th>Totale</th>
       <th>Rimanenza</th>
-      <th>%</th>
+      <th class="text-end">%</th>
     </tr>
   </thead>
   <tbody>
@@ -52,7 +52,9 @@
         {% endfor %}
       <td class="text-end">{{ r.totale|format_importo }}</td>
       <td class="text-end">{{ r.rimanenza|format_importo }}</td>
-      <td class="text-end">{{ r.percentuale|floatformat:2 }}%</td>
+      <td class="text-end {% if r.percentuale >= 50 %}bg-success{% elif r.percentuale >= 20 %}bg-warning{% else %}bg-danger{% endif %}">
+        {{ r.percentuale|floatformat:2 }}%
+      </td>
     </tr>
     {% endfor %}
   </tbody>
