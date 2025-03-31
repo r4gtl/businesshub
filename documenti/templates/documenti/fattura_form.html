@@ -1,11 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
+{% load form_tags %}
+{% load format %}
 {% block title %}Fattura{% endblock %}
 
 {% block content %}
 <h2>{% if object %}Modifica{% else %}Nuova{% endif %} Fattura</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  {% for field in form %}
+    <div class="form-floating mb-3">
+      {% if forloop.first %}
+        {{ field|add_attr:"autofocus" }}  <!-- Aggiunge autofocus al primo campo -->
+      {% elif field.name == "importo" %}
+        {{ field|format_importo }}  <!-- Aggiunge il filtro format_importo al campo importo -->
+      {% else %}
+        {{ field }}
+      {% endif %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+      {% for error in field.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+      {% endfor %}
+      {% if field.help_text %}
+        <div class="form-text small">{{ field.help_text }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
   <button type="submit" class="btn btn-success">Salva</button>
   <a href="{% url 'documenti:fattura_list' %}" class="btn btn-secondary">Annulla</a>
 </form>
