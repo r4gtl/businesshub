@@ -45,5 +45,8 @@ class FatturaFornitore(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
 
+    class Meta:
+        ordering = ["-data_fattura"]
+        
     def __str__(self):
         return f"{self.fornitore} - {self.numero_fattura}"

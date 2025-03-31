@@ -21,7 +21,7 @@
       <td>{{ f.fornitore }}</td>
       <td>{{ f.numero_fattura }}</td>
       <td>{{ f.data_fattura }}</td>
-      <td>{{ f.importo|format_importo }}</td>
+      <td class="text-end">{{ f.importo|format_importo }}</td>
       <td>
         <a href="{% url 'documenti:fattura_update' f.pk %}" class="btn btn-sm btn-primary">Modifica</a>
         <a href="{% url 'documenti:fattura_delete' f.pk %}" class="btn btn-sm btn-danger">Elimina</a>
