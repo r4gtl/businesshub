@@ -3,7 +3,7 @@
 
 {% block content %}
 <h2>Dichiarazioni di Intento</h2>
-<a href="{% url 'documenti:dichiarazione_create' %}" class="btn btn-success mb-3">+ Nuova</a>
+<a href="{% url 'documenti:dichiarazione_create' %}" class="btn btn-success mb-3" id="newButton">+ Nuova</a>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -32,4 +32,9 @@
     {% endfor %}
   </tbody>
 </table>
+<script>
+  window.onload = function() {
+    document.getElementById("newButton").focus();
+  };
+</script>
 {% endblock %}

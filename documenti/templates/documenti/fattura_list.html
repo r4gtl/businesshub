@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Fatture Fornitori</h2>
-<a href="{% url 'documenti:fattura_create' %}" class="btn btn-success mb-3" id="submitButton">+ Nuova Fattura</a>
+<a href="{% url 'documenti:fattura_create' %}" class="btn btn-success mb-3" id="newButton">+ Nuova Fattura</a>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -19,8 +19,8 @@
     {% for f in fatture %}
     <tr>
       <td>{{ f.fornitore }}</td>
-      <td>{{ f.numero_fattura }}</td>
-      <td>{{ f.data_fattura }}</td>
+      <td class="text-end">{{ f.numero_fattura }}</td>
+      <td class="text-end">{{ f.data_fattura }}</td>
       <td class="text-end">{{ f.importo|format_importo }}</td>
       <td>
         <a href="{% url 'documenti:fattura_update' f.pk %}" class="btn btn-sm btn-primary">Modifica</a>
@@ -32,7 +32,7 @@
 </table>
 <script>
   window.onload = function() {
-    document.getElementById("submitButton").focus();
+    document.getElementById("newButton").focus();
   };
 </script>
 {% endblock %}
