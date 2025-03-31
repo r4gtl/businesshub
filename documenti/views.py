@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
 from .models import DichiarazioneIntento, FatturaFornitore
-from .forms import DichiarazioneIntentoForm
+from .forms import DichiarazioneIntentoForm, FatturaFornitoreForm
 
 
 class DichiarazioneListView(LoginRequiredMixin, ListView):
@@ -51,7 +51,7 @@ class FatturaListView(LoginRequiredMixin, ListView):
 
 class FatturaCreateView(LoginRequiredMixin, CreateView):
     model = FatturaFornitore
-    fields = ["fornitore", "numero_fattura", "data_fattura", "importo"]
+    form_class = FatturaFornitoreForm    
     template_name = "documenti/fattura_form.html"
     success_url = reverse_lazy("documenti:fattura_list")
 
@@ -62,7 +62,7 @@ class FatturaCreateView(LoginRequiredMixin, CreateView):
 
 class FatturaUpdateView(LoginRequiredMixin, UpdateView):
     model = FatturaFornitore
-    fields = ["fornitore", "numero_fattura", "data_fattura", "importo"]
+    form_class = FatturaFornitoreForm     
     template_name = "documenti/fattura_form.html"
     success_url = reverse_lazy("documenti:fattura_list")
 

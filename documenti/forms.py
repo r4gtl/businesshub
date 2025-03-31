@@ -1,5 +1,5 @@
 from django import forms
-from .models import DichiarazioneIntento
+from .models import DichiarazioneIntento, FatturaFornitore
 
 
 class DichiarazioneIntentoForm(forms.ModelForm):
@@ -44,4 +44,31 @@ class DichiarazioneIntentoForm(forms.ModelForm):
             ),
             "importosingolo": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "fk_dogana": forms.Select(attrs={"class": "form-control"}),
+        }
+
+
+
+class FatturaFornitoreForm(forms.ModelForm):
+    class Meta:
+        model = FatturaFornitore
+        fields = [
+            "fornitore",
+            "numero_fattura",
+            "data_fattura",
+            "importo",
+            
+        ]
+        widgets = {
+            "fornitore": forms.Select(attrs={"class": "form-control"}),
+            "numero_fattura": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Numero Fattura"}
+            ),
+            
+            "data_fattura": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "importo": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Importo"}
+            ),
+            
         }
