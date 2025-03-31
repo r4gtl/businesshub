@@ -1,39 +1,126 @@
 {% extends "base.html" %}
 {% load format %}
 {% block title %}Fatture Fornitori{% endblock %}
-
 {% block content %}
 <h2>Fatture Fornitori</h2>
+<!-- Filtri -->
+<div class="accordion mb-2" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Ricerca
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <form id="filters-form" class="mb-2">
+          
+    <div class="row g-3">
+      <div class="col-3">
+        <label for="fornitore-filter" class="form-label">Fornitore</label>
+        <input type="text" name="fornitore" id="fornitore-filter" placeholder="Fornitore" class="form-control" />
+      </div>
+      <div class="col-3">
+        <label for="numero_fattura-filter" class="form-label">Numero Fattura</label>
+        <input type="text" name="numero_fattura" id="numero_fattura-filter" placeholder="Numero Fattura" class="form-control" />
+      </div>
+      <div class="col-3">
+        <label for="data_fattura-filter" class="form-label">Data Fattura</label>
+        <input type="date" name="data_fattura" id="data_fattura-filter" class="form-control" />
+      </div>
+      <div class="col-3">
+        <label for="importo-filter" class="form-label">Importo</label>
+        <input type="text" name="importo" id="importo-filter" placeholder="Importo" class="form-control" />
+      </div>
+    </div>
+  
+</form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<!-- Aggiungi Nuova Fattura -->
 <a href="{% url 'documenti:fattura_create' %}" class="btn btn-success mb-3" id="newButton">+ Nuova Fattura</a>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Fornitore</th>
-      <th>Numero Fattura</th>
-      <th>Data</th>
-      <th>Importo</th>
-      <th>Azioni</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for f in fatture %}
-    <tr>
-      <td>{{ f.fornitore }}</td>
-      <td class="text-end">{{ f.numero_fattura }}</td>
-      <td class="text-end">{{ f.data_fattura }}</td>
-      <td class="text-end">{{ f.importo|format_importo }}</td>
-      <td>
-        <a href="{% url 'documenti:fattura_update' f.pk %}" class="btn btn-sm btn-primary">Modifica</a>
-        <a href="{% url 'documenti:fattura_delete' f.pk %}" class="btn btn-sm btn-danger">Elimina</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<!-- Tabella Fatture -->
+<div id="fattura-table-container">
+    {% include 'documenti/partials/_table_fatture.html' %}
+</div>
+
 <script>
-  window.onload = function() {
-    document.getElementById("newButton").focus();
+// Funzione per aggiungere un ritardo alle richieste (debounce)
+function debounce(func, timeout = 300) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
+}
+
+// Funzione per inviare i dati dei filtri e aggiornare la tabella
+function fetchFattureData() {
+  // Mostra un indicatore di caricamento
+  document.getElementById("fattura-table-container").innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Caricamento...</span></div></div>';
+  
+  // Raccogli i valori dei filtri
+  const fornitore = document.getElementById("fornitore-filter").value;
+  const numero_fattura = document.getElementById("numero_fattura-filter").value;
+  const data_fattura = document.getElementById("data_fattura-filter").value;
+  const importo = document.getElementById("importo-filter").value;
+  
+  // Costruisci l'URL con i parametri di ricerca
+  let url = "{% url 'documenti:fattura_list' %}?";
+  let params = [];
+  
+  if (fornitore) params.push(`fornitore=${encodeURIComponent(fornitore)}`);
+  if (numero_fattura) params.push(`numero_fattura=${encodeURIComponent(numero_fattura)}`);
+  if (data_fattura) params.push(`data_fattura=${encodeURIComponent(data_fattura)}`);
+  if (importo) params.push(`importo=${encodeURIComponent(importo)}`);
+  
+  // Se ci sono parametri, uniscili con '&'
+  if (params.length > 0) {
+    url += params.join('&');
+  }
+  
+  // Aggiungi un parametro per indicare che è una richiesta AJAX
+  url += (params.length > 0 ? '&' : '') + 'ajax=true';
+  
+  // Fai la richiesta AJAX con l'header appropriato
+  fetch(url, {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  })
+  .then(html => {
+    document.getElementById("fattura-table-container").innerHTML = html;
+  })
+  .catch(error => {
+    console.error('Errore nella richiesta:', error);
+    document.getElementById("fattura-table-container").innerHTML = 
+      '<div class="alert alert-danger">Si è verificato un errore durante il caricamento dei dati.</div>';
+  });
+}
+
+// Creazione della versione con debounce della funzione
+const debouncedFetchFattureData = debounce(fetchFattureData, 500);
+
+// Event listener per la ricerca dinamica
+document.getElementById("filters-form").addEventListener("input", function(event) {
+  debouncedFetchFattureData();  // Usa la versione con debounce
+});
+
+// Chiamata iniziale per assicurarsi che il contenuto sia caricato
+document.addEventListener("DOMContentLoaded", function() {
+  fetchFattureData();
+});
 </script>
 {% endblock %}
-

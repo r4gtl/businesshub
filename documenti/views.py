@@ -1,3 +1,6 @@
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
+from django.shortcuts import render 
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -43,11 +46,60 @@ class DichiarazioneDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("documenti:dichiarazione_list")
 
 
-class FatturaListView(LoginRequiredMixin, ListView):
+class FatturaListView(ListView):
     model = FatturaFornitore
     template_name = "documenti/fattura_list.html"
     context_object_name = "fatture"
-
+    
+    def get_queryset(self):
+        # Ottieni la queryset iniziale
+        queryset = super().get_queryset()
+        
+        # Filtro per i parametri passati nella query string
+        numero_fattura = self.request.GET.get('numero_fattura', '')
+        fornitore = self.request.GET.get('fornitore', '')
+        data_fattura = self.request.GET.get('data_fattura', '')
+        importo = self.request.GET.get('importo', '')
+        
+        # Filtra per numero_fattura
+        if numero_fattura:
+            queryset = queryset.filter(numero_fattura__icontains=numero_fattura)
+        
+        # Filtra per fornitore
+        if fornitore:
+            queryset = queryset.filter(fornitore__ragione_sociale__icontains=fornitore)
+        
+        # Filtra per data_fattura
+        if data_fattura:
+            queryset = queryset.filter(data_fattura=data_fattura)
+        
+        # Filtra per importo
+        if importo:
+            try:
+                # Converti importo da stringa a decimal
+                importo_val = Decimal(importo.replace(',', '.'))
+                queryset = queryset.filter(importo=importo_val)
+            except (ValueError, decimal.InvalidOperation):
+                # Ignora se il valore non è un numero valido
+                pass
+        
+        return queryset
+    
+    def render_to_response(self, context, **kwargs):
+        # Verifica se la richiesta è AJAX o ha il parametro ajax=true
+        is_ajax = (
+            self.request.headers.get('x-requested-with') == 'XMLHttpRequest' or
+            self.request.GET.get('ajax') == 'true'
+        )
+        
+        if is_ajax:
+            # Restituisce solo il contenuto della tabella
+            return HttpResponse(
+                render(self.request, 'documenti/partials/_table_fatture.html', context).content
+            )
+        
+        # Altrimenti restituisce il template completo
+        return super().render_to_response(context, **kwargs)
 
 class FatturaCreateView(LoginRequiredMixin, CreateView):
     model = FatturaFornitore

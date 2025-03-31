@@ -1,0 +1,31 @@
+{% load format %}
+<!-- documenti/partials/_table_fatture.html -->
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Fornitore</th>
+      <th>Numero Fattura</th>
+      <th>Data</th>
+      <th>Importo</th>
+      <th>Azioni</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for f in fatture %}
+    <tr>
+      <td>{{ f.fornitore }}</td>
+      <td class="text-end">{{ f.numero_fattura }}</td>
+      <td class="text-end">{{ f.data_fattura }}</td>
+      <td class="text-end">{{ f.importo|format_importo }}</td>
+      <td>
+        <a href="{% url 'documenti:fattura_update' f.pk %}" class="btn btn-sm btn-primary">Modifica</a>
+        <a href="{% url 'documenti:fattura_delete' f.pk %}" class="btn btn-sm btn-danger">Elimina</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5" class="text-center">Nessuna fattura trovata</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
