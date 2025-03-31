@@ -34,7 +34,6 @@
       {% for mese in mesi_nomi %}
             <th>{{ mese }}</th>
         {% endfor %}
-      
       <th>Totale</th>
       <th>Rimanenza</th>
       <th>%</th>
@@ -53,9 +52,20 @@
         {% endfor %}
       <td class="text-end">{{ r.totale|format_importo }}</td>
       <td class="text-end">{{ r.rimanenza|format_importo }}</td>
-      
+      <td class="text-end">{{ r.percentuale|floatformat:2 }}%</td>
     </tr>
     {% endfor %}
   </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="5">Totali Mensili</th>
+      {% for totale in totali_mensili %}
+        <td class="text-end">{{ totale|format_importo }}</td>
+      {% endfor %}
+      <td class="text-end"></td>
+      <td class="text-end"></td>
+      <td class="text-end"></td>
+    </tr>
+  </tfoot>
 </table>
 {% endblock %}

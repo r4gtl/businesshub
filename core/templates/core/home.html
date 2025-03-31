@@ -9,7 +9,7 @@
   <h2 class="mb-4">Dashboard</h2>
 
   <div class="row g-4">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <a href="{% url 'anagrafiche:fornitore_list' %}" class="text-decoration-none">
         <div class="card shadow-sm p-3 text-center h-100">
           <i class="bi bi-people-fill display-4 text-primary"></i>
@@ -17,7 +17,7 @@
         </div>
       </a>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <a href="{% url 'documenti:dichiarazione_list' %}" class="text-decoration-none">
         <div class="card shadow-sm p-3 text-center h-100">
           <i class="bi bi-file-earmark-text display-4 text-success"></i>
@@ -25,11 +25,20 @@
         </div>
       </a>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <a href="{% url 'documenti:fattura_list' %}" class="text-decoration-none">
         <div class="card shadow-sm p-3 text-center h-100">
           <i class="bi bi-receipt display-4 text-danger"></i>
           <h5 class="mt-3">Fatture Fornitori</h5>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="{% url 'documenti:report_plafond' %}" class="text-decoration-none">
+        <div class="card shadow-sm p-3 text-center h-100">
+          <i class="bi bi-bar-chart-line display-4 text-primary"></i>
+
+          <h5 class="mt-3">Plafond</h5>
         </div>
       </a>
     </div>

@@ -125,8 +125,85 @@ class FatturaDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "documenti/fattura_confirm_delete.html"
     success_url = reverse_lazy("documenti:fattura_list")
 
-
 class ReportPlafondView(TemplateView):
+    template_name = "documenti/report_plafond.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected_anno = self.request.GET.get("anno")
+        dichiarazioni_qs = DichiarazioneIntento.objects.select_related("fornitore")
+
+        if selected_anno:
+            dichiarazioni_qs = dichiarazioni_qs.filter(anno_riferimento=selected_anno)
+
+        # Calcolo anni disponibili per select
+        anni_disponibili = (
+            DichiarazioneIntento.objects.values_list("anno_riferimento", flat=True)
+            .distinct()
+            .order_by("-anno_riferimento")
+        )
+        report_data = []
+        totali_mensili = [0] * 12  # Totali mensili da mostrare nella tabella
+
+        for dichiarazione in dichiarazioni_qs:
+            # Fatture di quell'anno per quel fornitore
+            fatture = FatturaFornitore.objects.filter(
+                fornitore=dichiarazione.fornitore,
+                data_fattura__year=dichiarazione.anno_riferimento,
+            )
+
+            mesi = {i: 0 for i in range(1, 13)}  # da gennaio a dicembre
+
+            tot = 0
+            for f in fatture:
+                mese = f.data_fattura.month
+                mesi[mese] += float(f.importo)
+                tot += f.importo
+
+            # Calcolo il totale per mese
+            for mese in range(1, 13):
+                totali_mensili[mese - 1] += mesi[mese]
+
+            # Aggiungi la riga di report per questo fornitore
+            report_data.append(
+                {
+                    "fornitore": dichiarazione.fornitore.ragione_sociale,
+                    "numero_interno": dichiarazione.numero_interno,
+                    "numero_dichiarazione": dichiarazione.numero_dichiarazione,
+                    "data_dichiarazione": dichiarazione.data_dichiarazione,
+                    "plafond": dichiarazione.plafond,
+                    "mesi": [mesi[i] for i in range(1, 13)],
+                    "totale": tot,
+                    "rimanenza": dichiarazione.plafond - tot,
+                    "percentuale": (dichiarazione.plafond - tot) / dichiarazione.plafond * 100 if dichiarazione.plafond else 0,
+                }
+            )
+
+        context["mesi_nomi"] = [
+            "Gen",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mag",
+            "Giu",
+            "Lug",
+            "Ago",
+            "Set",
+            "Ott",
+            "Nov",
+            "Dic",
+        ]
+        context["totali_mensili"] = totali_mensili  # Aggiungi i totali mensili al contesto
+        context["mesi_num"] = range(1, 13)
+        context["report"] = report_data
+        context["anni"] = anni_disponibili
+        context["anno_selezionato"] = selected_anno
+
+        return context
+
+
+
+class ReportPlafondView_old(TemplateView):
     template_name = "documenti/report_plafond.html"
 
     def get_context_data(self, **kwargs):
