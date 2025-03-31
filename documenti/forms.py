@@ -60,7 +60,7 @@ class FatturaFornitoreForm(forms.ModelForm):
         ]
         widgets = {
             "fornitore": forms.Select(attrs={"class": "form-control"}),
-            "numero_fattura": forms.NumberInput(
+            "numero_fattura": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Numero Fattura"}
             ),
             
