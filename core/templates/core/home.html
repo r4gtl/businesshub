@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load format %}
 
 {% block title %}Dashboard{% endblock %}
 
@@ -48,9 +49,9 @@
     {% for fattura in ultime_fatture %}
     <tr>
       <td>{{ fattura.fornitore.ragione_sociale }}</td>
-      <td>{{ fattura.numero_fattura }}</td>
-      <td>{{ fattura.data_fattura|date:"d/m/Y" }}</td>
-      <td>{{ fattura.importo|floatformat:2 }} €</td>
+      <td class="text-end">{{ fattura.numero_fattura }}</td>
+      <td class="text-end">{{ fattura.data_fattura|date:"d/m/Y" }}</td>
+      <td class="text-end">{{ fattura.importo|format_importo }} €</td>
     </tr>
     {% empty %}
     <tr><td colspan="4">Nessuna fattura trovata.</td></tr>

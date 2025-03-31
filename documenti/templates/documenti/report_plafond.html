@@ -37,6 +37,7 @@
       
       <th>Totale</th>
       <th>Rimanenza</th>
+      <th>%</th>
     </tr>
   </thead>
   <tbody>
@@ -45,13 +46,14 @@
       <td>{{ r.fornitore }}</td>
       <td>{{ r.numero_interno }}</td>
       <td>{{ r.numero_dichiarazione }}</td>
-      <td>{{ r.data_dichiarazione|date:"d/m/Y" }}</td>
-      <td>{{ r.plafond|format_importo }}</td>
+      <td class="text-end">{{ r.data_dichiarazione|date:"d/m/Y" }}</td>
+      <td class="text-end">{{ r.plafond|format_importo }}</td>
         {% for valore in r.mesi %}
-            <td>{{ valore|format_importo }}</td>
+            <td class="text-end">{{ valore|format_importo }}</td>
         {% endfor %}
-      <td>{{ r.totale|format_importo }}</td>
-      <td>{{ r.rimanenza|format_importo }}</td>
+      <td class="text-end">{{ r.totale|format_importo }}</td>
+      <td class="text-end">{{ r.rimanenza|format_importo }}</td>
+      <td class="text-end">{{ r.rim_perc }}</td>
     </tr>
     {% endfor %}
   </tbody>

@@ -62,7 +62,8 @@ class FatturaCreateView(LoginRequiredMixin, CreateView):
 
 class FatturaUpdateView(LoginRequiredMixin, UpdateView):
     model = FatturaFornitore
-    form_class = FatturaFornitoreForm     
+    form_class = FatturaFornitoreForm 
+    
     template_name = "documenti/fattura_form.html"
     success_url = reverse_lazy("documenti:fattura_list")
 
@@ -117,6 +118,7 @@ class ReportPlafondView(TemplateView):
                     "mesi": [mesi[i] for i in range(1, 13)],
                     "totale": tot,
                     "rimanenza": dichiarazione.plafond - tot,
+                    "rim_perc": str((dichiarazione.plafond - tot)/100 + "%")
                 }
             )
         context["mesi_nomi"] = [
