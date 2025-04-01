@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from anagrafiche.models import Fornitore, Dogana
+from accounts.models import Azienda
+
 
 
 class DichiarazioneIntento(models.Model):
@@ -28,6 +30,13 @@ class DichiarazioneIntento(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
 
+    azienda = models.ForeignKey(Azienda, on_delete=models.CASCADE, null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.azienda_id and self.created_by:
+            self.azienda = self.created_by.azienda
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return f"{self.fornitore} - {self.numero_dichiarazione}"
 

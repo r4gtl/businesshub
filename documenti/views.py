@@ -131,7 +131,9 @@ class ReportPlafondView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_anno = self.request.GET.get("anno")
-        dichiarazioni_qs = DichiarazioneIntento.objects.select_related("fornitore")
+        user_azienda = self.request.user.azienda
+        
+        dichiarazioni_qs = DichiarazioneIntento.objects.select_related("fornitore").filter(azienda=user_azienda)
 
         if selected_anno:
             dichiarazioni_qs = dichiarazioni_qs.filter(anno_riferimento=selected_anno)
