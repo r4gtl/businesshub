@@ -11,6 +11,10 @@ echo "✅ Database disponibile!"
 
 set -e
 
+echo "🔄 Creando migrazioni..."
+# Crea le migrazioni se ci sono modifiche ai modelli
+python manage.py makemigrations
+
 echo "🔄 Applying database migrations..."
 python manage.py migrate
 
