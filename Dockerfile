@@ -21,3 +21,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN chmod +x /code/entrypoint.sh
+
+# Esegui le migrazioni automaticamente al momento della build
+RUN python manage.py makemigrations
+RUN python manage.py migrate
