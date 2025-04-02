@@ -14,12 +14,20 @@ from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
 from .models import DichiarazioneIntento, FatturaFornitore
 from .forms import DichiarazioneIntentoForm, FatturaFornitoreForm
+from anagrafiche.models import Fornitore, Dogana
 
 
 class DichiarazioneListView(LoginRequiredMixin, ListView):
     model = DichiarazioneIntento
     template_name = "documenti/dichiarazione_list.html"
     context_object_name = "dichiarazioni"
+    
+    def get_queryset(self):
+        # Ottieni l'azienda dell'utente loggato
+        azienda = self.request.user.azienda
+
+        # Filtra le dichiarazioni in base all'azienda dell'utente loggato
+        return DichiarazioneIntento.objects.filter(azienda=azienda)
 
 
 class DichiarazioneIntentoCreateView(LoginRequiredMixin, CreateView):
@@ -31,6 +39,12 @@ class DichiarazioneIntentoCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Passa l'utente loggato al form
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class DichiarazioneIntentoUpdateView(LoginRequiredMixin, UpdateView):
@@ -38,6 +52,12 @@ class DichiarazioneIntentoUpdateView(LoginRequiredMixin, UpdateView):
     form_class = DichiarazioneIntentoForm
     template_name = "documenti/dichiarazione_form.html"
     success_url = reverse_lazy("documenti:dichiarazione_list")
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Passa l'utente loggato al form
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class DichiarazioneDeleteView(LoginRequiredMixin, DeleteView):
@@ -110,6 +130,12 @@ class FatturaCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Passa l'utente loggato al form
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class FatturaUpdateView(LoginRequiredMixin, UpdateView):
@@ -118,6 +144,12 @@ class FatturaUpdateView(LoginRequiredMixin, UpdateView):
     
     template_name = "documenti/fattura_form.html"
     success_url = reverse_lazy("documenti:fattura_list")
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Passa l'utente loggato al form
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class FatturaDeleteView(LoginRequiredMixin, DeleteView):

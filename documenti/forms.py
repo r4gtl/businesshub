@@ -1,5 +1,6 @@
 from django import forms
 from .models import DichiarazioneIntento, FatturaFornitore
+from anagrafiche.models import Fornitore, Dogana
 
 
 class DichiarazioneIntentoForm(forms.ModelForm):
@@ -46,6 +47,17 @@ class DichiarazioneIntentoForm(forms.ModelForm):
             "fk_dogana": forms.Select(attrs={"class": "form-control"}),
         }
 
+    def __init__(self, *args, **kwargs):
+        # Ottieni l'utente loggato (request.user)
+        user = kwargs.pop('user', None)  # Questo deve essere passato al form dalle views
+
+        super().__init__(*args, **kwargs)
+
+        if user:
+            # Filtra il campo "fornitore" in base all'azienda dell'utente loggato
+            self.fields["fornitore"].queryset = Fornitore.objects.filter(azienda=user.azienda)
+            # Filtra il campo "fk_dogana" in base all'azienda dell'utente loggato
+            self.fields["fk_dogana"].queryset = Dogana.objects.filter(azienda=user.azienda)
 
 
 class FatturaFornitoreForm(forms.ModelForm):
@@ -72,3 +84,14 @@ class FatturaFornitoreForm(forms.ModelForm):
             ),
             
         }
+        
+    def __init__(self, *args, **kwargs):
+        # Ottieni l'utente loggato (request.user)
+        user = kwargs.pop('user', None)  # Questo deve essere passato al form dalle views
+
+        super().__init__(*args, **kwargs)
+
+        if user:
+            # Filtra il campo "fornitore" in base all'azienda dell'utente loggato
+            self.fields["fornitore"].queryset = Fornitore.objects.filter(azienda=user.azienda)
+        

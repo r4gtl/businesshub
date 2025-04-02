@@ -53,6 +53,12 @@ class FatturaFornitore(models.Model):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
+    azienda = models.ForeignKey(Azienda, on_delete=models.CASCADE, null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.azienda_id and self.created_by:
+            self.azienda = self.created_by.azienda
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-data_fattura"]
