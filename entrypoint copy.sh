@@ -4,13 +4,7 @@ export DJANGO_SETTINGS_MODULE=businesshub.settings
 
 # Aspetta che il DB sia pronto
 echo "⏳ Attendo il database su $DB_HOST..."
-retries=10
 while ! nc -z $DB_HOST 5432; do
-  retries=$((retries-1))
-  if [ $retries -eq 0 ]; then
-    echo "❌ Timeout: Impossibile connettersi al database!"
-    exit 1
-  fi
   sleep 1
 done
 echo "✅ Database disponibile!"
@@ -19,14 +13,10 @@ set -e
 
 echo "🔄 Creando migrazioni..."
 # Crea le migrazioni se ci sono modifiche ai modelli
-#python manage.py makemigrations
-
+python manage.py makemigrations
 
 echo "🔄 Applying database migrations..."
 python manage.py migrate
-
-
-
 
 DEBUG_MODE=$(python -c "from django.conf import settings; print(settings.DEBUG)")
 
