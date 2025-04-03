@@ -149,6 +149,8 @@ class FatturaUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         # Passa l'utente loggato al form
         kwargs['user'] = self.request.user
+        # Aggiungi l'oggetto (istanza) al form per garantire che i dati siano inclusi
+        kwargs['instance'] = self.get_object() 
         return kwargs
 
 
