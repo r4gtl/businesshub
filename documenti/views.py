@@ -147,11 +147,17 @@ class FatturaUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+        # Aggiungi l'oggetto (istanza) al form per garantire che i dati siano inclusi
+        instance = self.get_object()
+        print(instance.data_fattura)  # Stampa la data_fattura per vedere se è correttamente impostata
+        kwargs['instance'] = instance
         # Passa l'utente loggato al form
         kwargs['user'] = self.request.user
-        # Aggiungi l'oggetto (istanza) al form per garantire che i dati siano inclusi
-        kwargs['instance'] = self.get_object() 
         return kwargs
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 
 class FatturaDeleteView(LoginRequiredMixin, DeleteView):

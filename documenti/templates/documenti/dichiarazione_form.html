@@ -35,6 +35,10 @@
                 <div class="form-floating mb-3">
                   {% if forloop.first %}
                     {{ field|add_attr:"autofocus" }}
+                  {% elif field.name == "data_dichiarazione" %}
+                    <!-- Forza il valore del campo data_dichiarazione con il formato YYYY-MM-DD -->
+                    <input type="date" name="{{ field.name }}" value="{{ field.value|date:'Y-m-d' }}" class="form-control" />
+
                   {% else %}
                     {{ field }}
                   {% endif %}

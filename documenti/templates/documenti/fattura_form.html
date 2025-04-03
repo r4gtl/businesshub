@@ -14,6 +14,10 @@
         {{ field|add_attr:"autofocus" }}  <!-- Aggiunge autofocus al primo campo -->
       {% elif field.name == "importo" %}
         {{ field|format_importo }}  <!-- Aggiunge il filtro format_importo al campo importo -->
+      {% elif field.name == "data_fattura" %}
+        <!-- Forza il valore del campo data_fattura con il formato YYYY-MM-DD -->
+        <input type="date" name="{{ field.name }}" value="{{ field.value|date:'Y-m-d' }}" class="form-control" />
+        
       {% else %}
         {{ field }}
       {% endif %}
