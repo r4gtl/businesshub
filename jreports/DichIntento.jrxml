@@ -1,0 +1,214 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final utlizzo versione della libreria JasperReports7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="DichIntento" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e8058cd6-2799-4646-8a64-6b1fdc8ef8de">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DockerTest"/>
+	<parameter name="PK" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[SELECT
+    d.id, 
+    d.numero_interno, 
+    d.numero_dichiarazione, 
+    d.tipo_operazione,
+    d.data_dichiarazione,
+    d.importosingolo,
+    d.plafond,
+    d.anno_riferimento,    
+    f.ragione_sociale,
+    g.descrizione,
+    h.ragionesociale,
+    h.partita_iva,
+    h.codice_fiscale
+FROM
+    documenti_dichiarazioneintento d
+LEFT JOIN
+    anagrafiche_fornitore f ON d.fornitore_id = f.id
+LEFT JOIN
+    anagrafiche_dogana g ON d.fk_dogana_id = g.id
+LEFT JOIN
+	accounts_azienda h ON d.azienda_id = h.id
+WHERE
+    d.id = $P{PK}
+]]></query>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="numero_interno" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numero_interno"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_interno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="numero_dichiarazione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="numero_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="tipo_operazione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_operazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_operazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="data_dichiarazione" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="data_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="importosingolo" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="importosingolo"/>
+		<property name="com.jaspersoft.studio.field.label" value="importosingolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="plafond" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="plafond"/>
+		<property name="com.jaspersoft.studio.field.label" value="plafond"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="anno_riferimento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="anno_riferimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="anno_riferimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="ragione_sociale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ragione_sociale"/>
+		<property name="com.jaspersoft.studio.field.label" value="ragione_sociale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_fornitore"/>
+	</field>
+	<field name="descrizione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descrizione"/>
+		<property name="com.jaspersoft.studio.field.label" value="descrizione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_dogana"/>
+	</field>
+	<field name="ragionesociale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.label" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="partita_iva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.label" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="codice_fiscale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.label" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="90" splitType="Stretch">
+		<element kind="staticText" uuid="200f232f-22b1-4131-aed1-a5f8043afa10" x="80" y="0" width="400" height="30" forecolor="#000000" fontSize="20.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
+		</element>
+		<element kind="staticText" uuid="556f1301-b9a1-498d-845d-7f9a7c4a5d65" x="85" y="25" width="390" height="50" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
+APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
+		</element>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="rectangle" uuid="79e48a21-15a5-401c-a5ea-14f19b4fb797" x="80" y="0" width="481" height="121" forecolor="#E8E8E8" backcolor="#EDEDED"/>
+			<element kind="line" uuid="66ce3a73-d207-49fe-964b-fccc45824bc7" x="0" y="0" width="561" height="1"/>
+			<element kind="staticText" uuid="6be2a538-be7f-4419-891b-3051f4d82cbc" x="0" y="1" width="80" height="30" bold="true">
+				<text><![CDATA[DATI DEL DICHIARANTE]]></text>
+			</element>
+			<element kind="textField" uuid="c5b0a9ee-c40c-49e6-a77f-a8df30450e45" mode="Opaque" x="310" y="24" width="234" height="20" backcolor="#FFFFFF" linkType="None" linkTarget="Self" vTextAlign="Middle">
+				<paragraph firstLineIndent="2"/>
+				<expression><![CDATA[$F{partita_iva}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="a21e8045-5eac-40f9-ab6d-4f71574a835d" x="310" y="10" width="234" height="30">
+				<text><![CDATA[Partita Iva]]></text>
+			</element>
+			<element kind="textField" uuid="a4702590-d02b-4514-9139-ebf140361529" mode="Opaque" x="90" y="24" width="210" height="20" backcolor="#FFFFFF" linkType="None" linkTarget="Self" vTextAlign="Middle">
+				<paragraph firstLineIndent="2"/>
+				<expression><![CDATA[$F{codice_fiscale}]]></expression>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="0636d015-7b70-4e83-b94e-b4f7befd2895" x="90" y="10" width="210" height="30">
+				<text><![CDATA[Codice fiscale]]></text>
+			</element>
+			<element kind="textField" uuid="723ef071-6a84-4815-a57e-8664a3407562" mode="Opaque" x="90" y="60" width="210" height="20" backcolor="#FFFFFF" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{ragionesociale}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="668edc1c-ca30-4a43-9370-942d933cd7c4" x="90" y="47" width="210" height="20">
+				<text><![CDATA[Cognome o denominazione o ragione sociale]]></text>
+			</element>
+			<element kind="staticText" uuid="05fa7a3f-b07d-4c98-bb9e-bb1f4f0bd361" x="310" y="47" width="190" height="20">
+				<text><![CDATA[Nome]]></text>
+			</element>
+			<element kind="textField" uuid="3e30ee78-bcfd-4ae2-8f8b-2f5e29ce836d" mode="Opaque" x="310" y="60" width="190" height="20" backcolor="#FFFFFF" vTextAlign="Middle">
+				<expression><![CDATA["Campo di Testo"]]></expression>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="dab384e0-f7a6-44c8-8f2e-f7434876a396" x="510" y="47" width="30" height="20" fontSize="6.0" hTextAlign="Center" vTextAlign="Top">
+				<text><![CDATA[Sesso
+(M/F)]]></text>
+			</element>
+			<element kind="rectangle" uuid="b2085715-b848-4a2f-aa13-241a35204cc5" x="520" y="67" width="10" height="10">
+				<pen lineWidth="0.0"/>
+			</element>
+			<element kind="textField" uuid="2df7ac3c-1c88-4d78-b10a-54a984a9cc88" mode="Opaque" x="90" y="100" width="139" height="20" backcolor="#FFFFFF" vTextAlign="Middle">
+				<expression><![CDATA["Campo di Testo"]]></expression>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="ef29ebcc-3625-456f-91a9-bbc6bad6b64e" x="90" y="87" width="139" height="20">
+				<text><![CDATA[Data di nascita]]></text>
+			</element>
+			<element kind="textField" uuid="f1db8088-88ef-4740-8a43-6ee5795c6646" mode="Opaque" x="230" y="100" width="230" height="20" backcolor="#FFFFFF" vTextAlign="Middle">
+				<expression><![CDATA["Campo di Testo"]]></expression>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="a2183b20-3416-4ba4-8a4a-51f171b5796f" x="230" y="87" width="230" height="20">
+				<text><![CDATA[Comune o stato estero di nascita]]></text>
+			</element>
+			<element kind="staticText" uuid="dfac2e76-94ef-4965-9544-fe73d9826ca2" x="463" y="87" width="79" height="20">
+				<text><![CDATA[Provincia (sigla)]]></text>
+			</element>
+			<element kind="textField" uuid="bf735d1b-c4a4-4d82-911d-82f95d553c55" mode="Opaque" x="463" y="100" width="79" height="20" backcolor="#FFFFFF" vTextAlign="Middle">
+				<expression><![CDATA["Campo di Testo"]]></expression>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="line" uuid="33f05a8a-94a8-4d91-85bf-cf6b4d97abb0" x="0" y="122" width="561" height="1"/>
+		</band>
+	</detail>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

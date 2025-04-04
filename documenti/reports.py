@@ -58,3 +58,4 @@ def dichiarazione_intento(request, pk):
         'inline; filename="dichiarazione_intento_{}.pdf"'.format(pk)
     )
     return response
+

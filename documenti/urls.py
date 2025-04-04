@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .reports import dichiarazione_intento
+from .provareport import genera_report
 
 
 app_name = "documenti"
@@ -44,4 +45,5 @@ urlpatterns = [
         dichiarazione_intento,
         name="dichiarazione_intento",
     ),
+    path('genera_report/<int:pk>/', genera_report, name='genera_report'),
 ]

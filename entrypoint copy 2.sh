@@ -19,17 +19,20 @@ set -e
 
 echo "🔄 Creando migrazioni..."
 # Crea le migrazioni se ci sono modifiche ai modelli
-python3 manage.py makemigrations
+python manage.py makemigrations
 
 
 echo "🔄 Applying database migrations..."
-python3 manage.py migrate
+python manage.py migrate
 
-DEBUG_MODE=$(python3 -c "from django.conf import settings; print(settings.DEBUG)")
+
+
+
+DEBUG_MODE=$(python -c "from django.conf import settings; print(settings.DEBUG)")
 
 if [ "$DEBUG_MODE" = "False" ]; then
   echo "📦 Collecting static files (production only)..."
-  python3 manage.py collectstatic --noinput
+  python manage.py collectstatic --noinput
 
   echo "🚀 Starting Gunicorn server..."
   exec gunicorn businesshub.wsgi:application \
@@ -38,5 +41,5 @@ if [ "$DEBUG_MODE" = "False" ]; then
     --timeout 120
 else
   echo "⚙️  DEBUG mode: starting Django development server..."
-  exec python3 manage.py runserver 0.0.0.0:8000
+  exec python manage.py runserver 0.0.0.0:8000
 fi
