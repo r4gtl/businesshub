@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pgdocker.jrdax"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<parameter name="PK" class="java.lang.Long" isForPrompting="false">
+	<parameter name="PK" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[$P{PK}]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
@@ -15,10 +15,14 @@
 	d.data_dichiarazione,
 	d.importosingolo,
 	d.plafond,
-	d.anno_riferimento,
+	d.anno_riferimento,	
 	f.ragione_sociale,
-	g.descrizione
+	g.descrizione,
+	h.ragionesociale,
+	h.partita_iva,
+	h.codice_fiscale
 FROM documenti_dichiarazioneintento d
+	JOIN accounts_azienda h ON d.azienda_id=h.id
 	LEFT JOIN anagrafiche_fornitore f ON 
 	 d.fornitore_id = f.id 
 	LEFT JOIN anagrafiche_dogana g ON 
@@ -76,62 +80,100 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="descrizione"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_dogana"/>
 	</field>
+	<field name="ragionesociale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.label" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="partita_iva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.label" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="codice_fiscale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.label" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<staticText>
-				<reportElement x="179" y="34" width="100" height="30" uuid="aaf82cf0-8bf6-470f-bc69-340651932a8f"/>
-				<text><![CDATA[PROVA]]></text>
+				<reportElement x="150" y="10" width="261" height="30" uuid="aaf82cf0-8bf6-470f-bc69-340651932a8f"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="40" width="300" height="30" uuid="ae4aea3e-3710-4ab4-b673-55663f8a98a5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
+APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
 			</staticText>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch">
-			<staticText>
-				<reportElement x="8" y="0" width="100" height="30" uuid="ff293005-dd12-41d6-a029-26ce7ede92fa">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef388404-b32e-4b8b-8f02-dc94cf4277a3"/>
-				</reportElement>
-				<text><![CDATA[numero_interno]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="120" y="0" width="100" height="30" uuid="6ce8029a-5eb4-4e0e-98da-746e9b1ebd50">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c101a511-f621-46fa-b97d-99a27719d97a"/>
-				</reportElement>
-				<text><![CDATA[data_dichiarazione]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="234" y="0" width="100" height="30" uuid="13c73f15-d0b6-4968-838e-9e9ad4316b21">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b17ff77d-cdd3-46d9-92c2-b7f901cd1067"/>
-				</reportElement>
-				<text><![CDATA[plafond]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="53" splitType="Stretch">
+		<band height="110" splitType="Stretch">
+			<rectangle>
+				<reportElement x="90" y="2" width="481" height="108" backcolor="#DEDEDE" uuid="b3f201c6-5ccc-405f-a686-fbf7cceae32d"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="-17" y="1" width="587" height="1" uuid="c7b8ce1e-778c-4fc3-bd3b-70996d4a7ff8"/>
+			</line>
+			<staticText>
+				<reportElement x="-16" y="11" width="100" height="30" uuid="2dbad9e9-c8d4-46df-9984-8e329bc73813"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATI DEL DICHIARANTE]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="8" y="22" width="100" height="30" uuid="84b006e5-8d8a-41ad-b73a-90b149f6982a">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef388404-b32e-4b8b-8f02-dc94cf4277a3"/>
+				<reportElement mode="Opaque" x="92" y="25" width="190" height="25" backcolor="#FFFFFF" uuid="aaa4f65f-52d9-4ee4-89ec-5ccc8a902de2">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{numero_interno}]]></textFieldExpression>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codice_fiscale}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="92" y="12" width="190" height="30" uuid="1a242af1-e58a-4fa0-9102-33c7097695f5">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<text><![CDATA[Codice fiscale]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="120" y="23" width="100" height="30" uuid="dc927b42-c9b6-4a23-a81c-f98f40b1fbf9">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c101a511-f621-46fa-b97d-99a27719d97a"/>
+				<reportElement mode="Opaque" x="290" y="26" width="270" height="24" backcolor="#FFFFFF" uuid="5834827d-cfb8-43e0-9f15-daa25ea55e26">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{data_dichiarazione}]]></textFieldExpression>
+				<textElement markup="rtf">
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partita_iva}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="234" y="20" width="100" height="30" uuid="1b65926b-3ad9-4a0e-a0ad-8c18f4c664d3">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b17ff77d-cdd3-46d9-92c2-b7f901cd1067"/>
+			<staticText>
+				<reportElement x="290" y="12" width="270" height="29" uuid="19449995-51ac-46c2-b597-bd33bf26d590">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{plafond}]]></textFieldExpression>
-			</textField>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<text><![CDATA[Partita IVA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-16" y="109" width="587" height="1" uuid="25716b8b-aa65-4d1a-84c4-6f124ac6f01c"/>
+			</line>
 		</band>
 	</detail>
 	<pageFooter>
