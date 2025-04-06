@@ -1,49 +1,105 @@
 import subprocess
 from django.http import HttpResponse
 from django.conf import settings
-from django.shortcuts import get_object_or_404
-from .models import DichiarazioneIntento
+import os
+from documenti.models import DichiarazioneIntento
+
 
 def genera_report(request, pk):
-    # Ottieni l'istanza della dichiarazione dal database
-    dichiarazione = get_object_or_404(DichiarazioneIntento, pk=pk)
-    
-    # Definisci il percorso del file .jasper (aggiungendo la cartella jreports)
-    jasper_file = f"{settings.BASE_DIR}/jreports/DichIntento.jasper"
-    
-    # Definisci il file di output del report
-    output_file = f"{settings.BASE_DIR}/jreports/output_report.pdf"
-    
-    # Definisci i parametri da passare al report
-    params = {
-        'PK': dichiarazione.pk,
-        'numero_interno': dichiarazione.numero_interno,
-        'numero_dichiarazione': dichiarazione.numero_dichiarazione,
-        # Aggiungi altri parametri se necessario
-    }
+    # Paths
+    report_path = "/code/jreports/DichIntento.jasper"
+    output_path = "/code/jreports/output_report.pdf"
 
-    # Comando per eseguire JasperReports usando il subprocess
-    # Usa JasperReports in modalità batch tramite Java
+    # Get database credentials from environment variables
+    db_host = os.environ.get("DB_HOST", "localhost")
+    db_port = os.environ.get("DB_PORT", "5432")
+    db_user = os.environ.get("POSTGRES_USER", "postgres")
+    db_password = os.environ.get("POSTGRES_PASSWORD", "")
+    db_name = os.environ.get("POSTGRES_DB", "postgres")
+
+    # Create JDBC URL
+    db_url = f"jdbc:postgresql://{db_host}:{db_port}/{db_name}"
+
+    # Get the object to verify it exists
+    dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
+    print(f"dichiarazione: {dichiarazione.data_dichiarazione}")
+    print(f"Generating report with PK: {pk}")
+
+    # Build Java command
     command = [
-        'java', '-jar', '/opt/jasperreports/jasperreports-7.0.2/jasperreports-server.jar',
-        jasper_file,  # percorso al file .jasper
-        output_file,  # file di output, es. pdf
-        str(params['PK'])  # Parametro da passare (in questo caso il pk)
+        "java",
+        "-cp",
+        "/opt/jasperreports/classes:/opt/jasperreports/lib/*",
+        "ReportGenerator",
+        report_path,
+        output_path,
+        db_url,
+        db_user,
+        db_password,
+        f"PK={pk}",  # Pass PK parameter
     ]
-    
+
+    print(f"Executing command: {' '.join(command)}")
+
+    # Execute Java command
     try:
-        # Esegui il comando con i parametri
-        subprocess.run(command, check=True)
-        # Se il comando va a buon fine, restituisci il PDF come risposta HTTP
-        with open(output_file, 'rb') as f:
-            pdf = f.read()
-        
-        # Restituisci il PDF come risposta
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename=report_{params["PK"]}.pdf'
-        return response
+        result = subprocess.run(
+            command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print(f"Output: {result.stdout.decode()}")
     except subprocess.CalledProcessError as e:
-        # Gestisci l'errore nel caso in cui il comando fallisca
-        return HttpResponse(f"Si è verificato un errore nel generare il report: {e}")
+        error_message = e.stderr.decode() if e.stderr else str(e)
+        print(f"Error: {error_message}")
+        return HttpResponse(f"Error generating report: {error_message}", status=500)
+
+    # Verify file exists
+    if not os.path.exists(output_path):
+        return HttpResponse("Generated PDF file not found", status=500)
+
+    # Return PDF file
+    with open(output_path, "rb") as pdf_file:
+        pdf_data = pdf_file.read()
+    return HttpResponse(pdf_data, content_type="application/pdf")
 
 
+def genera_report_old(request, pk):
+    # Percorso del template e del report
+    report_path = "/code/jreports/DichIntento.jasper"
+    output_path = "/code/jreports/output_report.pdf"
+    dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
+    print(f"dichiarazione: {dichiarazione.data_dichiarazione}")
+    print(f"Generating report with PK: {pk}")
+
+    # Costruisci il comando Java usando il nostro programma ReportGenerator
+    command = [
+        "java",
+        "-cp",
+        "/opt/jasperreports/classes:/opt/jasperreports/lib/*",  # classpath con il nostro programma e le librerie
+        "ReportGenerator",
+        report_path,
+        output_path,
+        f"PK={pk}",  # Passa il parametro pk al report
+    ]
+
+    print(f"Executing command: {' '.join(command)}")
+
+    # Esegui il comando Java per generare il report
+    try:
+        result = subprocess.run(
+            command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print(f"Output: {result.stdout.decode()}")
+    except subprocess.CalledProcessError as e:
+        error_message = e.stderr.decode() if e.stderr else str(e)
+        print(f"Error: {error_message}")
+        return HttpResponse(f"Error generating report: {error_message}", status=500)
+
+    # Verifica che il file esista
+    if not os.path.exists(output_path):
+        return HttpResponse("Generated PDF file not found", status=500)
+
+    # Leggi il file PDF generato e restituiscilo come risposta HTTP
+    with open(output_path, "rb") as pdf_file:
+        pdf_data = pdf_file.read()
+
+    return HttpResponse(pdf_data, content_type="application/pdf")
