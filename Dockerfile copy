@@ -29,7 +29,7 @@ COPY jreports /code/jreports
 RUN mkdir -p /opt/jasperreports/lib
 
 # Scarica JasperReports 6.20.0 e le sue dipendenze
-RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/6.21.3/jasperreports-6.21.3.jar -P /opt/jasperreports/lib/ && \
+RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/6.20.0/jasperreports-6.20.0.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/commons-digester/commons-digester/2.1/commons-digester-2.1.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar -P /opt/jasperreports/lib/ && \
@@ -38,9 +38,7 @@ RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/6.21.
     wget https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar -P /opt/jasperreports/lib/ 
-    
-
+    wget https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar -P /opt/jasperreports/lib/
 
 # Copia il file ReportGenerator.java semplificato
 COPY ReportGenerator.java /opt/jasperreports/
