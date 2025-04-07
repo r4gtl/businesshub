@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final utlizzo versione della libreria JasperReports6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DichIntento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="626c270d-77da-4254-9893-794da11a123a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pgdocker.jrdax"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<parameter name="PK" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{PK}]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT d.id,
+	d.numero_interno,
+	d.numero_dichiarazione,
+	d.tipo_operazione,
+	d.data_dichiarazione,
+	d.importosingolo,
+	d.plafond,
+	d.anno_riferimento,	
+	f.ragione_sociale,
+	g.descrizione,
+	h.ragionesociale,
+	h.partita_iva,
+	h.codice_fiscale
+FROM documenti_dichiarazioneintento d
+	JOIN accounts_azienda h ON d.azienda_id=h.id
+	LEFT JOIN anagrafiche_fornitore f ON 
+	 d.fornitore_id = f.id 
+	LEFT JOIN anagrafiche_dogana g ON 
+	 d.fk_dogana_id = g.id 
+WHERE 
+	 d.id = $P{PK}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="numero_interno" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numero_interno"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_interno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="numero_dichiarazione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="numero_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="tipo_operazione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_operazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_operazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="data_dichiarazione" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="data_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_dichiarazione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="importosingolo" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="importosingolo"/>
+		<property name="com.jaspersoft.studio.field.label" value="importosingolo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="plafond" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="plafond"/>
+		<property name="com.jaspersoft.studio.field.label" value="plafond"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="anno_riferimento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="anno_riferimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="anno_riferimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="ragione_sociale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ragione_sociale"/>
+		<property name="com.jaspersoft.studio.field.label" value="ragione_sociale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_fornitore"/>
+	</field>
+	<field name="descrizione" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descrizione"/>
+		<property name="com.jaspersoft.studio.field.label" value="descrizione"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_dogana"/>
+	</field>
+	<field name="ragionesociale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.label" value="ragionesociale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="partita_iva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.label" value="partita_iva"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<field name="codice_fiscale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.label" value="codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="150" y="10" width="261" height="30" uuid="aaf82cf0-8bf6-470f-bc69-340651932a8f"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="40" width="300" height="30" uuid="ae4aea3e-3710-4ab4-b673-55663f8a98a5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
+APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="110" splitType="Stretch">
+			<rectangle>
+				<reportElement x="90" y="2" width="481" height="108" backcolor="#DEDEDE" uuid="b3f201c6-5ccc-405f-a686-fbf7cceae32d"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="-17" y="1" width="587" height="1" uuid="c7b8ce1e-778c-4fc3-bd3b-70996d4a7ff8"/>
+			</line>
+			<staticText>
+				<reportElement x="-16" y="11" width="100" height="30" uuid="2dbad9e9-c8d4-46df-9984-8e329bc73813"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATI DEL DICHIARANTE]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="92" y="25" width="190" height="25" backcolor="#FFFFFF" uuid="aaa4f65f-52d9-4ee4-89ec-5ccc8a902de2">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codice_fiscale}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="92" y="12" width="190" height="30" uuid="1a242af1-e58a-4fa0-9102-33c7097695f5">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<text><![CDATA[Codice fiscale]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="290" y="26" width="270" height="24" backcolor="#FFFFFF" uuid="5834827d-cfb8-43e0-9f15-daa25ea55e26">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				</reportElement>
+				<textElement markup="rtf">
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partita_iva}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="12" width="270" height="29" uuid="19449995-51ac-46c2-b597-bd33bf26d590">
+					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph firstLineIndent="1"/>
+				</textElement>
+				<text><![CDATA[Partita IVA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-16" y="109" width="587" height="1" uuid="25716b8b-aa65-4d1a-84c4-6f124ac6f01c"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

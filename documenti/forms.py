@@ -59,6 +59,9 @@ class DichiarazioneIntentoForm(forms.ModelForm):
             # Filtra il campo "fk_dogana" in base all'azienda dell'utente loggato
             self.fields["fk_dogana"].queryset = Dogana.objects.filter(azienda=user.azienda)
 
+        # Forza il campo tipo_operazione come richiesto
+        self.fields["tipo_operazione"].required = True
+        self.fields["tipo_operazione"].choices = DichiarazioneIntento.TIPO_OPERAZIONE
 
 class FatturaFornitoreForm(forms.ModelForm):
     class Meta:

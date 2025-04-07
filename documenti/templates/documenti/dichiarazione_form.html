@@ -19,18 +19,32 @@
                   <div class="form-floating mb-3">
                     {{ form.numero_interno }}
                     <label for="{{ form.numero_interno.id_for_label }}">{{ form.numero_interno.label }}</label>
+                    {% for error in form.numero_interno.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="form-floating mb-3">
                     {{ form.numero_dichiarazione }}
                     <label for="{{ form.numero_dichiarazione.id_for_label }}">{{ form.numero_dichiarazione.label }}</label>
+                    {% for error in form.numero_dichiarazione.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="form-floating mb-3">
-                    {{ form.data_dichiarazione }}
+                    <input type="date"
+                      name="{{ form.data_dichiarazione.name }}"
+                      id="{{ form.data_dichiarazione.id_for_label }}"
+                      value="{{ form.data_dichiarazione.value|date:'Y-m-d' }}"
+                      class="form-control" />
+                    
                     <label for="{{ form.data_dichiarazione.id_for_label }}">{{ form.data_dichiarazione.label }}</label>
+                    {% for error in form.data_dichiarazione.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 
@@ -40,14 +54,24 @@
                   <div class="form-floating mb-3">
                     {{ form.plafond }}
                     <label for="{{ form.plafond.id_for_label }}">{{ form.plafond.label }}</label>
+                    {% for error in form.plafond.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                     {{ form.importosingolo }}
                     <label for="{{ form.importosingolo.id_for_label }}">{{ form.importosingolo.label }}</label>
+                    {% for error in form.importosingolo.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="form-floating mb-3">
                     {{ form.anno_riferimento }}
+                    
                     <label for="{{ form.anno_riferimento.id_for_label }}">{{ form.anno_riferimento.label }}</label>
+                    {% for error in form.anno_riferimento.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
               </div>
@@ -56,10 +80,12 @@
                   <div class="form-floating mb-3">
                     {{ form.fornitore }}
                     <label for="{{ form.fornitore.id_for_label }}">{{ form.fornitore.label }}</label>
+                    {% for error in form.fornitore.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
-                <div class="col-5">
-                  <label class="form-label">{{ form.tipo_operazione.label }}</label>
+                <div class="col-5">                  
                     {% for radio in form.tipo_operazione %}
                       <div class="form-check form-check-inline">
                         {{ radio.tag }}
@@ -77,12 +103,18 @@
                   <div class="form-floating mb-3">
                     {{ form.fk_dogana }}
                     <label for="{{ form.fk_dogana.id_for_label }}">{{ form.fk_dogana.label }}</label>
+                    {% for error in form.fk_dogana.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-5">
                   <div class="form-floating mb-3">
                     {{ form.note }}
                     <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
+                    {% for error in form.note.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 

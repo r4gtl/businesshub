@@ -13,7 +13,7 @@ class DichiarazioneIntento(models.Model):
     numero_interno = models.PositiveIntegerField()
     numero_dichiarazione = models.CharField(max_length=100)
     tipo_operazione = models.CharField(
-        "Tipo Operazione", max_length=1, choices=TIPO_OPERAZIONE, blank=True
+        "Tipo Operazione", max_length=1, choices=TIPO_OPERAZIONE
     )
     note = models.TextField("Note", blank=True, null=True)
     data_dichiarazione = models.DateField()

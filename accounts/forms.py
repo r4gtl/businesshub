@@ -18,9 +18,10 @@ class AziendaForm(forms.ModelForm):
             "codice_carica",
             "cognome_rappresentante",
             "nome_rappresentante",
+            "gender_rappresentante",
             "data_nascita_rappresentante",
-            "comune_nascita",
-            "provincia",
+            "comune_nascita_rappresentante",
+            "provincia_nascita_rappresentante",
             "tel",
             "email",
             "tipo_plafond"

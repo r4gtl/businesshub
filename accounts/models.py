@@ -25,6 +25,10 @@ class Azienda(models.Model):
         ("1", "Fisso"),
         ("2", "Mobile")
     ]
+    GENDER_RAPPR = [
+        ("M", "Maschio"),
+        ("F", "Femmina"),
+    ]
     ragionesociale = models.CharField(max_length=255, unique=True)
     partita_iva = models.CharField(max_length=20, unique=True)
     codice_fiscale = models.CharField(max_length=16, unique=True)
@@ -39,9 +43,12 @@ class Azienda(models.Model):
     )
     cognome_rappresentante = models.CharField(max_length=255, blank=True, null=True) 
     nome_rappresentante = models.CharField(max_length=255, blank=True, null=True) 
+    gender_rappresentante = models.CharField(
+        "Sesso", max_length=1, choices=GENDER_RAPPR, default='M'
+    )
     data_nascita_rappresentante = models.DateField(blank=True, null=True)
-    comune_nascita = models.CharField(max_length=100, blank=True, null=True)
-    provincia = models.CharField(max_length=2, blank=True, null=True)
+    comune_nascita_rappresentante = models.CharField(max_length=100, blank=True, null=True)
+    provincia_nascita_rappresentante = models.CharField(max_length=2, blank=True, null=True)
     tel = models.CharField(blank=True, null=True)
     email = models.CharField(blank=True, null=True)
     tipo_plafond = models.CharField(
