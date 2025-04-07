@@ -14,45 +14,79 @@
 
           <form method="post" novalidate>
             {% csrf_token %}
-            {% for field in form %}
-              {% if field.field.widget.input_type == "checkbox" %}
-                <div class="form-check mb-3">
-                  {{ field }}
-                  <label class="form-check-label ms-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  {% for error in field.errors %}
-                    <div class="text-danger small mt-1">{{ error }}</div>
-                  {% endfor %}
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-floating mb-3">
+                    {{ form.numero_interno }}
+                    <label for="{{ form.numero_interno.id_for_label }}">{{ form.numero_interno.label }}</label>
+                  </div>
                 </div>
-              {% elif field.field.widget|slugify == "textarea" %}
-                <div class="mb-3">
-                  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                  {{ field }}
-                  {% for error in field.errors %}
-                    <div class="text-danger small mt-1">{{ error }}</div>
-                  {% endfor %}
+                <div class="col-4">
+                  <div class="form-floating mb-3">
+                    {{ form.numero_dichiarazione }}
+                    <label for="{{ form.numero_dichiarazione.id_for_label }}">{{ form.numero_dichiarazione.label }}</label>
+                  </div>
                 </div>
-              {% else %}
-                <div class="form-floating mb-3">
-                  {% if forloop.first %}
-                    {{ field|add_attr:"autofocus" }}
-                  {% elif field.name == "data_dichiarazione" %}
-                    <!-- Forza il valore del campo data_dichiarazione con il formato YYYY-MM-DD -->
-                    <input type="date" name="{{ field.name }}" value="{{ field.value|date:'Y-m-d' }}" class="form-control" />
-
-                  {% else %}
-                    {{ field }}
-                  {% endif %}
-                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  {% for error in field.errors %}
-                    <div class="text-danger small mt-1">{{ error }}</div>
-                  {% endfor %}
-                  {% if field.help_text %}
-                    <div class="form-text small">{{ field.help_text }}</div>
-                  {% endif %}
+                <div class="col-4">
+                  <div class="form-floating mb-3">
+                    {{ form.data_dichiarazione }}
+                    <label for="{{ form.data_dichiarazione.id_for_label }}">{{ form.data_dichiarazione.label }}</label>
+                  </div>
                 </div>
-              {% endif %}
-            {% endfor %}
-
+                
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-floating mb-3">
+                    {{ form.plafond }}
+                    <label for="{{ form.plafond.id_for_label }}">{{ form.plafond.label }}</label>
+                    {{ form.importosingolo }}
+                    <label for="{{ form.importosingolo.id_for_label }}">{{ form.importosingolo.label }}</label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-floating mb-3">
+                    {{ form.anno_riferimento }}
+                    <label for="{{ form.anno_riferimento.id_for_label }}">{{ form.anno_riferimento.label }}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-7">
+                  <div class="form-floating mb-3">
+                    {{ form.fornitore }}
+                    <label for="{{ form.fornitore.id_for_label }}">{{ form.fornitore.label }}</label>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <label class="form-label">{{ form.tipo_operazione.label }}</label>
+                    {% for radio in form.tipo_operazione %}
+                      <div class="form-check form-check-inline">
+                        {{ radio.tag }}
+                        <label class="form-check-label ms-1" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                      </div>
+                    {% endfor %}
+                    {% for error in form.tipo_operazione.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                
+              </div>
+              <div class="row">
+                <div class="col-7">
+                  <div class="form-floating mb-3">
+                    {{ form.fk_dogana }}
+                    <label for="{{ form.fk_dogana.id_for_label }}">{{ form.fk_dogana.label }}</label>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-floating mb-3">
+                    {{ form.note }}
+                    <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
+                  </div>
+                </div>
+                
+              </div>
             <div class="d-flex justify-content-between mt-4">
               <a href="{% url 'documenti:dichiarazione_list' %}" class="btn btn-outline-secondary">Annulla</a>
               <button type="submit" class="btn btn-primary px-4">Salva</button>

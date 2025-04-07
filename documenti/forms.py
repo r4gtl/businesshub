@@ -35,7 +35,7 @@ class DichiarazioneIntentoForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Anno"}
             ),
             "fornitore": forms.Select(attrs={"class": "form-control"}),
-            "tipo_operazione": forms.Select(attrs={"class": "form-control"}),
+            "tipo_operazione": forms.RadioSelect(),
             "note": forms.Textarea(
                 attrs={
                     "class": "form-control",

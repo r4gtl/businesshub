@@ -14,6 +14,16 @@ class AziendaForm(forms.ModelForm):
             "citta",
             "provincia",
             "paese",
+            "cf_rappresentante",
+            "codice_carica",
+            "cognome_rappresentante",
+            "nome_rappresentante",
+            "data_nascita_rappresentante",
+            "comune_nascita",
+            "provincia",
+            "tel",
+            "email",
+            "tipo_plafond"
         ]
 
 

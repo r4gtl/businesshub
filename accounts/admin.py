@@ -3,3 +3,4 @@ from .models import Azienda, User
 
 admin.site.register(Azienda)
 admin.site.register(User)
+
