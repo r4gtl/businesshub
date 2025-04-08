@@ -1,14 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.21.3.final utlizzo versione della libreria JasperReports6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DichIntento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="626c270d-77da-4254-9893-794da11a123a">
+<!-- Created with Jaspersoft Studio version 7.0.2.final utlizzo versione della libreria JasperReports7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="DichIntento" language="java" columnCount="1" pageWidth="595" pageHeight="842" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="626c270d-77da-4254-9893-794da11a123a">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DockerTest"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pgdocker.jrdax"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="PK" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[$P{PK}]]></defaultValueExpression>
 	</parameter>
-	<queryString language="SQL">
-		<![CDATA[SELECT d.id,
+	<query language="SQL"><![CDATA[SELECT d.id,
 	d.numero_interno,
 	d.numero_dichiarazione,
 	d.tipo_operazione,
@@ -16,6 +23,7 @@
 	d.importosingolo,
 	d.plafond,
 	d.anno_riferimento,	
+	d.note,
 	f.ragione_sociale,
 	g.descrizione,
 	h.ragionesociale,
@@ -38,8 +46,7 @@ FROM documenti_dichiarazioneintento d
 	LEFT JOIN anagrafiche_dogana g ON 
 	 d.fk_dogana_id = g.id 
 WHERE 
-	 d.id = $P{PK}]]>
-	</queryString>
+	 d.id = $P{PK}]]></query>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -78,6 +85,11 @@ WHERE
 	<field name="anno_riferimento" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="anno_riferimento"/>
 		<property name="com.jaspersoft.studio.field.label" value="anno_riferimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
+	</field>
+	<field name="note" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="note"/>
+		<property name="com.jaspersoft.studio.field.label" value="note"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="documenti_dichiarazioneintento"/>
 	</field>
 	<field name="ragione_sociale" class="java.lang.String">
@@ -155,397 +167,312 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="email"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="82" splitType="Stretch">
-			<staticText>
-				<reportElement x="150" y="10" width="261" height="30" uuid="aaf82cf0-8bf6-470f-bc69-340651932a8f"/>
-				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="130" y="42" width="300" height="30" uuid="ae4aea3e-3710-4ab4-b673-55663f8a98a5"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
+	<background splitType="Stretch"/>
+	<title height="82" splitType="Stretch">
+		<element kind="staticText" uuid="97d3f862-1f52-405d-9bec-20482f0205e2" x="150" y="10" width="261" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
+		</element>
+		<element kind="staticText" uuid="19c6b505-8afc-4a0a-abbc-d5575d278e6d" x="130" y="42" width="300" height="30" bold="true" hTextAlign="Center">
+			<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
 APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
-			</staticText>
-		</band>
+		</element>
 	</title>
 	<detail>
-		<band height="340" splitType="Stretch">
-			<rectangle>
-				<reportElement x="60" y="2" width="511" height="293" backcolor="#DEDEDE" uuid="b3f201c6-5ccc-405f-a686-fbf7cceae32d"/>
-				<graphicElement>
-					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
-				</graphicElement>
-			</rectangle>
-			<line>
-				<reportElement x="-17" y="1" width="587" height="1" uuid="c7b8ce1e-778c-4fc3-bd3b-70996d4a7ff8"/>
-			</line>
-			<staticText>
-				<reportElement x="-16" y="11" width="100" height="30" uuid="2dbad9e9-c8d4-46df-9984-8e329bc73813"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[DATI DEL DICHIARANTE]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="26" width="244" height="20" backcolor="#FFFFFF" uuid="aaa4f65f-52d9-4ee4-89ec-5ccc8a902de2">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codice_fiscale}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="67" y="12" width="244" height="30" uuid="1a242af1-e58a-4fa0-9102-33c7097695f5">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+		<band height="496" splitType="Stretch">
+			<element kind="staticText" uuid="6afe3c69-c7a4-4927-9967-92c9aa528eeb" x="150" y="10" width="261" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+				<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
+			</element>
+			<element kind="staticText" uuid="26bbe2ae-b945-4324-86a3-22908add5432" x="130" y="42" width="300" height="30" bold="true" hTextAlign="Center">
+				<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
+APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
+			</element>
+			<element kind="rectangle" uuid="2cdaf4bf-018d-43e3-9105-7c44f25436ef" x="50" y="2" width="535" height="489" backcolor="#DEDEDE">
+				<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+			</element>
+			<element kind="line" uuid="f24be13d-26b4-4f6a-b3ed-2e3202fca425" x="-6" y="1" width="587" height="1"/>
+			<element kind="staticText" uuid="2ffb34a5-a781-4be5-8309-1dd46ede46c3" x="-7" y="11" width="66" height="30" fontSize="8.0" bold="true">
+				<text><![CDATA[DATI DEL 
+DICHIARANTE]]></text>
+			</element>
+			<element kind="textField" uuid="57b663e4-9634-432c-8c69-b9d6d85fae5b" mode="Opaque" x="61" y="26" width="244" height="20" backcolor="#FFFFFF" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{codice_fiscale}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="74ae3b89-3b18-4ce9-98d6-39d6481b3bdd" x="61" y="12" width="244" height="30">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Codice fiscale]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="318" y="27" width="244" height="20" backcolor="#FFFFFF" uuid="5834827d-cfb8-43e0-9f15-daa25ea55e26">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle" markup="rtf">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{partita_iva}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="318" y="12" width="244" height="29" uuid="19449995-51ac-46c2-b597-bd33bf26d590">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="7537eba9-70d5-4b19-8088-381b9c4f5e07" mode="Opaque" x="334" y="27" width="244" height="20" backcolor="#FFFFFF" markup="rtf" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{partita_iva}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="0f68d4b3-8741-476f-a91b-02aab72d494e" x="334" y="12" width="244" height="29">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Partita IVA]]></text>
-			</staticText>
-			<line>
-				<reportElement x="-16" y="121" width="587" height="1" uuid="25716b8b-aa65-4d1a-84c4-6f124ac6f01c"/>
-			</line>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="62" width="244" height="20" uuid="facdd8ee-738e-4b4f-ae08-15d87b5b9b5e">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ragionesociale}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="67" y="48" width="244" height="20" uuid="27397202-6b26-4126-9420-707ef26fccb5">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="line" uuid="015b8759-11b8-4068-a612-1ece18819b35" x="-5" y="121" width="587" height="1"/>
+			<element kind="textField" uuid="7a8a354a-8445-4098-b047-718941b257d0" mode="Opaque" x="61" y="62" width="244" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{ragionesociale}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="543a5026-ea54-4f1c-b667-dc7d77e73bef" mode="Transparent" x="61" y="48" width="244" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Cognome o denominazione o ragione sociale]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="318" y="48" width="202" height="20" uuid="8843ce02-f1c9-48da-a475-e76fcfb83f05">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="7a3950ad-2e5e-45d2-92cf-107f7a2d7777" mode="Transparent" x="318" y="48" width="228" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Nome]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="318" y="62" width="202" height="20" uuid="c91e0551-45aa-4e8e-92f6-3c68d2a24e33">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="530" y="43" width="30" height="25" uuid="f193ec02-b9dc-4828-9083-1496c60390f4">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="72d4b980-bc55-4089-a4cb-dcfea4ebd69a" mode="Opaque" x="318" y="62" width="228" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="3c8b9d2a-bcc3-4c3f-98e9-a4c0887af1ad" mode="Transparent" x="548" y="43" width="30" height="25" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Sesso
 (M/F)]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="538" y="67" width="15" height="15" uuid="3db268e3-829b-4ac8-85b5-70412ca1f7c4"/>
-				<textFieldExpression><![CDATA["Campo di Testo"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="98" width="153" height="20" uuid="bc2622f1-0bfa-48c8-aad0-c0874566c37e">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="67" y="85" width="153" height="20" uuid="dea2ef54-70ef-49f7-aed8-af76f25341f1">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="22e90764-932a-4aa3-bd39-912eec4c2c89" mode="Opaque" x="558" y="67" width="15" height="15" blankWhenNull="true"/>
+			<element kind="textField" uuid="c2b366e0-da30-4767-b869-f7cc1728911c" mode="Opaque" x="61" y="98" width="153" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="10d69e28-f4bc-4b6f-85bc-e60652ca2b96" mode="Transparent" x="61" y="85" width="153" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Data di nascita]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="226" y="98" width="254" height="20" uuid="7bd20636-0046-4600-a0dc-13df601038e1">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="226" y="85" width="254" height="20" uuid="f3999c1d-3a97-4eb4-9cfe-8f0d34d8a322">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="29c3aa37-2743-4836-9549-bc5bd95a37c3" mode="Opaque" x="226" y="98" width="254" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="f7bbf55f-1dcd-4067-89eb-6587b5a65f75" mode="Transparent" x="226" y="85" width="254" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Comune (o Stato Estero) di nascita]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="487" y="98" width="73" height="20" uuid="7b463699-0385-4100-91f1-d09068883a5a">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="487" y="85" width="73" height="20" uuid="07022f93-d27a-4141-9a4b-5029caf31bbc">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="25237f55-a51c-4477-a6d9-3de359ab0f84" mode="Opaque" x="505" y="98" width="73" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="75312731-d22d-48f7-9923-cc21e2d73cab" mode="Transparent" x="505" y="85" width="73" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Provincia (sigla)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-16" y="131" width="83" height="90" uuid="8c7f5a3c-fa68-4bd8-b0ac-ccdaf80c206b"/>
-				<textElement>
-					<font size="8" isBold="true"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="6ba83152-faa7-4d57-8cde-208f9eeb0754" x="-7" y="131" width="66" height="90" fontSize="6.0" bold="true">
 				<text><![CDATA[DATI RELATIVI AL
 RAPPRESENTANTE
 FIRMATARIO
 DELLA
 DICHIARAZIONE]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="141" width="193" height="20" uuid="acd76c11-f4f9-4d9d-ac13-87f0e44689d8">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cf_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="67" y="127" width="193" height="20" uuid="f6747d73-7868-45e6-9022-0e80c1f3788b">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="80ac66f9-bf4c-4170-b35e-547218bd3010" mode="Opaque" x="61" y="141" width="193" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{cf_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="d03e05f3-5065-47c0-9307-7c65bdf1b663" x="61" y="127" width="193" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Codice fiscale]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="265" y="141" width="65" height="20" uuid="af276450-1d04-4b1b-b091-56e4b145ef62">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codice_carica}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="265" y="127" width="65" height="20" uuid="c01dc71f-6141-4627-9cf4-f6aa12301035">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="29c7ce0f-a88a-45cf-9085-693b96f2c723" mode="Opaque" x="265" y="141" width="65" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{codice_carica}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="4bf5bbf4-e6bb-43d2-ad96-1b069e228a43" x="265" y="127" width="65" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Codice Carica]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="336" y="141" width="224" height="20" uuid="15a58ac3-e788-4ae5-866f-9284d7b6efa8">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-			</textField>
-			<staticText>
-				<reportElement mode="Transparent" x="336" y="127" width="224" height="20" uuid="94111756-6324-445d-b69e-c7b7170f8845">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="ade34936-5ab9-4605-b8e6-e00fd636b079" mode="Opaque" x="354" y="141" width="224" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="b9ad6470-2a1f-44a0-96d9-e7dbb6439dd4" mode="Transparent" x="354" y="127" width="224" height="20">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Codice fiscale società]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="181" width="173" height="20" uuid="f0666b79-a9b3-4ca4-9709-9f347e91998c">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cognome_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="67" y="167" width="173" height="20" uuid="4e6cabd8-1def-4922-9af1-f4e5c29d3f3b"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="3e96c2f4-43db-463d-8cbc-57e2eb1a5214" mode="Opaque" x="61" y="181" width="173" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{cognome_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="de6d5965-5099-4a24-af62-fbe8244e724e" x="61" y="167" width="173" height="20">
 				<text><![CDATA[Cognome]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="247" y="181" width="273" height="20" uuid="36cd047e-cfd7-4afc-8a89-e21356e95d50">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nome_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="247" y="167" width="273" height="20" uuid="6ec2c7b5-3291-4372-a59a-16e89793d251"/>
+			</element>
+			<element kind="textField" uuid="a9db981d-2b2b-4fe0-8104-d0f1484115cb" mode="Opaque" x="247" y="181" width="273" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{nome_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="d632e40f-2db6-46a6-ae3d-4eb480392dc1" x="247" y="167" width="273" height="20">
 				<text><![CDATA[Nome]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="538" y="190" width="15" height="15" uuid="46a645a0-7deb-455a-9f61-5861312cb763"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{gender_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="529" y="167" width="32" height="30" uuid="39157fad-4902-4208-9cef-991d7dd13b09"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="8cbbba54-6f2f-4827-8a97-037a71b1eca7" mode="Opaque" x="558" y="190" width="15" height="15" fontSize="8.0" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{gender_rappresentante}]]></expression>
+			</element>
+			<element kind="staticText" uuid="e45a2f98-4c77-4d3a-bb42-e8124732c222" x="546" y="167" width="32" height="30" fontSize="8.0" hTextAlign="Center">
 				<text><![CDATA[Sesso
 (M/F)]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="67" y="228" width="123" height="20" uuid="072dcd83-84e6-4b1c-a3e9-8bbb24df6064">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{data_nascita_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="67" y="212" width="123" height="30" uuid="f8c8e688-8c44-414e-9464-0f55a5056f6e">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="171121e5-06a8-40f9-af9b-4e2c7c0d932e" mode="Opaque" x="61" y="228" width="123" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{data_nascita_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="2e8554b2-c181-47ca-ae30-f8e6601738e0" x="61" y="212" width="123" height="30">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Data di nascita]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="198" y="228" width="280" height="20" uuid="5874507c-1fa2-41a5-adbd-74637e762a24">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{comune_nascita_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="198" y="212" width="280" height="30" uuid="6a5c4465-ba2c-411d-803e-422dbe08f10d">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="7b6b88f8-83de-41b7-bf24-aa0344f483ea" mode="Opaque" x="198" y="228" width="280" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{comune_nascita_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="94d47e36-e81e-4f36-b53a-e7030b838010" x="198" y="212" width="280" height="30">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Comune (o Stato estero) di nascita]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="484" y="228" width="72" height="20" uuid="fb5dbaec-393b-4ca7-8b25-983e33a241f8">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{provincia_nascita_rappresentante}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="484" y="211" width="72" height="30" uuid="06ffed2c-71fe-42e5-9c2c-4d4302152994">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="1c1774bf-94e2-4660-91be-c9d390a62157" mode="Opaque" x="506" y="228" width="72" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{provincia_nascita_rappresentante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="dc1d59b7-4703-487d-8164-37e6d8714709" x="506" y="211" width="72" height="17" fontSize="8.0">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Provincia (sigla)]]></text>
-			</staticText>
-			<line>
-				<reportElement x="-16" y="255" width="587" height="1" uuid="d0938807-c8a9-49b1-9ed8-cd7313096371"/>
-			</line>
-			<staticText>
-				<reportElement x="-17" y="260" width="76" height="30" uuid="6aaa6e25-e8cd-4415-9075-f4cd98a0583c"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="line" uuid="42b1e560-0b82-467c-9a5d-4c95705d6777" x="-5" y="255" width="587" height="1"/>
+			<element kind="staticText" uuid="eb4c6372-b00e-4f90-99a5-a8e6c29c201b" x="-8" y="260" width="67" height="30" fontSize="8.0" bold="true">
 				<text><![CDATA[RECAPITI]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="66" y="273" width="224" height="20" uuid="0aff9900-d8d0-4d9b-ad08-2c5d67f9c23d">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="66" y="259" width="224" height="30" uuid="de549375-7f74-489a-bd54-652aaa7577d5">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="fbbbc547-539d-43d9-b4cd-f29d6dae12d4" mode="Opaque" x="60" y="273" width="224" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{tel}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="084232d3-e5e5-4904-bccb-9f6962ee6158" x="60" y="259" width="224" height="30">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Telefono]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Opaque" x="300" y="273" width="256" height="20" uuid="b7bcdd56-69da-4ee7-98dc-babdeaa543b3">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<paragraph firstLineIndent="1"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="300" y="259" width="256" height="30" uuid="ac7a864a-9976-41cb-9381-9879d4659e26">
-					<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
-				</reportElement>
-				<textElement>
-					<paragraph firstLineIndent="1"/>
-				</textElement>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="66845523-29dd-4b12-bacb-9f921fb01d28" mode="Opaque" x="300" y="273" width="256" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{email}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="23790c92-fcbf-4489-975a-e0cbf18b03d7" x="300" y="259" width="256" height="30">
+				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Indirizzo di posta elettronica]]></text>
-			</staticText>
-			<line>
-				<reportElement x="-16" y="294" width="587" height="1" uuid="ac2b8835-4541-4424-acec-0175ab4f4117"/>
-			</line>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="line" uuid="4ca6bf77-afc0-49d3-9bb6-38c90d6397d8" x="-5" y="294" width="587" height="1"/>
+			<element kind="staticText" uuid="9108ab7d-6fb7-4187-8551-9d36f22644ed" x="-9" y="294" width="67" height="30" fontSize="6.0" bold="true">
+				<text><![CDATA[INTEGRATIVA]]></text>
+			</element>
+			<element kind="staticText" uuid="640b8a74-b6a9-41fd-88b1-fc62a8fcf84e" x="60" y="314" width="55" height="14">
+				<paragraph firstLineIndent="1"/>
+				<text><![CDATA[Integrativa]]></text>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="90e28ad3-9769-461c-861a-d897e15cc317" mode="Opaque" x="120" y="310" width="19" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="9180c184-8252-4d90-8417-3c55ab74e80e" x="213" y="296" width="365" height="30">
+				<paragraph firstLineIndent="1"/>
+				<text><![CDATA[Numero protocollo di invio]]></text>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="line" uuid="87fe3383-7c16-4d72-9a95-cc9b8701881a" x="-6" y="332" width="587" height="1"/>
+			<element kind="textField" uuid="a04a21df-ad88-4027-a0be-7990047f99c8" mode="Opaque" x="213" y="310" width="365" height="20" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="13acbfac-4e78-4393-b831-28456ce8812a" x="-8" y="336" width="67" height="30" fontSize="6.0" bold="true">
+				<text><![CDATA[DICHIARAZIONE]]></text>
+			</element>
+			<element kind="textField" uuid="0eb037cc-9749-4026-ab3c-504f70fd403f" x="400" y="357" width="100" height="30">
+				<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				<expression><![CDATA[$F{tipo_operazione}]]></expression>
+			</element>
+			<element kind="staticText" uuid="dac3ae2a-3e57-46dc-af24-7507b7c9e743" x="55" y="340" width="471" height="15" fontSize="7.0">
+				<text><![CDATA[Intendo avvalermi della facoltà, prevista per i soggetti che hanno effettuato cessioni all'esportazione od operazioni assimilate di effettuare]]></text>
+			</element>
+			<element kind="textField" uuid="595a4920-701f-4f0e-a28b-220c30e0ed02" mode="Opaque" x="552" y="337" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("A")) ? "\u2611": null
+]]></expression>
+			</element>
+			<element kind="staticText" uuid="4e7831a6-dbd9-443b-be44-9a45e44e8680" x="512" y="338" width="54" height="21" fontSize="8.0" bold="true">
+				<text><![CDATA[ACQUISTI]]></text>
+			</element>
+			<element kind="staticText" uuid="346d7268-b5d5-47a1-92e7-c7c9135fd7df" x="573" y="341" width="9" height="15" fontSize="7.0">
+				<text><![CDATA[O]]></text>
+			</element>
+			<element kind="staticText" uuid="611d6071-2fb3-4720-a150-b04a00373a38" x="55" y="366" width="65" height="21" fontSize="8.0" bold="true">
+				<text><![CDATA[IMPORTAZIONI]]></text>
+			</element>
+			<element kind="textField" uuid="0be0d183-5c5b-4fef-939e-9a556845e2c6" mode="Opaque" x="120" y="364" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("I")) ? "\u2611": null
+]]></expression>
+			</element>
+			<element kind="staticText" uuid="57e5d320-5664-4c92-8a7f-a1da8e4d07b3" x="150" y="367" width="110" height="15" fontSize="7.0">
+				<text><![CDATA[senza applicazione dell'IVA nell']]></text>
+			</element>
+			<element kind="staticText" uuid="1cd634d7-aab7-4e33-bfb6-f3e23d09f095" x="254" y="365" width="65" height="21" fontSize="8.0" bold="true">
+				<text><![CDATA[ANNO]]></text>
+			</element>
+			<element kind="textField" uuid="5a322ff8-8923-4665-83d3-ab5a28723b72" mode="Opaque" x="284" y="364" width="100" height="16" blankWhenNull="true">
+				<expression><![CDATA[$F{anno_riferimento}]]></expression>
+			</element>
+			<element kind="staticText" uuid="cea4cca9-cf45-4ff8-9712-488a4304d1e1" x="55" y="400" width="129" height="15" fontSize="7.0">
+				<text><![CDATA[e chiedo di acquistare o importare]]></text>
+			</element>
+			<element kind="textField" uuid="4fc2424a-c590-460e-abb4-85c2210651b4" mode="Opaque" x="187" y="398" width="391" height="16" markup="none" blankWhenNull="true" vTextAlign="Middle">
+				<expression><![CDATA[$F{note}]]></expression>
+			</element>
+			<element kind="staticText" uuid="b35dc8f9-5350-4dfa-9c32-193a845d79c3" x="55" y="420" width="129" height="15" fontSize="7.0" bold="true">
+				<text><![CDATA[La dichiarazione si riferisce a:]]></text>
+			</element>
+			<element kind="staticText" uuid="329d6e5e-d02b-4335-be97-0931452c2bb1" x="55" y="440" width="171" height="15" fontSize="7.0">
+				<text><![CDATA[una sola operazione per un importo fino a euro]]></text>
+			</element>
+			<element kind="textField" uuid="1ffb9a68-6b13-4322-9b10-e53b1b4a0ca3" mode="Opaque" x="230" y="432" width="166" height="24" markup="none" blankWhenNull="true" vTextAlign="Bottom">
+				<paragraph firstLineIndent="6"/>
+				<expression><![CDATA[$F{importosingolo}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="efd4e4a1-bdb4-4dd0-8086-4d8fa46deea1" x="234" y="432" width="13" height="15" fontSize="7.0">
+				<text><![CDATA[1]]></text>
+			</element>
+			<element kind="line" uuid="2775fced-59e9-4305-a59b-5d13945d725d" x="55" y="457" width="341" height="1"/>
+			<element kind="textField" uuid="d9134afb-69c2-4cc9-8718-ae2c81a25fdc" mode="Opaque" x="230" y="463" width="166" height="24" markup="none" blankWhenNull="true" vTextAlign="Bottom">
+				<paragraph firstLineIndent="6"/>
+				<expression><![CDATA[$F{plafond}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="4811dccd-cae8-4035-ab66-9f1a367c077f" x="234" y="465" width="13" height="15" fontSize="7.0">
+				<text><![CDATA[2]]></text>
+			</element>
+			<element kind="staticText" uuid="a3e7d0f5-8f2f-4846-a7ea-4c3750694427" x="55" y="471" width="171" height="15" fontSize="7.0">
+				<text><![CDATA[operazioni fino a concorrenza di euro]]></text>
+			</element>
+			<element kind="line" uuid="4a672d04-5f67-48ef-a9ff-6d0a1f999105" x="-3" y="489" width="587" height="1"/>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
 </jasperReport>
