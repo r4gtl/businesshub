@@ -29,17 +29,48 @@ COPY jreports /code/jreports
 RUN mkdir -p /opt/jasperreports/lib
 
 # Scarica JasperReports 6.20.0 e le sue dipendenze
-RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/6.21.3/jasperreports-6.21.3.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/commons-digester/commons-digester/2.1/commons-digester-2.1.jar -P /opt/jasperreports/lib/ && \
+RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/7.0.2/jasperreports-7.0.2.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/kernel/7.1.16/kernel-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/io/7.1.16/io-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/layout/7.1.16/layout-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/forms/7.1.16/forms-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/pdfa/7.1.16/pdfa-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/sign/7.1.16/sign-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/barcodes/7.1.16/barcodes-7.1.16.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/commons-digester/commons-digester/2.1/commons-digester-2.1.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar -P /opt/jasperreports/lib/ && \
     wget https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/com/lowagie/itext/2.1.7/itext-2.1.7.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar -P /opt/jasperreports/lib/ && \
-    wget https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar -P /opt/jasperreports/lib/ 
+    wget https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.30/slf4j-simple-1.7.30.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports-pdf/7.0.2/jasperreports-pdf-7.0.2.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/itextpdf/commons/7.2.0/commons-7.2.0.jar -P /opt/jasperreports/lib/ && \
+    wget https://repo1.maven.org/maven2/com/github/librepdf/openpdf/1.3.30/openpdf-1.3.30.jar -P /opt/jasperreports/lib/
+
+    #wget https://jaspersoft.jfrog.io/artifactory/third-party-ce-artifacts/com/lowagie/itext/2.1.7.js6/itext-2.1.7.js6.jar -P /opt/jasperreports/lib/
+    #wget https://repo1.maven.org/maven2/com/lowagie/itext/2.1.7/itext-2.1.7.jar -P /opt/jasperreports/lib/
+
+    #wget https://repo1.maven.org/maven2/com/lowagie/itext/2.1.7/itext-2.1.7.jar -P /opt/jasperreports/lib/
     
+
+
+
+# Aggiungi i repository contrib e non-free
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository 'deb http://deb.debian.org/debian bullseye main contrib non-free' && \
+    apt-get update
+
+# Accetta automaticamente l'EULA e installa il pacchetto
+RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections && \
+    apt-get install -y --no-install-recommends ttf-mscorefonts-installer fontconfig
+
+# Aggiorna la cache dei font
+RUN fc-cache -fv
 
 
 # Copia il file ReportGenerator.java semplificato
