@@ -18,7 +18,8 @@ class DichiarazioneIntento(models.Model):
     note = models.TextField("Note", blank=True, null=True)
     data_dichiarazione = models.DateField()
     importosingolo = models.BooleanField("Importo Singolo", default=False)
-    plafond = models.DecimalField(max_digits=12, decimal_places=2)
+    plafond_singolo = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    plafond = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
     anno_riferimento = models.PositiveIntegerField()
     fk_dogana = models.ForeignKey(
         Dogana, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Dogana"

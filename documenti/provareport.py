@@ -57,9 +57,14 @@ def genera_report(request, pk):
         return HttpResponse("Generated PDF file not found", status=500)
 
     # Return PDF file
-    with open(output_path, "rb") as pdf_file:
+    '''with open(output_path, "rb") as pdf_file:
         pdf_data = pdf_file.read()
-    return HttpResponse(pdf_data, content_type="application/pdf")
+    return HttpResponse(pdf_data, content_type="application/pdf")'''
+    
+    with open(output_path, "rb") as pdf_file:
+        response = HttpResponse(pdf_file.read(), content_type="application/pdf")
+        response["Content-Disposition"] = 'inline; filename="report.pdf"'
+        return response
 
 
 def genera_report_old(request, pk):

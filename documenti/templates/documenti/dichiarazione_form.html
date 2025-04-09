@@ -62,6 +62,11 @@
                     {% for error in form.importosingolo.errors %}
                       <div class="text-danger small mt-1">{{ error }}</div>
                     {% endfor %}
+                    {{ form.plafond_singolo }}
+                    <label for="{{ form.plafond_singolo.id_for_label }}">{{ form.plafond_singolo.label }}</label>
+                    {% for error in form.plafond_singolo.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-4">

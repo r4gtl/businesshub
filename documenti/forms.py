@@ -16,6 +16,7 @@ class DichiarazioneIntentoForm(forms.ModelForm):
             "tipo_operazione",
             "note",
             "importosingolo",
+            "plafond_singolo",
             "fk_dogana",
         ]
         widgets = {
@@ -44,6 +45,9 @@ class DichiarazioneIntentoForm(forms.ModelForm):
                 }
             ),
             "importosingolo": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "plafond_singolo": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Plafond"}
+            ),
             "fk_dogana": forms.Select(attrs={"class": "form-control"}),
         }
 
