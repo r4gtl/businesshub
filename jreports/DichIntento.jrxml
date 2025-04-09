@@ -412,13 +412,13 @@ DICHIARAZIONE]]></text>
 				<paragraph firstLineIndent="1"/>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="9180c184-8252-4d90-8417-3c55ab74e80e" x="213" y="283" width="346" height="18" fontSize="8.0">
+			<element kind="staticText" uuid="9180c184-8252-4d90-8417-3c55ab74e80e" x="213" y="282" width="346" height="18" fontSize="8.0">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Numero protocollo di invio]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="line" uuid="87fe3383-7c16-4d72-9a95-cc9b8701881a" x="2" y="317" width="571" height="1"/>
-			<element kind="textField" uuid="a04a21df-ad88-4027-a0be-7990047f99c8" mode="Opaque" x="213" y="297" width="346" height="20" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
+			<element kind="textField" uuid="a04a21df-ad88-4027-a0be-7990047f99c8" mode="Opaque" x="213" y="296" width="346" height="20" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
 				<paragraph firstLineIndent="1"/>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
@@ -543,7 +543,7 @@ DICHIARAZIONE]]></text>
 				<paragraph firstLineIndent="1"/>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="7f70f983-975d-4eff-9a71-46c6f51bc7e0" mode="Transparent" x="500" y="542" width="24" height="25" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="staticText" uuid="7f70f983-975d-4eff-9a71-46c6f51bc7e0" mode="Transparent" x="500" y="542" width="28" height="25" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Sesso
 (M/F)]]></text>
