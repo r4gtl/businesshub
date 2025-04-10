@@ -72,6 +72,9 @@ RUN apt-get update && \
 # Copia il file ReportGenerator.java semplificato
 COPY ReportGenerator.java /opt/jasperreports/
 
+# Copia i font config nel container
+COPY jreports/fonts /opt/jasperreports/fonts
+
 # Compila il file ReportGenerator.java
 RUN cd /opt/jasperreports && \
     javac -cp "lib/*" ReportGenerator.java && \

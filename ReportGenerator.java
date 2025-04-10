@@ -8,7 +8,11 @@ import java.util.Map;
 
 public class ReportGenerator {
     public static void main(String[] args) {
-        System.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true"); //eliminare questa
+        System.setProperty("net.sf.jasperreports.extension.registry.factory.fonts",
+                "net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory");
+        System.setProperty("net.sf.jasperreports.extension.simple.font.families.dejavusans",
+                "/opt/jasperreports/fonts/fonts.xml");
+
         try {
             if (args.length < 6) {
                 System.err.println(
