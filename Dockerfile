@@ -72,6 +72,15 @@ RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula sele
 # Aggiorna la cache dei font
 RUN fc-cache -fv
 
+# Installazione dei font necessari, incluso DejaVu Sans
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    fontconfig \
+    fonts-dejavu-core \
+    fonts-dejavu-extra && \
+    fc-cache -fv && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copia il file ReportGenerator.java semplificato
 COPY ReportGenerator.java /opt/jasperreports/

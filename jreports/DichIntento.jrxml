@@ -281,7 +281,7 @@ DICHIARANTE]]></text>
 				<paragraph firstLineIndent="1"/>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="75312731-d22d-48f7-9923-cc21e2d73cab" mode="Transparent" x="496" y="85" width="64" height="20" fontSize="8.0" hTextAlign="Left">
+			<element kind="staticText" uuid="75312731-d22d-48f7-9923-cc21e2d73cab" mode="Transparent" x="496" y="85" width="70" height="20" fontSize="8.0" hTextAlign="Left">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Provincia (sigla)]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
