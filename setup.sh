@@ -41,6 +41,13 @@ if ! docker compose version &> /dev/null; then
     sudo apt install -y docker-compose-plugin
 fi
 
+# 3.1 Attesa attiva finché Docker non è pronto
+echo "⌛ Attendo che Docker sia attivo..."
+until docker info >/dev/null 2>&1; do
+    sleep 2
+done
+echo "✅ Docker è attivo"
+
 # 4. pgdata in produzione
 if [ "$ENV_MODE" == "prod" ]; then
     if [ ! -d "$PGDATA_DIR" ]; then

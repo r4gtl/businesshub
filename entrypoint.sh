@@ -3,17 +3,13 @@
 export DJANGO_SETTINGS_MODULE=businesshub.settings
 
 # Aspetta che il DB sia pronto
-echo "⏳ Attendo il database su $DB_HOST..."
-retries=10
-while ! nc -z $DB_HOST 5432; do
-  retries=$((retries-1))
-  if [ $retries -eq 0 ]; then
-    echo "❌ Timeout: Impossibile connettersi al database!"
-    exit 1
-  fi
-  sleep 1
+echo "⏳ Attendo che PostgreSQL sia pronto su $DB_HOST..."
+until pg_isready -h "$DB_HOST" -p 5432 -U "$POSTGRES_USER"; do
+  >&2 echo "🕓 Database non ancora pronto - attendo..."
+  sleep 2
 done
 echo "✅ Database disponibile!"
+
 
 set -e
 

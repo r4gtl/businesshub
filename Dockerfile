@@ -10,8 +10,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 python3-pip python3-dev netcat-openbsd wget build-essential \
     libffi-dev libpango1.0-0 libpangocairo-1.0-0 libcairo2 libjpeg-dev \
-    zlib1g-dev libxml2 libxslt1.1 libgdk-pixbuf2.0-0 unzip && \
+    zlib1g-dev libxml2 libxslt1.1 libgdk-pixbuf2.0-0 unzip postgresql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+    
 
 # Pip deps
 COPY requirements.txt .
