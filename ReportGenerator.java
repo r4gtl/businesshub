@@ -12,6 +12,11 @@ public class ReportGenerator {
                 "net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory");
         System.setProperty("net.sf.jasperreports.extension.simple.font.families.dejavusans",
                 "/opt/jasperreports/fonts/fonts.xml");
+        String[] fonts = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        System.out.println("Font disponibili:");
+        for (String font : fonts) {
+            System.out.println(font);
+        }
 
         try {
             if (args.length < 6) {
