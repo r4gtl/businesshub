@@ -370,7 +370,7 @@ DICHIARAZIONE]]></text>
 				<expression><![CDATA[$F{provincia_nascita_rappresentante}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="dc1d59b7-4703-487d-8164-37e6d8714709" x="496" y="200" width="64" height="17" fontSize="8.0">
+			<element kind="staticText" uuid="dc1d59b7-4703-487d-8164-37e6d8714709" x="496" y="200" width="69" height="17" fontSize="8.0">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Provincia (sigla)]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
@@ -433,7 +433,7 @@ DICHIARAZIONE]]></text>
 				<text><![CDATA[Intendo avvalermi della facoltà, prevista per i soggetti che hanno effettuato cessioni all'esportazione od operazioni assimilate di effettuare]]></text>
 			</element>
 			<element kind="textField" uuid="595a4920-701f-4f0e-a28b-220c30e0ed02" mode="Opaque" x="481" y="324" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("A")) ? "\u2611": null
+				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("A")) ? "\u2611": ""
 ]]></expression>
 			</element>
 			<element kind="staticText" uuid="4e7831a6-dbd9-443b-be44-9a45e44e8680" x="441" y="325" width="54" height="21" fontSize="8.0" bold="true">
@@ -446,7 +446,7 @@ DICHIARAZIONE]]></text>
 				<text><![CDATA[IMPORTAZIONI]]></text>
 			</element>
 			<element kind="textField" uuid="0be0d183-5c5b-4fef-939e-9a556845e2c6" mode="Opaque" x="138" y="348" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("I")) ? "\u2611": null
+				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("I")) ? "\u2611": ""
 ]]></expression>
 			</element>
 			<element kind="staticText" uuid="57e5d320-5664-4c92-8a7f-a1da8e4d07b3" x="168" y="351" width="110" height="15" fontSize="7.0">
@@ -501,7 +501,7 @@ DELLA
 DICHIARAZIONE]]></text>
 			</element>
 			<element kind="textField" uuid="fca6ee02-5bc2-45e6-a51c-cc47bafdfd91" mode="Opaque" x="116" y="470" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[($F{fk_dogana_id} != null) ? "\u2611": null
+				<expression><![CDATA[($F{fk_dogana_id} != null) ? "\u2611": ""
 ]]></expression>
 			</element>
 			<element kind="staticText" uuid="5a66bb07-c8e3-41ec-b238-4f1672a29908" x="75" y="474" width="65" height="21" fontSize="8.0" bold="true">
@@ -588,11 +588,11 @@ DICHIARAZIONE]]></text>
 				<expression><![CDATA[$F{tipo_plafond}]]></expression>
 			</element>
 			<element kind="textField" uuid="1734e2f0-0596-4389-a7f7-e028e9eef7d3" mode="Opaque" x="141" y="67" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[($F{tipo_plafond} != null && $F{tipo_plafond}.equals("1")) ? "\u2611": null
+				<expression><![CDATA[($F{tipo_plafond} != null && $F{tipo_plafond}.equals("1")) ? "\u2611": ""
 ]]></expression>
 			</element>
 			<element kind="textField" uuid="7a65f09b-b78f-4112-b9bd-593a2cd148a7" mode="Opaque" x="227" y="67" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[($F{tipo_plafond} != null && $F{tipo_plafond}.equals("2")) ? "\u2611": null
+				<expression><![CDATA[($F{tipo_plafond} != null && $F{tipo_plafond}.equals("2")) ? "\u2611": ""
 ]]></expression>
 			</element>
 			<element kind="staticText" uuid="5852bf32-3da6-4241-aff5-1979c975dbfa" x="111" y="68" width="39" height="14" fontSize="8.0">
