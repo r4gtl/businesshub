@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .reports import dichiarazione_intento
-from .provareport import genera_report
+
 
 
 app_name = "documenti"
@@ -39,11 +39,6 @@ urlpatterns = [
         views.FatturaDeleteView.as_view(),
         name="fattura_delete",
     ),
-    path("report/plafond/", views.ReportPlafondView.as_view(), name="report_plafond"),
-    path(
-        "documenti/dichiarazione/<int:pk>/stampa/",
-        dichiarazione_intento,
-        name="dichiarazione_intento",
-    ),
-    path('genera_report/<int:pk>/', genera_report, name='genera_report'),
+    path("report/plafond/", views.ReportPlafondView.as_view(), name="report_plafond"),    
+    path('dichiarazione/<int:pk>/stampa', dichiarazione_intento, name='dichiarazione_intento'),
 ]

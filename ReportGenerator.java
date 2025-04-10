@@ -8,16 +8,6 @@ import java.util.Map;
 
 public class ReportGenerator {
     public static void main(String[] args) {
-        System.setProperty("net.sf.jasperreports.extension.registry.factory.fonts",
-                "net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory");
-        System.setProperty("net.sf.jasperreports.extension.simple.font.families.dejavusans",
-                "/opt/jasperreports/fonts/fonts.xml");
-        String[] fonts = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        System.out.println("Font disponibili:");
-        for (String font : fonts) {
-            System.out.println(font);
-        }
-
         try {
             if (args.length < 6) {
                 System.err.println(
@@ -31,17 +21,14 @@ public class ReportGenerator {
             String dbUser = args[3];
             String dbPassword = args[4];
 
-            // Debugging info
             System.out.println("Template path: " + templatePath);
             System.out.println("Output path: " + outputPath);
             System.out.println("Database URL: " + dbUrl);
 
-            // Create parameters map
             Map<String, Object> parameters = new HashMap<>();
             for (int i = 5; i < args.length; i++) {
                 String[] param = args[i].split("=", 2);
                 if (param.length == 2) {
-                    // Convert PK parameter to Integer
                     if (param[0].equals("PK")) {
                         try {
                             long pkValue = Long.parseLong(param[1]);
@@ -58,20 +45,15 @@ public class ReportGenerator {
                 }
             }
 
-            // Explicitly load the JDBC driver
             Class.forName("org.postgresql.Driver");
             System.out.println("PostgreSQL JDBC driver loaded.");
 
-            // Connect to the database
-            System.out.println("Connecting to database: " + dbUrl);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
             System.out.println("Database connection established.");
 
-            // Test query più dettagliata
-            System.out.println("Executing test query...");
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt
-                    .executeQuery("SELECT id, numero_interno, plafond FROM documenti_dichiarazioneintento WHERE id = "
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT id, numero_interno, plafond FROM documenti_dichiarazioneintento WHERE id = "
                             + parameters.get("PK"));
             if (rs.next()) {
                 System.out.println("Record found: ID=" + rs.getLong("id") +
@@ -83,22 +65,15 @@ public class ReportGenerator {
             rs.close();
             stmt.close();
 
-            // Compile and generate the report with database connection
             System.out.println("Filling report with parameters: " + parameters);
             JasperPrint jasperPrint = JasperFillManager.fillReport(templatePath, parameters, connection);
 
             System.out.println("Report compiled successfully.");
-
-            System.out.println("Number of pages in report: " + jasperPrint.getPages().size());
-            if (jasperPrint.getPages().size() > 0) {
-                System.out.println("Page height: " + jasperPrint.getPageHeight());
-                System.out.println("Page width: " + jasperPrint.getPageWidth());
-            }
+            System.out.println("Number of pages: " + jasperPrint.getPages().size());
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
             System.out.println("Report generated successfully: " + outputPath);
 
-            // Close the database connection
             connection.close();
             System.exit(0);
         } catch (Exception e) {

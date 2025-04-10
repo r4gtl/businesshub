@@ -1,61 +1,68 @@
-from django.shortcuts import render, get_object_or_404
-from .models import (
-    DichiarazioneIntento,
-)  # Assumendo che tu abbia un modello Dichiarazione
-from django.template.loader import render_to_string
-from weasyprint import HTML
+import subprocess
 from django.http import HttpResponse
+from django.conf import settings
+import os
+from documenti.models import DichiarazioneIntento
 
 
 def dichiarazione_intento(request, pk):
-    # Ottieni la dichiarazione dal database usando il pk
-    dichiarazione = get_object_or_404(DichiarazioneIntento, pk=pk)
+    # Paths
+    report_path = "/code/jreports/DichIntento.jasper"
+    output_path = "/code/jreports/output_report.pdf"
 
-    # Prepara i dati da passare al template
-    data = {
-        "cf_value": (
-            dichiarazione.fornitore.codice_fiscale
-            if dichiarazione.fornitore.codice_fiscale
-            else " "
-        ),
-        "piva_value": (
-            dichiarazione.fornitore.partita_iva
-            if dichiarazione.fornitore.partita_iva
-            else " "
-        ),
-        "ragione_value": (
-            dichiarazione.fornitore.ragione_sociale
-            if dichiarazione.fornitore.ragione_sociale
-            else " "
-        ),
-        "nome_value": " ",
-        "sesso_value": " ",
-        "data_value": " ",
-        "comune_value": " ",
-        "prov_value": " ",
-        # Dati del rappresentante (da personalizzare)
-        "cf2_value": " ",
-        "carica_value": " ",
-        "cf_societa_value": " ",
-        "cognome_value": " ",
-        "nome2_value": " ",
-        "sesso2_value": " ",
-        "data2_value": " ",
-        "comune2_value": " ",
-        "prov2_value": " ",
-    }
+    # Get database credentials from environment variables
+    db_host = os.environ.get("DB_HOST", "localhost")
+    db_port = os.environ.get("DB_PORT", "5432")
+    db_user = os.environ.get("POSTGRES_USER", "postgres")
+    db_password = os.environ.get("POSTGRES_PASSWORD", "")
+    db_name = os.environ.get("POSTGRES_DB", "postgres")
 
-    # Renderizza il template HTML con i dati
-    html_string = render_to_string("documenti/reports/dichiarazione_intento.html", data)
+    # Create JDBC URL
+    db_url = f"jdbc:postgresql://{db_host}:{db_port}/{db_name}"
 
-    # Usa WeasyPrint per generare il PDF dal template HTML
-    html = HTML(string=html_string)
-    pdf = html.write_pdf()
+    # Get the object to verify it exists
+    dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
+    print(f"dichiarazione: {dichiarazione.data_dichiarazione}")
+    print(f"Generating report with PK: {pk}")
 
-    # Restituisce il PDF come risposta HTTP
-    response = HttpResponse(pdf, content_type="application/pdf")
-    response["Content-Disposition"] = (
-        'inline; filename="dichiarazione_intento_{}.pdf"'.format(pk)
-    )
-    return response
+    # Build Java command
+    command = [
+        "java",
+        "-cp",
+        "/opt/jasperreports/classes:/opt/jasperreports/lib/*",
+        "ReportGenerator",
+        report_path,
+        output_path,
+        db_url,
+        db_user,
+        db_password,
+        f"PK={pk}",  # Pass PK parameter
+    ]
+
+    print(f"Executing command: {' '.join(command)}")
+
+    # Execute Java command
+    try:
+        result = subprocess.run(
+            command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        print(f"Output: {result.stdout.decode()}")
+    except subprocess.CalledProcessError as e:
+        error_message = e.stderr.decode() if e.stderr else str(e)
+        print(f"Error: {error_message}")
+        return HttpResponse(f"Error generating report: {error_message}", status=500)
+
+    # Verify file exists
+    if not os.path.exists(output_path):
+        return HttpResponse("Generated PDF file not found", status=500)
+
+    # Return PDF file
+    '''with open(output_path, "rb") as pdf_file:
+        pdf_data = pdf_file.read()
+    return HttpResponse(pdf_data, content_type="application/pdf")'''
+    
+    with open(output_path, "rb") as pdf_file:
+        response = HttpResponse(pdf_file.read(), content_type="application/pdf")
+        response["Content-Disposition"] = 'inline; filename="report.pdf"'
+        return response
 
