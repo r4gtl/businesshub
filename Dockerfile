@@ -58,21 +58,7 @@ RUN wget https://repo1.maven.org/maven2/net/sf/jasperreports/jasperreports/7.0.2
     #wget https://repo1.maven.org/maven2/com/lowagie/itext/2.1.7/itext-2.1.7.jar -P /opt/jasperreports/lib/
     
 
-
-
-# Aggiungi i repository contrib e non-free
-RUN apt-get update && apt-get install -y software-properties-common && \
-    add-apt-repository 'deb http://deb.debian.org/debian bullseye main contrib non-free' && \
-    apt-get update
-
-# Accetta automaticamente l'EULA e installa il pacchetto
-RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections && \
-    apt-get install -y --no-install-recommends ttf-mscorefonts-installer fontconfig
-
-# Aggiorna la cache dei font
-RUN fc-cache -fv
-
-# Installazione dei font necessari, incluso DejaVu Sans
+# Installa i font necessari (DejaVu Sans)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     fontconfig \
@@ -81,6 +67,7 @@ RUN apt-get update && \
     fc-cache -fv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 
 # Copia il file ReportGenerator.java semplificato
 COPY ReportGenerator.java /opt/jasperreports/
