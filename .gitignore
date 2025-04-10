@@ -13,3 +13,4 @@ media/
 *.swp
 .vscode/
 .idea/
+jreports/output_report.pdf

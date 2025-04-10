@@ -456,13 +456,17 @@ DICHIARAZIONE]]></text>
 				<text><![CDATA[ANNO]]></text>
 			</element>
 			<element kind="textField" uuid="5a322ff8-8923-4665-83d3-ab5a28723b72" mode="Opaque" x="302" y="348" width="100" height="16" blankWhenNull="true">
+				<paragraph firstLineIndent="2"/>
 				<expression><![CDATA[$F{anno_riferimento}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="cea4cca9-cf45-4ff8-9712-488a4304d1e1" x="74" y="380" width="129" height="15" fontSize="7.0">
 				<text><![CDATA[e chiedo di acquistare o importare]]></text>
 			</element>
 			<element kind="textField" uuid="4fc2424a-c590-460e-abb4-85c2210651b4" mode="Opaque" x="206" y="378" width="353" height="16" markup="none" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="2"/>
 				<expression><![CDATA[$F{note}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="b35dc8f9-5350-4dfa-9c32-193a845d79c3" x="74" y="400" width="129" height="15" fontSize="7.0" bold="true">
 				<text><![CDATA[La dichiarazione si riferisce a:]]></text>
@@ -510,15 +514,15 @@ DICHIARAZIONE]]></text>
 			<element kind="staticText" uuid="59e70ef9-3054-4502-862d-bbe050b4a742" x="75" y="500" width="129" height="15" fontSize="7.0" bold="true">
 				<text><![CDATA[Altra parte contraente]]></text>
 			</element>
-			<element kind="textField" uuid="5572f5c3-8d33-46f6-b27b-5664ed09ab62" mode="Opaque" x="75" y="567" width="184" height="16" fontSize="8.0" blankWhenNull="true">
+			<element kind="textField" uuid="5572f5c3-8d33-46f6-b27b-5664ed09ab62" mode="Opaque" x="75" y="567" width="184" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="2"/>
-				<expression><![CDATA[$F{ragionesociale}]]></expression>
+				<expression><![CDATA[$F{ragione_sociale}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="4b419f7f-14e9-452c-87cd-27a082f26edb" x="75" y="553" width="172" height="14" fontSize="8.0">
 				<text><![CDATA[Cognome o denominazione o ragione sociale]]></text>
 			</element>
-			<element kind="textField" uuid="c6d121d5-8a90-4789-a566-3c5a29acaad3" mode="Opaque" x="75" y="532" width="184" height="16" fontSize="8.0" blankWhenNull="true">
+			<element kind="textField" uuid="c6d121d5-8a90-4789-a566-3c5a29acaad3" mode="Opaque" x="75" y="532" width="184" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="2"/>
 				<expression><![CDATA[$F{codice_fiscale}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
@@ -526,7 +530,7 @@ DICHIARAZIONE]]></text>
 			<element kind="staticText" uuid="18083de4-a8c6-452a-b46e-ed8581b5f755" x="75" y="518" width="98" height="14" fontSize="8.0">
 				<text><![CDATA[Codice fiscale]]></text>
 			</element>
-			<element kind="textField" uuid="5817cb70-c2d8-4ade-ab18-de77ecde0afa" mode="Opaque" x="272" y="533" width="224" height="16" fontSize="8.0" blankWhenNull="true">
+			<element kind="textField" uuid="5817cb70-c2d8-4ade-ab18-de77ecde0afa" mode="Opaque" x="272" y="533" width="224" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="2"/>
 				<expression><![CDATA[$F{partita_iva}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
@@ -539,7 +543,7 @@ DICHIARAZIONE]]></text>
 				<text><![CDATA[Nome]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="textField" uuid="9b66f616-9d5f-444c-99d1-bbf36c2563c2" mode="Opaque" x="274" y="567" width="216" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
+			<element kind="textField" uuid="9b66f616-9d5f-444c-99d1-bbf36c2563c2" mode="Opaque" x="274" y="567" width="216" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="1"/>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
@@ -607,12 +611,12 @@ DEL PLAFOND]]></text>
 			<element kind="staticText" uuid="86367e11-3dad-42a4-806b-747b82c841d3" x="75" y="115" width="65" height="21" fontSize="8.0" bold="true">
 				<text><![CDATA[A2]]></text>
 			</element>
-			<element kind="staticText" uuid="2b742d11-f9f5-4947-83a5-f24d6c28d8c3" x="110" y="110" width="143" height="14" fontSize="8.0">
+			<element kind="staticText" uuid="2b742d11-f9f5-4947-83a5-f24d6c28d8c3" x="110" y="110" width="153" height="14" fontSize="8.0">
 				<text><![CDATA[Dichiarazione annuale IVA presentata]]></text>
 			</element>
 			<element kind="line" uuid="f58ec497-e492-43b2-8695-e1ffe18eed15" x="5" y="58" width="571" height="1"/>
 			<element kind="line" uuid="9d3a075c-18ad-4c41-8462-7cfc19e353b9" x="4" y="159" width="571" height="1"/>
-			<element kind="staticText" uuid="2f0c6b80-12ce-498f-af75-7d13b5e98674" x="85" y="130" width="48" height="14" fontSize="8.0" hTextAlign="Center">
+			<element kind="staticText" uuid="2f0c6b80-12ce-498f-af75-7d13b5e98674" x="76" y="130" width="57" height="14" fontSize="8.0" hTextAlign="Center">
 				<text><![CDATA[Esportazioni]]></text>
 			</element>
 			<element kind="staticText" uuid="d66bbea9-9406-48ab-92fc-bab5ed99cb57" x="148" y="130" width="96" height="14" fontSize="8.0" hTextAlign="Center">
@@ -627,28 +631,28 @@ DEL PLAFOND]]></text>
 			<element kind="staticText" uuid="b598bd06-57e2-4069-8247-474fad7befae" x="464" y="130" width="108" height="14" fontSize="8.0" hTextAlign="Center">
 				<text><![CDATA[Operazioni straordinarie]]></text>
 			</element>
-			<element kind="staticText" uuid="77e570ba-b8ec-4cbe-9dc5-36f105dda4d0" mode="Opaque" x="256" y="109" width="16" height="16">
+			<element kind="staticText" uuid="77e570ba-b8ec-4cbe-9dc5-36f105dda4d0" mode="Opaque" x="256" y="106" width="16" height="16">
 				<text><![CDATA[]]></text>
 			</element>
-			<element kind="staticText" uuid="7ceae11f-00f5-409d-a601-5daabe60492f" x="257" y="110" width="6" height="6" fontSize="4.0">
+			<element kind="staticText" uuid="7ceae11f-00f5-409d-a601-5daabe60492f" x="257" y="107" width="6" height="6" fontSize="4.0">
 				<text><![CDATA[1]]></text>
 			</element>
-			<element kind="staticText" uuid="50fc19e6-cde7-42e2-967f-c6a6a7c7d3f7" mode="Opaque" x="99" y="141" width="16" height="16">
+			<element kind="staticText" uuid="50fc19e6-cde7-42e2-967f-c6a6a7c7d3f7" mode="Opaque" x="96" y="141" width="16" height="16">
 				<text><![CDATA[]]></text>
 			</element>
-			<element kind="staticText" uuid="05a4f17c-2790-41d5-a614-35737fc871f0" x="100" y="142" width="6" height="6" fontSize="4.0">
+			<element kind="staticText" uuid="05a4f17c-2790-41d5-a614-35737fc871f0" x="97" y="142" width="6" height="6" fontSize="4.0">
 				<text><![CDATA[2]]></text>
 			</element>
-			<element kind="staticText" uuid="29c3db44-0974-4ab5-91ba-569780e58b2b" mode="Opaque" x="179" y="142" width="16" height="16">
+			<element kind="staticText" uuid="29c3db44-0974-4ab5-91ba-569780e58b2b" mode="Opaque" x="185" y="142" width="16" height="16">
 				<text><![CDATA[]]></text>
 			</element>
-			<element kind="staticText" uuid="639763e7-196d-4714-8a87-1fd8f499402f" x="180" y="143" width="6" height="6" fontSize="4.0">
+			<element kind="staticText" uuid="639763e7-196d-4714-8a87-1fd8f499402f" x="186" y="143" width="6" height="6" fontSize="4.0">
 				<text><![CDATA[3]]></text>
 			</element>
-			<element kind="staticText" uuid="28c0bfb1-3f5b-43f1-bd3f-aef36cdeb8d7" mode="Opaque" x="300" y="142" width="16" height="16">
+			<element kind="staticText" uuid="28c0bfb1-3f5b-43f1-bd3f-aef36cdeb8d7" mode="Opaque" x="302" y="142" width="16" height="16">
 				<text><![CDATA[]]></text>
 			</element>
-			<element kind="staticText" uuid="13f32111-e1c5-4068-adda-00f01ff5a86b" x="301" y="143" width="6" height="6" fontSize="4.0">
+			<element kind="staticText" uuid="13f32111-e1c5-4068-adda-00f01ff5a86b" x="303" y="143" width="6" height="6" fontSize="4.0">
 				<text><![CDATA[4]]></text>
 			</element>
 			<element kind="staticText" uuid="5f221342-5134-430e-93cd-b4fbc332dd97" mode="Opaque" x="410" y="142" width="16" height="16">
