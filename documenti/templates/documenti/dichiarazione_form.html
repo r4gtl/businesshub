@@ -57,11 +57,15 @@
                     {% for error in form.plafond.errors %}
                       <div class="text-danger small mt-1">{{ error }}</div>
                     {% endfor %}
+                  </div>
+                  <div class="form-check mb-3">
                     {{ form.importosingolo }}
                     <label for="{{ form.importosingolo.id_for_label }}">{{ form.importosingolo.label }}</label>
                     {% for error in form.importosingolo.errors %}
                       <div class="text-danger small mt-1">{{ error }}</div>
                     {% endfor %}
+                   </div>
+                   <div class="form-floating mb-3">
                     {{ form.plafond_singolo }}
                     <label for="{{ form.plafond_singolo.id_for_label }}">{{ form.plafond_singolo.label }}</label>
                     {% for error in form.plafond_singolo.errors %}

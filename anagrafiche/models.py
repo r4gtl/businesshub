@@ -5,6 +5,7 @@ from accounts.models import Azienda
 
 
 
+
     
     
 class Fornitore(models.Model):

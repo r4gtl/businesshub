@@ -41,4 +41,9 @@ urlpatterns = [
     ),
     path("report/plafond/", views.ReportPlafondView.as_view(), name="report_plafond"),    
     path('dichiarazione/<int:pk>/stampa', dichiarazione_intento, name='dichiarazione_intento'),
+    
+    path('durc/', views.DurcListView.as_view(), name='durc_list'),
+    path('durc/nuovo/', views.DurcCreateView.as_view(), name='durc_create'),
+    path('durc/<int:pk>/modifica/', views.DurcUpdateView.as_view(), name='durc_update'),
+    path('durc/<int:pk>/elimina/', views.DurcDeleteView.as_view(), name='durc_delete'),
 ]

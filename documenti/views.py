@@ -10,10 +10,11 @@ from django.views.generic import (
     TemplateView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
+from django.db.models import Sum, OuterRef, Subquery, Max
 from django.db.models.functions import ExtractMonth
-from .models import DichiarazioneIntento, FatturaFornitore
-from .forms import DichiarazioneIntentoForm, FatturaFornitoreForm
+from django.utils.timezone import now
+from .models import DichiarazioneIntento, FatturaFornitore, Durc
+from .forms import DichiarazioneIntentoForm, FatturaFornitoreForm, DurcForm
 from anagrafiche.models import Fornitore, Dogana
 
 
@@ -243,6 +244,57 @@ class ReportPlafondView(TemplateView):
 
         return context
 
+
+class DurcListView(LoginRequiredMixin, ListView):
+    model = Durc
+    template_name = 'durc/durc_list.html'
+    context_object_name = 'durc_list'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['today'] = now().date()
+        return context
+
+
+    def get_queryset(self):
+        # Sottoselezione: prendi il DURC più recente per ogni fornitore
+        latest_durc_ids = Durc.objects.filter(
+            fornitore=OuterRef('fornitore')
+        ).order_by('-scadenza_durc').values('id')[:1]
+
+        queryset = Durc.objects.filter(
+            id__in=Subquery(
+                Durc.objects.filter(
+                    id__in=Durc.objects.filter(
+                        fornitore=OuterRef('fornitore')
+                    ).order_by('-scadenza_durc').values('id')[:1]
+                ).values('id')
+            )
+        ).select_related('fornitore').order_by('fornitore__ragione_sociale')
+
+        return queryset
+
+class DurcCreateView(LoginRequiredMixin, CreateView):
+    model = Durc
+    form_class = DurcForm
+    template_name = 'documenti/durc_form.html'
+    success_url = reverse_lazy('documenti:durc_list')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+class DurcUpdateView(LoginRequiredMixin, UpdateView):
+    model = Durc
+    form_class = DurcForm
+    template_name = 'documenti/durc_form.html'
+    success_url = reverse_lazy('documenti:durc_list')
+
+class DurcDeleteView(LoginRequiredMixin, DeleteView):
+    model = Durc
+    template_name = 'documenti/durc_confirm_delete.html'
+    success_url = reverse_lazy('documenti:durc_list')
+    
 
 
 class ReportPlafondView_old(TemplateView):

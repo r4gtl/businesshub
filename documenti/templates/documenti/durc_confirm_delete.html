@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Elimina durc{% endblock %}
+
+{% block content %}
+<h2>Elimina durc</h2>
+<p>Vuoi eliminare il durc <strong>{{ object.numero_durc }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Conferma</button>
+  <a href="{% url 'documenti:durc_list' %}" class="btn btn-secondary">Annulla</a>
+</form>
+{% endblock %}

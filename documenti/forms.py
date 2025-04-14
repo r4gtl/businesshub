@@ -1,5 +1,5 @@
 from django import forms
-from .models import DichiarazioneIntento, FatturaFornitore
+from .models import DichiarazioneIntento, FatturaFornitore, Durc
 from anagrafiche.models import Fornitore, Dogana
 
 
@@ -102,3 +102,26 @@ class FatturaFornitoreForm(forms.ModelForm):
             # Filtra il campo "fornitore" in base all'azienda dell'utente loggato
             self.fields["fornitore"].queryset = Fornitore.objects.filter(azienda=user.azienda)
         
+
+class DurcForm(forms.ModelForm):
+    class Meta:
+        model = Durc
+        fields = ['fornitore', 'numero_durc', 'data_durc', 'scadenza_durc', 'documento']
+        widgets = {
+            'data_durc': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'scadenza_durc': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'fornitore': forms.Select(attrs={'class': 'form-select'}),
+            'numero_durc': forms.TextInput(attrs={'class': 'form-control'}),
+            'documento': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        
+        
+        def __init__(self, *args, **kwargs):
+            # Ottieni l'utente loggato (request.user)
+            user = kwargs.pop('user', None)  # Questo deve essere passato al form dalle views
+
+            super().__init__(*args, **kwargs)
+
+            if user:
+                # Filtra il campo "fornitore" in base all'azienda dell'utente loggato
+                self.fields["fornitore"].queryset = Fornitore.objects.filter(azienda=user.azienda)
