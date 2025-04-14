@@ -173,7 +173,7 @@ class ReportPlafondView(TemplateView):
         selected_anno = self.request.GET.get("anno")
         user_azienda = self.request.user.azienda
         
-        dichiarazioni_qs = DichiarazioneIntento.objects.select_related("fornitore").filter(azienda=user_azienda)
+        dichiarazioni_qs = DichiarazioneIntento.objects.select_related("fornitore").filter(azienda=user_azienda).order_by("numero_interno")
 
         if selected_anno:
             dichiarazioni_qs = dichiarazioni_qs.filter(anno_riferimento=selected_anno)
