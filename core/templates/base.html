@@ -45,6 +45,27 @@
                         - Azienda non assegnata
                     {% endif %}
                 </span>
+
+                <div class="row mb-2 justify-content-end">
+                    <div class="col me-2">
+                        
+                        <a href="{% url 'documenti:durc_list' %}" class="btn btn-outline-dark btn-sm position-relative float-end">
+                            Azienda - {{ azienda.ragionesociale }}
+                          
+                            
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ durc_scaduti_count }}
+                            <span class="visually-hidden">notifiche</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                
+                  
+                  
+
+                  
+                  
                 <form id="logout-form" method="post" action="{% url 'logout' %}" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
