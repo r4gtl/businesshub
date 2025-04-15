@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Usa: ./up.sh        → sviluppo (.env)
-# Usa: ./up.sh prod   → produzione (.env.prod)
+# Script per avviare Docker in modalità sviluppo o produzione
+# Usa: ./up.sh        → modalità sviluppo (.env)
+# Usa: ./up.sh prod   → modalità produzione (.env.prod)
 
-# 1. Determina il file .env
+# Imposta il file .env in base all'argomento passato
 if [ "$1" == "prod" ]; then
     echo "🔧 Avvio in modalità PRODUZIONE"
     ENV_FILE=".env.prod"
@@ -12,16 +13,16 @@ else
     ENV_FILE=".env"
 fi
 
-# 2. Controlla esistenza file
+# Verifica se il file esiste
 if [ ! -f "$ENV_FILE" ]; then
     echo "❌ File $ENV_FILE non trovato."
     exit 1
 fi
 
-# 3. Leggi BACKUP dal file, ignora commenti, rimuovi spazi e \r
-BACKUP_ENABLED=$(grep -E '^\s*BACKUP\s*=' "$ENV_FILE" | cut -d '=' -f2 | tr -d '\r' | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-
-# 4. Imposta profilo opzionale
+# Legge il valore della variabile BACKUP dal file .env
+BACKUP_ENABLED=$(grep -E '^BACKUP=' "$ENV_FILE" | cut -d '=' -f2 | tr '[:upper:]' '[:lower:]')
+echo $BACKUP_ENABLED
+# Imposta i parametri aggiuntivi
 if [ "$BACKUP_ENABLED" == "true" ]; then
     echo "📦 Backup ATTIVO"
     PROFILE_OPTION="--profile backup"
@@ -30,6 +31,6 @@ else
     PROFILE_OPTION=""
 fi
 
-# 5. Avvia docker compose
+# Avvia i container
 echo "🚀 Eseguo: docker compose --env-file $ENV_FILE up -d --build $PROFILE_OPTION"
 docker compose --env-file "$ENV_FILE" up -d --build $PROFILE_OPTION

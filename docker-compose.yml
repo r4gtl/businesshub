@@ -42,6 +42,30 @@ services:
     depends_on:
       - web
 
+  db_backup:
+    image: tiredofit/db-backup
+    container_name: db_backup
+    restart: always
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - SCHEDULE=${BACKUP_SCHEDULE}
+      - COMPRESSION=${BACKUP_COMPRESSION}
+      - MD5=${BACKUP_MD5}
+      - SPLIT_DB=${BACKUP_SPLIT_DB}
+      - ENABLE_CHECKSUM=${BACKUP_ENABLE_CHECKSUM}
+    volumes:
+      - ${BACKUP_DIR}:/backup
+    depends_on:
+      - db
+    profiles:
+      - backup
+
+
 volumes:
   postgres_data:
   static_volume:
