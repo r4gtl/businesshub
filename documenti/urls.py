@@ -46,4 +46,4 @@ urlpatterns = [
     path('durc/nuovo/', views.DurcCreateView.as_view(), name='durc_create'),
     path('durc/<int:pk>/modifica/', views.DurcUpdateView.as_view(), name='durc_update'),
     path('durc/<int:pk>/elimina/', views.DurcDeleteView.as_view(), name='durc_delete'),
-]
+] 
