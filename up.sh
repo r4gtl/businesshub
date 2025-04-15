@@ -31,5 +31,8 @@ else
 fi
 
 # 5. Avvia docker compose
-echo "🚀 Eseguo: docker compose --env-file $ENV_FILE up -d --build $PROFILE_OPTION"
+# echo "🚀 Eseguo: docker compose --env-file $ENV_FILE up -d --build $PROFILE_OPTION"
+# docker compose --env-file "$ENV_FILE" up -d --build $PROFILE_OPTION
+echo "👉 Sto usando Docker Compose da: $(which docker)"
+docker compose version
 docker compose --env-file "$ENV_FILE" up -d --build $PROFILE_OPTION
