@@ -21,6 +21,8 @@ fi
 # 3. Leggi variabile BACKUP
 BACKUP_ENABLED=$(grep -E '^\s*BACKUP\s*=' "$ENV_FILE" | cut -d '=' -f2 | tr -d '\r' | tr -d ' ' | tr '[:upper:]' '[:lower:]')
 
+chmod +x ./entrypoint_backup.sh
+
 # 4. Avvia i servizi in base a BACKUP
 if [ "$BACKUP_ENABLED" == "true" ]; then
     echo "📦 Backup ATTIVO → Avvio tutti i servizi"
