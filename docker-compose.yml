@@ -27,7 +27,7 @@ services:
     ports:
       - '5434:5432'
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      test: ['CMD', 'pg_isready', '-U', '${POSTGRES_USER}']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -46,6 +46,8 @@ services:
     image: tiredofit/db-backup
     container_name: db_backup
     restart: always
+    entrypoint: ['/bin/bash', '/custom-entrypoint.sh']
+    user: '${BACKUP_UID}:${BACKUP_GID}'
     environment:
       - DB_TYPE=postgres
       - DB_HOST=${DB_HOST}
@@ -60,11 +62,11 @@ services:
       - ENABLE_CHECKSUM=${BACKUP_ENABLE_CHECKSUM}
     volumes:
       - ${BACKUP_DIR}:/backup
+      - ./entrypoint_backup.sh:/custom-entrypoint.sh:ro
     depends_on:
       - db
     profiles:
       - backup
-
 
 volumes:
   postgres_data:
