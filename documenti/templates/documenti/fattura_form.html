@@ -6,7 +6,7 @@
 
 {% block content %}
 <h2>{% if object %}Modifica{% else %}Nuova{% endif %} Fattura</h2>
-<form method="post">
+<form id="fattura-form" method="post">
   {% csrf_token %}
   {% for field in form %}
     <div class="form-floating mb-3">
@@ -31,7 +31,64 @@
       {% endif %}
     </div>
   {% endfor %}
-  <button type="submit" class="btn btn-success">Salva</button>
+  <button type="button" id="save-btn" class="btn btn-success">Salva</button>
   <a href="{% url 'documenti:fattura_list' %}" class="btn btn-secondary">Annulla</a>
 </form>
+{# se stiamo modificando, il context contiene `object` #}
+{% if object and object.pk %}
+  <input type="hidden" id="instance-id" value="{{ object.pk }}">
+{% else %}
+  <input type="hidden" id="instance-id" value="">
+{% endif %}
+
+<script>
+  document.getElementById('save-btn').addEventListener('click', function() {
+    const form = document.getElementById('fattura-form');
+    const csrf = form.querySelector('[name="csrfmiddlewaretoken"]').value;
+    const data = {
+      fornitore: form.querySelector('[name="fornitore"]').value,
+      data_fattura: form.querySelector('[name="data_fattura"]').value,
+      importo: form.querySelector('[name="importo"]').value,
+      instance_id: document.getElementById('instance-id').value
+    };
+
+    fetch("{% url 'documenti:fattura_check' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrf
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(json => {
+      if (json.duplicates.length) {
+        // Costruisci la lista
+        const list = json.duplicates
+          .map(d => {
+            // '2025-05-01' → ['2025','05','01']
+            const [year, month, day] = d.data_fattura.split('-');
+            const formatted = `${day}/${month}/${year}`;
+            return `#${d.id} – Fattura numero ${d.numero_fattura} del ${formatted} – Importo ${d.importo}€`;
+          })
+          .join("\n");
+        // Chiedi conferma
+        if (!confirm(
+          "Ho trovato fatture simili per questo fornitore:\n" + list +
+          "\n\nVuoi procedere comunque?"
+        )) {
+          return; // l’utente ha annullato
+        }
+      }
+      // se nessun duplicato o utente conferma:
+      form.submit();
+    })
+    .catch(err => {
+      console.error(err);
+      // in caso di errore, fall back al submit normale:
+      form.submit();
+    });
+  });
+</script>
+
 {% endblock %}
