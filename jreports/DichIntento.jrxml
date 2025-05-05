@@ -1,7 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.2.final utlizzo versione della libreria JasperReports7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
 <jasperReport name="DichIntento" language="java" columnCount="1" pageWidth="595" pageHeight="842" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="626c270d-77da-4254-9893-794da11a123a">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DockerTest"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -12,6 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Nuovo Data Adapter"/>
 	<parameter name="PK" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[$P{PK}]]></defaultValueExpression>
 	</parameter>
@@ -27,10 +27,12 @@
 	d.fk_dogana_id,
 	d.note,
 	f.ragione_sociale,
+	f.partita_iva   AS fornitore_partita_iva,
+    f.codice_fiscale AS fornitore_codice_fiscale,
 	g.descrizione,
 	h.ragionesociale,
-	h.partita_iva,
-	h.codice_fiscale,
+	h.partita_iva    AS azienda_partita_iva,
+    h.codice_fiscale AS azienda_codice_fiscale,
 	h.cognome_rappresentante,
 	h.nome_rappresentante,
 	h.cf_rappresentante,
@@ -110,6 +112,16 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ragione_sociale"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_fornitore"/>
 	</field>
+	<field name="fornitore_partita_iva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fornitore_partita_iva"/>
+		<property name="com.jaspersoft.studio.field.label" value="fornitore_partita_iva"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_fornitore"/>
+	</field>
+	<field name="fornitore_codice_fiscale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fornitore_codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.label" value="fornitore_codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="anagrafiche_fornitore"/>
+	</field>
 	<field name="descrizione" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="descrizione"/>
 		<property name="com.jaspersoft.studio.field.label" value="descrizione"/>
@@ -120,14 +132,14 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ragionesociale"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
 	</field>
-	<field name="partita_iva" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="partita_iva"/>
-		<property name="com.jaspersoft.studio.field.label" value="partita_iva"/>
+	<field name="azienda_partita_iva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="azienda_partita_iva"/>
+		<property name="com.jaspersoft.studio.field.label" value="azienda_partita_iva"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
 	</field>
-	<field name="codice_fiscale" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="codice_fiscale"/>
-		<property name="com.jaspersoft.studio.field.label" value="codice_fiscale"/>
+	<field name="azienda_codice_fiscale" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="azienda_codice_fiscale"/>
+		<property name="com.jaspersoft.studio.field.label" value="azienda_codice_fiscale"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="accounts_azienda"/>
 	</field>
 	<field name="cognome_rappresentante" class="java.lang.String">
@@ -194,6 +206,12 @@ WHERE
 			<text><![CDATA[DI ACQUISTARE O IMPORTARE BENI E SERVIZI SENZA
 APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
 		</element>
+		<element kind="textField" uuid="e607fc80-41b0-4953-ae9f-1b4c1f79b378" x="517" y="60" width="49" height="12" fontSize="8.0">
+			<expression><![CDATA[$F{numero_interno}]]></expression>
+		</element>
+		<element kind="staticText" uuid="79859bf0-0d83-44ce-8937-e74912611043" x="450" y="60" width="66" height="12" fontSize="8.0">
+			<text><![CDATA[Numero Interno]]></text>
+		</element>
 	</title>
 	<detail>
 		<band height="647" splitType="Stretch">
@@ -214,7 +232,7 @@ DICHIARANTE]]></text>
 			</element>
 			<element kind="textField" uuid="57b663e4-9634-432c-8c69-b9d6d85fae5b" mode="Opaque" x="70" y="26" width="244" height="20" backcolor="#FFFFFF" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
 				<paragraph firstLineIndent="1"/>
-				<expression><![CDATA[$F{codice_fiscale}]]></expression>
+				<expression><![CDATA[$F{azienda_codice_fiscale}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="74ae3b89-3b18-4ce9-98d6-39d6481b3bdd" x="70" y="12" width="244" height="18" fontSize="8.0">
@@ -222,9 +240,9 @@ DICHIARANTE]]></text>
 				<text><![CDATA[Codice fiscale]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="textField" uuid="7537eba9-70d5-4b19-8088-381b9c4f5e07" mode="Opaque" x="319" y="27" width="244" height="20" backcolor="#FFFFFF" markup="rtf" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
+			<element kind="textField" uuid="7537eba9-70d5-4b19-8088-381b9c4f5e07" mode="Opaque" x="319" y="26" width="244" height="20" backcolor="#FFFFFF" markup="rtf" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
 				<paragraph firstLineIndent="1"/>
-				<expression><![CDATA[$F{partita_iva}]]></expression>
+				<expression><![CDATA[$F{azienda_partita_iva}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="0f68d4b3-8741-476f-a91b-02aab72d494e" x="319" y="12" width="244" height="17" fontSize="8.0">
@@ -432,14 +450,14 @@ DICHIARAZIONE]]></text>
 			<element kind="staticText" uuid="dac3ae2a-3e57-46dc-af24-7507b7c9e743" x="73" y="327" width="471" height="15" fontSize="6.0">
 				<text><![CDATA[Intendo avvalermi della facoltà, prevista per i soggetti che hanno effettuato cessioni all'esportazione od operazioni assimilate di effettuare]]></text>
 			</element>
-			<element kind="textField" uuid="595a4920-701f-4f0e-a28b-220c30e0ed02" mode="Opaque" x="481" y="324" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="595a4920-701f-4f0e-a28b-220c30e0ed02" mode="Opaque" x="503" y="324" width="19" height="16" fontName="DejaVu Sans" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[($F{tipo_operazione} != null && $F{tipo_operazione}.equals("A")) ? "X": ""
 ]]></expression>
 			</element>
-			<element kind="staticText" uuid="4e7831a6-dbd9-443b-be44-9a45e44e8680" x="441" y="325" width="54" height="21" fontSize="8.0" bold="true">
+			<element kind="staticText" uuid="4e7831a6-dbd9-443b-be44-9a45e44e8680" x="463" y="325" width="54" height="21" fontSize="8.0" bold="true">
 				<text><![CDATA[ACQUISTI]]></text>
 			</element>
-			<element kind="staticText" uuid="346d7268-b5d5-47a1-92e7-c7c9135fd7df" x="502" y="328" width="9" height="15" fontSize="6.0">
+			<element kind="staticText" uuid="346d7268-b5d5-47a1-92e7-c7c9135fd7df" x="524" y="328" width="9" height="15" fontSize="6.0">
 				<text><![CDATA[O]]></text>
 			</element>
 			<element kind="staticText" uuid="611d6071-2fb3-4720-a150-b04a00373a38" x="73" y="350" width="65" height="21" fontSize="8.0" bold="true">
@@ -524,7 +542,7 @@ DICHIARAZIONE]]></text>
 			</element>
 			<element kind="textField" uuid="c6d121d5-8a90-4789-a566-3c5a29acaad3" mode="Opaque" x="75" y="532" width="184" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="2"/>
-				<expression><![CDATA[$F{codice_fiscale}]]></expression>
+				<expression><![CDATA[$F{fornitore_codice_fiscale}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="18083de4-a8c6-452a-b46e-ed8581b5f755" x="75" y="518" width="98" height="14" fontSize="8.0">
@@ -532,7 +550,7 @@ DICHIARAZIONE]]></text>
 			</element>
 			<element kind="textField" uuid="5817cb70-c2d8-4ade-ab18-de77ecde0afa" mode="Opaque" x="272" y="533" width="224" height="16" fontSize="8.0" blankWhenNull="true" vTextAlign="Bottom">
 				<paragraph firstLineIndent="2"/>
-				<expression><![CDATA[$F{partita_iva}]]></expression>
+				<expression><![CDATA[$F{fornitore_partita_iva}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
 			<element kind="staticText" uuid="312b66a5-f6e7-48d0-b73d-0d9e7911c361" x="272" y="519" width="224" height="16" fontSize="8.0">
