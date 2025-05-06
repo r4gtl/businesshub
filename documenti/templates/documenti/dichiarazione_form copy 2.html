@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container py-4">
   <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-12">
+    <div class="col-lg-8 col-md-10">
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="card-title mb-4 text-center">
@@ -15,7 +15,7 @@
           <form method="post" novalidate>
             {% csrf_token %}
               <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                   <div class="form-floating mb-3">
                     {{ form.numero_interno }}
                     <label for="{{ form.numero_interno.id_for_label }}">{{ form.numero_interno.label }}</label>
@@ -33,7 +33,7 @@
                     {% endfor %}
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                   <div class="form-floating mb-3">
                     <input type="date"
                       name="{{ form.data_dichiarazione.name }}"
@@ -47,7 +47,33 @@
                     {% endfor %}
                   </div>
                 </div>
-                <div class="col-2">
+                
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-floating mb-3">
+                    {{ form.plafond }}
+                    <label for="{{ form.plafond.id_for_label }}">{{ form.plafond.label }}</label>
+                    {% for error in form.plafond.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="form-check mb-3">
+                    {{ form.importosingolo }}
+                    <label for="{{ form.importosingolo.id_for_label }}">{{ form.importosingolo.label }}</label>
+                    {% for error in form.importosingolo.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                   </div>
+                   <div class="form-floating mb-3">
+                    {{ form.plafond_singolo }}
+                    <label for="{{ form.plafond_singolo.id_for_label }}">{{ form.plafond_singolo.label }}</label>
+                    {% for error in form.plafond_singolo.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-4">
                   <div class="form-floating mb-3">
                     {{ form.anno_riferimento }}
                     
@@ -58,86 +84,7 @@
                   </div>
                 </div>
               </div>
-              <hr>
-              <div class="row mb-3">
-                
-                <div class="col-12 d-flex align-items-center">
-                  <p class="mb-0 me-3">Tipo Operazione</p>
-                  <div>
-                    {% for radio in form.tipo_operazione %}
-                      <div class="form-check form-check-inline mb-0">
-                        {{ radio.tag }}
-                        <label class="form-check-label ms-1" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                      </div>
-                    {% endfor %}
-                    {% for error in form.tipo_operazione.errors %}
-                      <div class="text-danger small mt-1">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-
-              </div>
-              <hr>
-              <div class="row mb-3">
-                <div class="col-5 d-flex align-items-center">
-                  <p>Chiedo di acquistare o importare </p>
-                </div>
-                <div class="col-7">
-                  <div class="form-floating mb-3">
-                    {{ form.note }}
-                    <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
-                    {% for error in form.note.errors %}
-                      <div class="text-danger small mt-1">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div class="row mb-3">
-                <p>La dichiarazione si riferisce a: </p>
-              </div>
-              <div class="row mb-3">
-                <div class="col-5">
-                  
-                  <div class="form-check mb-3">
-                    {{ form.importosingolo }}
-                    <label for="{{ form.importosingolo.id_for_label }}">{{ form.importosingolo.label }}</label>
-                    {% for error in form.importosingolo.errors %}
-                      <div class="text-danger small mt-1">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-                  <div class="col-5">
-                   <div class="form-floating mb-3">
-                    {{ form.plafond_singolo }}
-                    <label for="{{ form.plafond_singolo.id_for_label }}">{{ form.plafond_singolo.label }}</label>
-                    {% for error in form.plafond_singolo.errors %}
-                      <div class="text-danger small mt-1">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                  </div>
-                </div>
-                
-                <div class="row mb-3">
-                  <div class="col-5 d-flex align-items-center">
-                    <p>operazioni fino a concorrenza di euro </p>
-                  </div>
-                  <div class="col-5">
-                  <div class="form-floating mb-3">
-                    {{ form.plafond }}
-                    <label for="{{ form.plafond.id_for_label }}">{{ form.plafond.label }}</label>
-                    {% for error in form.plafond.errors %}
-                      <div class="text-danger small mt-1">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-                
-              
-            
-            <hr>
-
-              <div class="row mb-3">
+              <div class="row">
                 <div class="col-7">
                   <div class="form-floating mb-3">
                     {{ form.fornitore }}
@@ -147,10 +94,20 @@
                     {% endfor %}
                   </div>
                 </div>
-                
+                <div class="col-5">                  
+                    {% for radio in form.tipo_operazione %}
+                      <div class="form-check form-check-inline">
+                        {{ radio.tag }}
+                        <label class="form-check-label ms-1" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                      </div>
+                    {% endfor %}
+                    {% for error in form.tipo_operazione.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
                 
               </div>
-              <div class="row mb-3">
+              <div class="row">
                 <div class="col-7">
                   <div class="form-floating mb-3">
                     {{ form.fk_dogana }}
@@ -160,7 +117,15 @@
                     {% endfor %}
                   </div>
                 </div>
-                
+                <div class="col-5">
+                  <div class="form-floating mb-3">
+                    {{ form.note }}
+                    <label for="{{ form.note.id_for_label }}">{{ form.note.label }}</label>
+                    {% for error in form.note.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
                 
               </div>
             <div class="d-flex justify-content-between mt-4">

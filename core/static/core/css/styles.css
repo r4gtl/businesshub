@@ -1,6 +1,14 @@
 body {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background-color: #f8f9fa;
+}
+
+form-floating .form-control {
+  font-size: 0.8rem;
+}
+
+.form-control {
+  font-size: 0.8rem;
 }
 
 .navbar-custom {
