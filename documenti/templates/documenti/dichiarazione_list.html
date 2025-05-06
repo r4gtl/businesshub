@@ -34,7 +34,13 @@
         <a href="{% url 'documenti:dichiarazione_delete' d.pk %}" class="btn btn-sm btn-danger">Elimina</a>
         <a href="{% url 'documenti:dichiarazione_intento' d.pk %}" target="_blank" class="btn btn-sm btn-warning">Stampa</a>
       </td>
-      <td>{{ d.numero_dichiarazione|default:"da registrare" }}</td>
+      <td>
+        {% if d.numero_dichiarazione %}
+          <i class="bi bi-emoji-smile text-success"></i>
+        {% else %}
+          <i class="bi bi-emoji-frown text-danger"></i>
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>

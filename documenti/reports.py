@@ -22,6 +22,7 @@ def dichiarazione_intento(request, pk):
 
     # Get the object to verify it exists
     dichiarazione = DichiarazioneIntento.objects.get(pk=pk)
+    filename = f"DichIntento_{dichiarazione.numero_interno}.pdf"
     print(f"dichiarazione: {dichiarazione.data_dichiarazione}")
     print(f"Generating report with PK: {pk}")
 
@@ -63,6 +64,7 @@ def dichiarazione_intento(request, pk):
     
     with open(output_path, "rb") as pdf_file:
         response = HttpResponse(pdf_file.read(), content_type="application/pdf")
-        response["Content-Disposition"] = 'inline; filename="report.pdf"'
+        #response["Content-Disposition"] = 'inline; filename="report.pdf"'
+        response["Content-Disposition"] = f'inline; filename="{filename}"'
         return response
 

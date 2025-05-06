@@ -11,7 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DockerTest"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Nuovo Data Adapter"/>
 	<parameter name="PK" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[$P{PK}]]></defaultValueExpression>
 	</parameter>
@@ -51,8 +51,7 @@ FROM documenti_dichiarazioneintento d
 	LEFT JOIN anagrafiche_dogana g ON 
 	 d.fk_dogana_id = g.id 
 WHERE 
-	 d.id = $P{PK}
-]]></query>
+	 d.id = $P{PK}]]></query>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -200,7 +199,7 @@ WHERE
 	</field>
 	<background splitType="Stretch"/>
 	<title height="82" splitType="Stretch">
-		<element kind="staticText" uuid="97d3f862-1f52-405d-9bec-20482f0205e2" x="87" y="12" width="390" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="97d3f862-1f52-405d-9bec-20482f0205e2" x="150" y="10" width="261" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[DICHIARAZIONE D'INTENTO]]></text>
 		</element>
 		<element kind="staticText" uuid="19c6b505-8afc-4a0a-abbc-d5575d278e6d" x="130" y="42" width="300" height="30" bold="true" hTextAlign="Center">
@@ -231,17 +230,22 @@ APPLICAZIONE DELL'IMPOSTA SUL VALORE AGGIUNTO]]></text>
 				<text><![CDATA[DATI DEL 
 DICHIARANTE]]></text>
 			</element>
-			<element kind="textField" uuid="57b663e4-9634-432c-8c69-b9d6d85fae5b" mode="Opaque" x="70" y="18" width="244" height="20" backcolor="#FFFFFF" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
+			<element kind="textField" uuid="57b663e4-9634-432c-8c69-b9d6d85fae5b" mode="Opaque" x="70" y="26" width="244" height="20" backcolor="#FFFFFF" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
 				<paragraph firstLineIndent="1"/>
 				<expression><![CDATA[$F{azienda_codice_fiscale}]]></expression>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="74ae3b89-3b18-4ce9-98d6-39d6481b3bdd" x="70" y="6" width="244" height="18" fontSize="8.0">
+			<element kind="staticText" uuid="74ae3b89-3b18-4ce9-98d6-39d6481b3bdd" x="70" y="12" width="244" height="18" fontSize="8.0">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Codice fiscale]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
 			</element>
-			<element kind="staticText" uuid="0f68d4b3-8741-476f-a91b-02aab72d494e" x="319" y="6" width="244" height="17" fontSize="8.0">
+			<element kind="textField" uuid="7537eba9-70d5-4b19-8088-381b9c4f5e07" mode="Opaque" x="319" y="26" width="244" height="20" backcolor="#FFFFFF" markup="rtf" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
+				<paragraph firstLineIndent="1"/>
+				<expression><![CDATA[$F{azienda_partita_iva}]]></expression>
+				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
+			</element>
+			<element kind="staticText" uuid="0f68d4b3-8741-476f-a91b-02aab72d494e" x="319" y="12" width="244" height="17" fontSize="8.0">
 				<paragraph firstLineIndent="1"/>
 				<text><![CDATA[Partita IVA]]></text>
 				<property name="com.jaspersoft.studio.unit.firstLineIndent" value="px"/>
@@ -583,9 +587,6 @@ DICHIARAZIONE]]></text>
 			</element>
 			<element kind="line" uuid="805aa48f-d002-4888-af8a-9c86b71d3ab5" x="5" y="629" width="571" height="1"/>
 			<element kind="break" uuid="3351907b-1c1a-4358-84e4-83cea79240ba" x="0" y="641" width="100" height="1"/>
-			<element kind="textField" uuid="aa8da06c-40d3-4159-a2e9-d2202c1e952f" mode="Opaque" x="318" y="18" width="241" height="20" backcolor="#FFFFFF" fontSize="8.0" blankWhenNull="true" vTextAlign="Middle">
-				<expression><![CDATA[$F{azienda_partita_iva}]]></expression>
-			</element>
 		</band>
 		<band height="245">
 			<element kind="rectangle" uuid="3a5d24b7-1d0b-4684-9338-0c820461c910" x="67" y="58" width="505" height="181" backcolor="#DEDEDE">
