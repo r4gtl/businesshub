@@ -43,6 +43,10 @@ class DichiarazioneIntento(models.Model):
     def __str__(self):
         return f"{self.fornitore} - {self.numero_dichiarazione}"
 
+    class Meta:        
+        ordering = ['data_dichiarazione', '-numero_interno']        
+        verbose_name = 'Dichiarazione di Intento'
+        verbose_name_plural = 'Dichiarazioni di Intento'
 
 class FatturaFornitore(models.Model):
     fornitore = models.ForeignKey(
