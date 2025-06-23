@@ -1,1 +1,40 @@
-pgdata/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Venv e pip
+.venv/
+env/
+*.egg-info
+pip-wheel-metadata/
+
+# Node (se usi anche React)
+node_modules/
+dist/
+
+# Git & editor
+.git/
+.gitignore
+*.swp
+*.swo
+*.bak
+*.log
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+__build__/
+*.tar.gz
+*.zip
+
+# Docker e volumi
+media/
+staticfiles/
+static_volume/
+postgres_data/

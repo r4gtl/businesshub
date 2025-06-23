@@ -4,3 +4,4 @@ python-decouple
 gunicorn
 reportlab
 weasyprint
+djangorestframework-simplejwt

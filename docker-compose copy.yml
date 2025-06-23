@@ -1,5 +1,4 @@
 version: '3.9'
-
 services:
   web:
     build: .
@@ -11,25 +10,27 @@ services:
     ports:
       - '8000:8000'
     env_file: .env
-    environment:
-      DB_HOST: db
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+    environment:
+      - DB_HOST=db
 
   db:
     image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - '5434:5432'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER']
+      test: ['CMD', 'pg_isready', '-U', '${POSTGRES_USER}']
       interval: 5s
       timeout: 5s
       retries: 5
-
   nginx:
     image: nginx:alpine
     ports:
@@ -48,17 +49,17 @@ services:
     entrypoint: ['/bin/bash', '/custom-entrypoint.sh']
     user: '${BACKUP_UID}:${BACKUP_GID}'
     environment:
-      DB_TYPE: postgres
-      DB_HOST: ${DB_HOST}
-      DB_NAME: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASS: ${POSTGRES_PASSWORD}
-      DB_PORT: ${DB_PORT}
-      SCHEDULE: ${BACKUP_SCHEDULE}
-      COMPRESSION: ${BACKUP_COMPRESSION}
-      MD5: ${BACKUP_MD5}
-      SPLIT_DB: ${BACKUP_SPLIT_DB}
-      ENABLE_CHECKSUM: ${BACKUP_ENABLE_CHECKSUM}
+      - DB_TYPE=postgres
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - SCHEDULE=${BACKUP_SCHEDULE}
+      - COMPRESSION=${BACKUP_COMPRESSION}
+      - MD5=${BACKUP_MD5}
+      - SPLIT_DB=${BACKUP_SPLIT_DB}
+      - ENABLE_CHECKSUM=${BACKUP_ENABLE_CHECKSUM}
     volumes:
       - ${BACKUP_DIR}:/backup
       - ./entrypoint_backup.sh:/custom-entrypoint.sh:ro
