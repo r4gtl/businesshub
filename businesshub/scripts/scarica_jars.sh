@@ -13,7 +13,12 @@ download_if_missing() {
     echo "[✔] $filename già presente, salto download."
   else
     echo "[↓] Scarico $filename..."
-    wget -q "$url" -O "$filepath"
+    #wget -q "$url" -O "$filepath"
+    if ! wget -q "$url" -O "$filepath"; then
+      echo "❌ Errore nel download di: $filename"
+      echo "🔗 URL: $url"
+      exit 1
+    fi
   fi
 }
 
