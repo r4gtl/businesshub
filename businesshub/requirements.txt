@@ -5,3 +5,5 @@ gunicorn
 reportlab
 weasyprint
 djangorestframework-simplejwt
+django-cors-headers>=4.0.0
+

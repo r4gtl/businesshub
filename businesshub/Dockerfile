@@ -17,8 +17,6 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
 
-# Copia codice sorgente Django
-COPY . .
 
 # Jasper: crea dir e copia script
 RUN mkdir -p /opt/jasperreports/lib
@@ -26,15 +24,18 @@ COPY scripts/scarica_jars.sh /opt/jasperreports/scarica_jars.sh
 
 # Scarica JAR se mancanti
 RUN chmod +x /opt/jasperreports/scarica_jars.sh && \
-    /opt/jasperreports/scarica_jars.sh
+/opt/jasperreports/scarica_jars.sh
 
 # PostgreSQL JDBC driver è incluso nel download
 
 # Copia ReportGenerator e compila
 COPY ReportGenerator.java /opt/jasperreports/
 RUN cd /opt/jasperreports && \
-    javac -cp "lib/*" ReportGenerator.java && \
-    mkdir -p classes && mv ReportGenerator.class classes/
+javac -cp "lib/*" ReportGenerator.java && \
+mkdir -p classes && mv ReportGenerator.class classes/
+
+# Copia codice sorgente Django
+COPY . .
 
 # Entrypoint
 RUN chmod +x /code/entrypoint.sh
