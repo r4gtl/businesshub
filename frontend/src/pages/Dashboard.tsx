@@ -17,9 +17,12 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get('/accounts/user/', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/accounts/user/`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
         setUser(res.data);
       } catch (err: any) {
         setError('Errore nel recupero dei dati utente');

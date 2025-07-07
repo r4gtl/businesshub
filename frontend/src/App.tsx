@@ -1,27 +1,40 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from './auth/login/LoginPage';
 import Dashboard from './pages/Dashboard';
-import { AuthProvider } from './auth/AuthContext';
 import PrivateRoute from './auth/PrivateRoute';
+import AppNavBar from './components/NavBar';
+import Layout from './components/layout/Layout';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
+  const location = useLocation();
+  const isLoggedIn = !!localStorage.getItem('accessToken');
+  const hideNavbar = location.pathname === '/login';
+
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <>
+      {!hideNavbar && isLoggedIn && <AppNavBar />}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+
+        {/* Route di default */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
   );
 }
 
