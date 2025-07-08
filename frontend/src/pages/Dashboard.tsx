@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/accounts/user/`,
+          `${import.meta.env.VITE_API_BASE_URL}/accounts/me/`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }

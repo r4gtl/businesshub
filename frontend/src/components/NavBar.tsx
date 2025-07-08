@@ -9,10 +9,10 @@ const AppNavbar = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    logout();
     navigate('/login');
   };
 
@@ -30,7 +30,7 @@ const AppNavbar = () => {
             <FaBars /> Menu
           </Button>
 
-          <Navbar.Brand href="/dashboard">QMS App</Navbar.Brand>
+          <Navbar.Brand href="/dashboard">BusinessHub</Navbar.Brand>
           <Nav className="ms-auto">
             {user && (
               <Navbar.Text className="text-white me-3">

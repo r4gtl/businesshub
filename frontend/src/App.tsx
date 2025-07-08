@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 
 function App() {
   const location = useLocation();
-  const isLoggedIn = !!localStorage.getItem('accessToken');
+  const isLoggedIn = !!localStorage.getItem('access_token');
   const hideNavbar = location.pathname === '/login';
 
   return (
