@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@api/*": ["api/*"],
+      "@apps/*": ["apps/*"],
+      "@anagrafiche/*": ["apps/anagrafiche/*"],
+      "@documenti/*": ["apps/documenti/*"],
+      "@components/*": ["components/*"],
+      "@layout/*": ["components/layout/*"],
+      "@auth/*": ["components/auth/*"],
+      "@context/*": ["context/*"],
+      "@pages/*": ["pages/*"]
+    },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,

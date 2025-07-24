@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import LoginPage from './auth/login/LoginPage';
+import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
-import PrivateRoute from './auth/PrivateRoute';
-import AppNavBar from './components/NavBar';
+import PrivateRoute from './components/auth/PrivateRoute';
+import AppNavBar from './components/layout/NavBar';
 import Layout from './components/layout/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';

@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import Sidebar from '../Sidebar';
-import { ReactNode } from 'react';
+import Sidebar from './Sidebar';
+import ReactNode from 'react';
 
 interface LayoutProps {
   children: ReactNode;

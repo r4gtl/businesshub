@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Card, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '../components/auth/AuthContext';
 
 interface User {
   username: string;

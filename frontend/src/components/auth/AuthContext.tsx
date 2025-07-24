@@ -21,10 +21,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('access_token')
+    localStorage.getItem('accessToken')
   );
   const [refreshToken, setRefreshToken] = useState<string | null>(
-    localStorage.getItem('refresh_token')
+    localStorage.getItem('refreshToken')
   );
   const [user, setUser] = useState<User | null>(null);
 
@@ -41,33 +41,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(response.data);
     } catch (error) {
       console.error('Errore nel recupero utente:', error);
-      setUser(null);
+      logout(); // opzionale: logout automatico se il token non è valido
     }
   };
 
   const setTokens = (access: string, refresh: string) => {
+    localStorage.setItem('accessToken', access);
+    localStorage.setItem('refreshToken', refresh);
     setAccessToken(access);
     setRefreshToken(refresh);
-    localStorage.setItem('access_token', access);
-    localStorage.setItem('refresh_token', refresh);
-    fetchUser(access); // fetch utente al login
+    fetchUser(access);
   };
 
   const logout = () => {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/login'; // oppure usa navigate se vuoi gestirlo via router
   };
 
-  // Effettua il fetch dell'utente all'avvio, se c'è un token
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      fetchUser(token);
+    if (accessToken) {
+      fetchUser(accessToken);
     }
-  }, []);
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider
