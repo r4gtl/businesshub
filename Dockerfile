@@ -1,4 +1,6 @@
-FROM openjdk:11-jdk-slim
+# FROM openjdk:11-jdk-slim
+FROM eclipse-temurin:11-jdk
+
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
