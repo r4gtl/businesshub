@@ -45,24 +45,9 @@ RUN pip install --upgrade pip \
 # Copia codice sorgente Django
 COPY . .
 
-# assicurati di avere bash e dos2unix
-RUN set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends bash dos2unix ca-certificates; \
-    rm -rf /var/lib/apt/lists/*
-
-# copia lo script nel path atteso
+# Jasper: crea dir e copia script
+RUN mkdir -p /opt/jasperreports/lib
 COPY scripts/scarica_jars.sh /opt/jasperreports/scarica_jars.sh
-
-# normalizza le linee (CRLF -> LF) e dai i permessi
-RUN dos2unix /opt/jasperreports/scarica_jars.sh && chmod +x /opt/jasperreports/scarica_jars.sh
-
-# usa bash per i RUN successivi (opzionale ma comodo)
-SHELL ["/bin/bash", "-lc"]
-
-# esegui lo script di download
-RUN /opt/jasperreports/scarica_jars.sh
-
 
 # Scarica JAR se mancanti
 RUN chmod +x /opt/jasperreports/scarica_jars.sh && \
