@@ -1,5 +1,8 @@
-from django.contrib.auth.models import User
+# accounts/serializers.py
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
+
+User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -7,18 +10,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password")
+        fields = ("username", "email", "password")  # adatta se il tuo custom user ha campi diversi
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data["username"],
+        # usa create_user per gestire hashing password e default corretti
+        return User.objects.create_user(
+            username=validated_data.get("username"),
             email=validated_data.get("email"),
-            password=validated_data["password"],
+            password=validated_data.get("password"),
         )
-        return user
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = ("id", "username", "email")  # adatta se servono altri campi
